@@ -62,7 +62,8 @@ def sqlite_query(query, args=(), one=False):
 
 # Return full name string based on email
 def get_name(addr: str) -> str:
-    sid = re.sub(r"@.+\.edu", '', addr)
+    sid = re.sub(r"@.+\.", '', str(addr))
+    sid = sid.replace("edu", '')
     query = f"SELECT full_name FROM Links WHERE sid='{sid}'"
     result = sqlite_query(query, one=True)
     if result != None:
@@ -93,14 +94,18 @@ def get_sibling_role(member):
             ret = ("Brother", role); break
         elif role.name == "Sisters Waiting Room":
             ret = ("Sister", role); break
+        elif role.name == "Pros Waiting Room":
+            ret = ("Professional", role); break
     return ret
 
 # Return sibling global object based on gender
 def get_sibling(sibling):
     if sibling == "Brother":
         return BROTHERS
-    else:
+    elif sibling == "Sister":
         return SISTERS
+    else:
+        return PROS
 
 # Return announcement channel id while listening to announcements
 def listen_announce(msg):
@@ -130,7 +135,7 @@ def listen_verify(msg):
     if msg.channel.id == VERIFY_ID:
         if msg.content.startswith('/verify'):
             request = re.sub(r"/verify ", '', msg.content)
-            join_type = re.search(r"(brothers?|sis(tas?|ters?)|alumn)", request) or ''
+            join_type = re.search(r"(brothers?|sis(tas?|ters?)|workforce)", request) or ''
             if join_type:
                 email = re.sub(fr"{join_type.group()}", '', request).strip(' ')
                 if join_type.group()[0] == 'b':
@@ -138,7 +143,7 @@ def listen_verify(msg):
                 elif join_type.group()[0] == 's':
                     join_type = "Sister"
                 else:
-                    join_type = "Alumni"
+                    join_type = "Professional"
                 return email, join_type
             return ('', '')
 

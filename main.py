@@ -4,7 +4,7 @@ Author: David J. Morfe
 Application Name: InterMSA-Bot
 Functionality Purpose: An agile Discord Bot to fit InterMSA's needs
 '''
-RELEASE = "v0.1.7 - 12/28/20"
+RELEASE = "v0.2.0 - 12/29/20"
 
 
 import re, os, sys, time, json, datetime
@@ -49,7 +49,8 @@ async def on_member_join(member):
 @bot.event
 async def on_raw_reaction_add(payload):
     if payload.channel_id != SISTERS.role_select and \
-       payload.channel_id != BROTHERS.role_select:
+       payload.channel_id != BROTHERS.role_select and \
+       payload.channel_id != PROS.role_select:
         return -1
     role_id = listen_role_reaction(payload.emoji)
     if role_id:
@@ -62,7 +63,8 @@ async def on_raw_reaction_add(payload):
 @bot.event
 async def on_raw_reaction_remove(payload):
     if payload.channel_id != SISTERS.role_select and \
-       payload.channel_id != BROTHERS.role_select:
+       payload.channel_id != BROTHERS.role_select and \
+       payload.channel_id != PROS.role_select:
         return -1
     role_id = listen_role_reaction(payload.emoji)
     if role_id:
@@ -113,6 +115,15 @@ async def on_message(message):
             await asyncio.sleep(5)
             await message.channel.send("https://gyazo.com/8160eef16f1ae4c1c30add7044545542", delete_after=10)
 
+    # Professional Introductions Chat
+    if message.channel.id == PROS.wait:
+        if not message.content.startswith("/add "):
+            with open("introductions.txt", 'a') as f:
+                user_id = str(message.author.id)
+                msg_id = str(message.id)
+                f.write(f"{user_id} {msg_id}\n")
+            await message.delete(delay=300)
+
     # Shared Announcment System
     if listen_announce(message): # Send to alternate announcement channel
         announce_channel = listen_announce(message)
@@ -122,8 +133,8 @@ async def on_message(message):
     # Verification System
     if listen_verify(message): # Verify command
         email, gender = listen_verify(message)
-        if not re.search(r"^\w+@\w+\.edu$", email) or \
-           not re.search(r"(Brother|Sister|Alumni)", gender) or \
+        if not re.search(r"^\w+@\w+\.", email) or \
+           not re.search(r"(Brother|Sister|Professional)", gender) or \
            not re.search(r"^/verify ", str(message.content)) or \
            email == '' and gender == '':
             await message.channel.send("**Invalid command! Please make sure you're typing everything correctly.**", delete_after=25)
@@ -157,25 +168,38 @@ async def on_message(message):
                         if lst[0] == eCode.group() and lst[2] == str(message.author.id): # Verify code
                             edit_file("verify.txt", line.strip('\n'))
                             college = re.search(r"(?<=@)\w+", str(lst[1]))
-                            guild = bot.get_guild(SERVER_ID)
+                            guild = bot.get_guild(SERVER_ID); pro = False
                             if college:
-                                college_role = COLLEGES[college.group().replace(".edu", '').lower()]
-                                role = get(guild.roles, id=college_role)
-                                await message.author.add_roles(role) # Add Specific College role to user
-                            role = get(guild.roles, name=f"{lst[3]}s Waiting Room")
-                            await message.author.add_roles(role) # Add Waiting Room role to user
-                            nName = get_name(lst[1]) # New Nick Name
-                            sibling = get_sibling(lst[3]) # Get brother/sister object
-                            await message.delete(); flag = False
-                            if nName != None: # Re-name user
                                 try:
-                                    await message.author.edit(nick=str(nName))
-                                except errors.Forbidden:
-                                    print("Success!\n", nName)
+                                    college_role = COLLEGES[college.group().replace(".edu", '').lower()]
+                                    role = get(guild.roles, id=college_role)
+                                    await message.author.add_roles(role) # Add Specific College role to user
+                                except KeyError:
+                                    pro = True
+                            if not pro:
+                                role = get(guild.roles, name=f"{lst[3]}s Waiting Room")
+                                await message.author.add_roles(role) # Add Waiting Room role to user
                             else:
-                                await message.author.edit(nick=str(lst[1]))
+                                role = get(guild.roles, name="Pros Waiting Room")
+                                await message.author.add_roles(role) # Add Pro Waiting Room role to user
+                            nName = get_name(lst[1]) # New Nick Name
+                            await message.delete(); flag = False
+                            try:
+                                if nName != None: # Re-name user
+                                    await message.author.edit(nick=str(nName))
+                                else:
+                                    nName = lst[1]
+                                    await message.author.edit(nick=str(nName))
+                            except errors.Forbidden:
+                                print("Success!\n", nName)
+                            sibling = get_sibling(lst[3]) # Get brother/sister object
                             channel = bot.get_channel(sibling.wait) # Waiting room channel
-                            await channel.send(f"@here ***" + message.author.mention + "***" + " *has joined the NJIT MSA Discord!*")
+                            if sibling.wait != PROS.wait:
+                                await channel.send(f"@here ***" + message.author.mention + "***" + " *has joined the NJIT MSA Discord!*")
+                            else:
+                                msg = await channel.send(f"@here ***" + message.author.mention + "***" + " *has joined the NJIT MSA Discord!*")
+                                with open("introductions.txt", 'a') as f:
+                                    f.write(f"{lst[2]} {msg.id}\n")
                         else:
                             await message.delete(delay=60)
                     if flag:

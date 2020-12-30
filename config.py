@@ -19,6 +19,7 @@ class StaticMsg(object):
 
 __bro_add_ons = {"role_select": 792531850740498482}
 __sis_add_ons = {"role_select": 792531967832227841}
+__pro_add_ons = {"role_select": 793371378736431144}
 
 role_selection_s = role_selection_b = None
 def set_role_selections():
@@ -72,6 +73,9 @@ BROTHERS = Server("Brother", 791466388031668265,
 SISTERS = Server("Sister", 791466441031417866,
                  791468979591315476, 791468879067086848,
                  **__sis_add_ons)
+PROS = Server("Pro", 792530124560924677,
+                  792531673371246612, 793371080864563200,
+                  **__pro_add_ons)
 ##set_role_selections(); CONST_MSG = [role_selection_s, role_selection_b] # To be deprecated
 BOT = os.getenv("BOT_SECRET", bot_pass())
 DB_SECRET = os.getenv("DB_SECRET", db_pass())
@@ -88,13 +92,11 @@ ROLE_EMOJIS = {"\U0001f9d5": 750931950964965506,
                "\N{STRAIGHT RULER}": 756328774764593173,
                "\N{DESKTOP COMPUTER}": 756329639588397197,
                "\N{ATOM SYMBOL}": 756334778881540137,
-               "\N{TEST TUBE}": 756335021933068288,
-               "\N{OPEN BOOK}": 762052942302937111,
-               "\U0001f4f6": 783048947291258920,
-               "\U0001f9a0": 783049863243104296,
-               "\U0001f9be": 783050320552001587,
-               "\U0001f3d7": 783050450462703616,
-               "\U0001f4af": 778401907713638460}
+               "\U0001f4af": 792530378719756318,
+               "\U0001f50d": 793380988125970464,
+               "\U0001f50c": 793381155021914124,
+               "\U0001f9d4": 781726794226335784,
+               "\U0001f9d5": 781726844591800350}
 os.chdir(CWD) # Return to original directory
 
 
