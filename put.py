@@ -17,7 +17,7 @@ def populate_links(conn, data_file):
             break
          lst = line.split('\t')
          try:
-            ucid = re.sub(r"@.+\.edu", '', lst[1])
+            sid = re.sub(r"@.+\.edu", '', lst[1])
             email = lst[1]
             names = lst[0].split(',')
          except IndexError: # Ignore non-person records
@@ -35,11 +35,11 @@ def populate_links(conn, data_file):
             name = names[0]
          name = re.sub(r"  ", ' ', name).strip(' ')
 
-         if len(ucid) > 8 or len(name) > 55 or len(email) > 20: # Ignore professor records
+         if len(sid) > 8 or len(name) > 55 or len(email) > 20: # Ignore professor records
             continue
          # Encrypt here (32 B, 64 B, 32 B)
          # RSA Algorithm
-         val = (ucid, name, email)
+         val = (sid, name, email)
          to_db.append(val); c += 1
          if str(c)[0] != thous:
             thous = str(c)[0]

@@ -64,10 +64,13 @@ def sqlite_query(query, args=(), one=False):
 def get_name(addr: str) -> str:
     sid = re.sub(r"@.+\.", '', str(addr))
     sid = sid.replace("edu", '')
+    # Encrypt sid before query
     query = f"SELECT full_name FROM Links WHERE sid='{sid}'"
     result = sqlite_query(query, one=True)
     if result != None:
-        return str(result["full_name"])
+        full_name = result["full_name"]
+        # Decrypt full_name before return
+        return str(full_name)
 
 # Return gender based on user
 def check_gender(user):

@@ -4,7 +4,7 @@ Author: David J. Morfe
 Application Name: InterMSA-Bot
 Functionality Purpose: An agile Discord Bot to fit InterMSA's needs
 '''
-RELEASE = "v0.2.0 - 12/29/20"
+RELEASE = "v0.2.0 - 12/30/20"
 
 
 import re, os, sys, time, json, datetime
@@ -122,7 +122,7 @@ async def on_message(message):
                 user_id = str(message.author.id)
                 msg_id = str(message.id)
                 f.write(f"{user_id} {msg_id}\n")
-            await message.delete(delay=300)
+            await message.delete(delay=600)
 
     # Shared Announcment System
     if listen_announce(message): # Send to alternate announcement channel
