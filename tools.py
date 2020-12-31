@@ -1,8 +1,10 @@
 import asyncio
-import re, os, time, smtplib
+import re, os, time, smtplib, hashlib
 import sqlite3 as sql
 from random import randint
 from email.message import EmailMessage
+from Crypto.PublicKey import RSA
+from Crypto.Cipher import PKCS1_OAEP
 from config import *
 # (Note: All variables not declared probably came from config.py)
 
@@ -16,6 +18,7 @@ from config import *
 
 
 DB_CONN = sql.connect(DB_PATH)
+KEY = RSA.import_key(DB_SECRET.encode("ascii"), SP) # Just you try and get it :D
 
 
 # Remove a line from a file based on value
@@ -60,17 +63,26 @@ def sqlite_query(query, args=(), one=False):
               for idx, value in enumerate(row)) for row in cur.fetchall()]
    return (rv[0] if rv else None) if one else rv
 
+def encrypt(msg):
+    cipher = PKCS1_OAEP.new(KEY.publickey())
+    cipher_text = cipher.encrypt(msg.encode())
+    return cipher_text
+
+def decrypt(cipher_text):
+    cipher = PKCS1_OAEP.new(KEY)
+    decrypted_text = cipher.decrypt(cipher_text)
+    return decrypted_text.decode()
+
 # Return full name string based on email
 def get_name(addr: str) -> str:
     sid = re.sub(r"@.+\.", '', str(addr))
     sid = sid.replace("edu", '')
-    # Encrypt sid before query
-    query = f"SELECT full_name FROM Links WHERE sid='{sid}'"
-    result = sqlite_query(query, one=True)
+    hashed_sid = hashlib.sha1(sid.encode()).hexdigest()
+    query = f"SELECT full_name FROM Links WHERE sid=?"
+    result = sqlite_query(query, (hashed_sid,), one=True)
     if result != None:
         full_name = result["full_name"]
-        # Decrypt full_name before return
-        return str(full_name)
+        return decrypt(full_name)
 
 # Return gender based on user
 def check_gender(user):

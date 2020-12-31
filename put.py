@@ -1,5 +1,6 @@
-import re, time, sqlite3
+import re, time, sqlite3, hashlib
 from config import DB_SECRET
+from tools import encrypt
 
 def populate_links(conn, data_file):
    cur = conn.cursor()
@@ -35,10 +36,12 @@ def populate_links(conn, data_file):
             name = names[0]
          name = re.sub(r"  ", ' ', name).strip(' ')
 
-         if len(sid) > 8 or len(name) > 55 or len(email) > 20: # Ignore professor records
+         if len(sid) > 20 or len(name) > 55 or len(email) > 20: # Ignore professor records
             continue
          # Encrypt here (32 B, 64 B, 32 B)
          # RSA Algorithm
+         sid = hashlib.sha1(sid.encode()).hexdigest()
+         name = encrypt(name); email = encrypt(email)
          val = (sid, name, email)
          to_db.append(val); c += 1
          if str(c)[0] != thous:

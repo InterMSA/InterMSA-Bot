@@ -14,9 +14,23 @@ def bot_pass():
    except FileNotFoundError:
       pass
 
+def secret_pass():
+   try:
+      with open("sp.txt") as f:
+         return f.read()
+   except FileNotFoundError:
+      pass
+
 def db_pass():
    try:
       with open("db.txt") as f:
+         return f.read()
+   except FileNotFoundError:
+      pass
+
+def pub_pass():
+   try:
+      with open("pub.txt") as f:
          return f.read()
    except FileNotFoundError:
       pass

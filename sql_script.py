@@ -1,7 +1,9 @@
 import sqlite3 as sql
 import pandas as pd
 from put import populate_links
-
+from Crypto.PublicKey import RSA
+from Crypto.Cipher import PKCS1_OAEP
+from tools import *
 
 db_path = "database/database.db"
 conn = sql.connect(db_path)
@@ -31,9 +33,9 @@ def show_data(table):
    print(f"{table} TABLE")
    records = 0
    for row in sqlite_query(f"SELECT * FROM {table}"):
-      print(row)
+      if records <= 10:
+         print(row)
       records += 1
-      if records == 10: break # Stop short
    if records == 0:
       print("Empty Table (no records)")
    else:
@@ -41,14 +43,21 @@ def show_data(table):
    print("\n__________")
 
 '''CREATE'''
-##query = "CREATE TABLE Links(sid VARCHAR(32) PRIMARY KEY NOT NULL,"\
-##        "full_name VARCHAR(64) NOT NULL, email VARCHAR(32) NOT NULL)"
+##query = "CREATE TABLE Links(sid VARCHAR(40) PRIMARY KEY NOT NULL,"\
+##        "full_name VARBINARY(130) NOT NULL, email VARBINARY(130) NOT NULL)"
 ##conn.execute(query)
 
 '''INSERT'''
 ##populate_links(conn, "loot.txt")
+sid = hashlib.sha1("djm65".encode()).hexdigest()
+##name = encrypt("David Jake Morfe")
+##email = encrypt("djm65@njit.edu")
 ##query = "INSERT INTO Links(sid, full_name, email) VALUES(?,?,?)"
-##sqlite_query(query, ("djm65", "David Jake Morfe", "djm65@njit.edu"))
+##sqlite_query(query, (sid, name, email))
+# INSERT CHECK
+query = "SELECT * FROM Links WHERE sid=?"
+result = sqlite_query(query, (sid,), one=True)
+print("Decrypted Result:", decrypt(result["full_name"]))
 
 '''UPDATE'''
 ##query = "UPDATE Users SET EIN='850361090' WHERE user='abc123'"
@@ -66,7 +75,7 @@ def show_data(table):
 ##print("Table deleted!")
 
 '''SELECT'''
-show_data("Links")
+##show_data("Links")
 
 '''SHOW COLUMNS'''
 for column in show_columns('Links'):

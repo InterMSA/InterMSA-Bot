@@ -1,7 +1,7 @@
 from key import *
 
 
-class Server(object):
+class ServerPartition(object):
    #__slots__ = ("name", "wait", "general", "announce")
    def __init__(self, name, wait, general, announce, **kwargs):
       self.__dict__.update(kwargs)
@@ -67,18 +67,20 @@ def set_role_selections():
                             "\N{OPEN BOOK}")])
 
 # Set all global variables
-BROTHERS = Server("Brother", 791466388031668265,
+BROTHERS = ServerPartition("Brother", 791466388031668265,
                   791468944786980904, 791468851724419142,
                   **__bro_add_ons)
-SISTERS = Server("Sister", 791466441031417866,
+SISTERS = ServerPartition("Sister", 791466441031417866,
                  791468979591315476, 791468879067086848,
                  **__sis_add_ons)
-PROS = Server("Pro", 792530124560924677,
+PROS = ServerPartition("Pro", 792530124560924677,
                   792531673371246612, 793371080864563200,
                   **__pro_add_ons)
 ##set_role_selections(); CONST_MSG = [role_selection_s, role_selection_b] # To be deprecated
 BOT = os.getenv("BOT_SECRET", bot_pass())
+SP = os.getenv("SECRET_PASS", secret_pass())
 DB_SECRET = os.getenv("DB_SECRET", db_pass())
+ENCRYPT_KEY = os.getenv("PUBLIC_KEY", pub_pass())
 APP_PASS = os.getenv("EMAIL_SECRET", email_pass())
 DB_PATH = "database/database.db"
 VERIFY_ID = 791466283836506162
