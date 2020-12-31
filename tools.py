@@ -46,10 +46,11 @@ def send_email(addr: str, test=False) -> str:
     <i><u>#verify</u></i> text channel of your InterMSA Discord. \
     This code will expire in 15 minutes.</body></html>", subtype="html")
         msg["Subject"] = "Verification Code for InterMSA Discord"
-        msg["From"] = "noreply.njitmsa@gmail.com"
+        msg["From"] = "no-reply@intermsa.com"
         msg["To"] = addr
         with smtplib.SMTP_SSL("smtp.gmail.com", 465) as s:
-                s.login("noreply.njitmsa@gmail.com", APP_PASS)
+                s.login("intermuslimstudentassociation@gmail.com",
+                        APP_PASS)
                 s.send_message(msg)
     else:
         print(sCode)

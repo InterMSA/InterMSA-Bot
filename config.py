@@ -1,3 +1,4 @@
+import re
 from key import *
 
 
@@ -79,8 +80,8 @@ PROS = ServerPartition("Pro", 792530124560924677,
 ##set_role_selections(); CONST_MSG = [role_selection_s, role_selection_b] # To be deprecated
 BOT = os.getenv("BOT_SECRET", bot_pass())
 SP = os.getenv("SECRET_PASS", secret_pass())
-DB_SECRET = os.getenv("DB_SECRET", db_pass())
-ENCRYPT_KEY = os.getenv("PUBLIC_KEY", pub_pass())
+DB_SECRET = re.sub(r"\\n", '\n', os.getenv("DB_SECRET", db_pass()))
+ENCRYPT_KEY = re.sub(r"\\n", '\n', os.getenv("PUBLIC_KEY", pub_pass()))
 APP_PASS = os.getenv("EMAIL_SECRET", email_pass())
 DB_PATH = "database/database.db"
 VERIFY_ID = 791466283836506162
