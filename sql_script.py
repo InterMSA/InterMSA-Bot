@@ -49,15 +49,16 @@ def show_data(table):
 
 '''INSERT'''
 ##populate_links(conn, "loot.txt")
-sid = hashlib.sha1("djm65".encode()).hexdigest()
+##sid = hashlib.sha1("djm65".encode()).hexdigest()
 ##name = encrypt("David Jake Morfe")
 ##email = encrypt("djm65@njit.edu")
 ##query = "INSERT INTO Links(sid, full_name, email) VALUES(?,?,?)"
 ##sqlite_query(query, (sid, name, email))
-# INSERT CHECK
-query = "SELECT * FROM Links WHERE sid=?"
-result = sqlite_query(query, (sid,), one=True)
-print("Decrypted Result:", decrypt(result["full_name"]))
+
+'''INSERT CHECK'''
+##query = "SELECT * FROM Links WHERE sid=?"
+##result = sqlite_query(query, (sid,), one=True)
+##print("Decrypted Result:", decrypt(result["full_name"]))
 
 '''UPDATE'''
 ##query = "UPDATE Users SET EIN='850361090' WHERE user='abc123'"
@@ -75,7 +76,7 @@ print("Decrypted Result:", decrypt(result["full_name"]))
 ##print("Table deleted!")
 
 '''SELECT'''
-##show_data("Links")
+show_data("Links")
 
 '''SHOW COLUMNS'''
 for column in show_columns('Links'):

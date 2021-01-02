@@ -38,8 +38,7 @@ def populate_links(conn, data_file):
 
          if len(sid) > 20 or len(name) > 55 or len(email) > 20: # Ignore professor records
             continue
-         # Encrypt here (32 B, 64 B, 32 B)
-         # RSA Algorithm
+         # Encryption here
          sid = hashlib.sha1(sid.encode()).hexdigest()
          name = encrypt(name); email = encrypt(email)
          val = (sid, name, email)
