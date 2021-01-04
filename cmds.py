@@ -35,7 +35,7 @@ async def add(ctx, *args):
          member = guild.get_member(int(user_id.group()))
          sibling, rm_role = get_sibling_role(member)
          if '@' in member.nick:
-            ctx.send("**Please don't leave the user's nickname as email!**", delete_after=25)
+            await ctx.send("**Please don't leave the user's nickname as email!**", delete_after=25)
             return -1
          role = get(
          bot.get_guild(SERVER_ID).roles, name=f"{sibling}")
@@ -43,7 +43,7 @@ async def add(ctx, *args):
          await member.remove_roles(rm_role)
          siblinghood = get_sibling(sibling)
          channel = bot.get_channel(siblinghood.general)
-         await channel.send("<@!" + user_id.group() + "> *has* ***officially*** *joined the NJIT MSA Discord! Welcome your " + sibling + "!*")
+         await channel.send("<@!" + user_id.group() + "> *has* ***officially*** *joined the InterMSA Discord! Welcome your " + sibling + "!*")
       else:
          await ctx.send("**Invalid command! Please make sure you're @ing the user.**", delete_after=25)
          await ctx.delete(delay=300)
@@ -67,7 +67,7 @@ async def add(ctx, *args):
          await member.remove_roles(rm_role)
          siblinghood = get_sibling(sibling)
          channel = bot.get_channel(siblinghood.general)
-         await channel.send("<@!" + user_id.group() + "> *has* ***officially*** *joined the NJIT MSA Discord! Welcome your fellow " + sibling + "!*")
+         await channel.send("<@!" + user_id.group() + "> *has* ***officially*** *joined the InterMSA Discord! Welcome your fellow " + sibling + "!*")
          read = []
          if ctx.channel.id == PROS.wait: # Check if in #introductions chat
             channel = bot.get_channel(792530124560924677)
@@ -102,9 +102,9 @@ async def timer(ctx, *args):
 @bot.command()
 async def GL(ctx, *, arg):
    get = re.sub(r"^/GL ", '', str(arg))
-   result = GL.GeoLiberator(str(get)).getAddress()
+   result = GeoLib.parse_address(get, "full")
    if result == "OTHER":
-      result = GL.GeoLiberator(str(get)).full_address()
+      result = GeoLib.parse_address(get, "address")
    await ctx.send(str(result))
 
 

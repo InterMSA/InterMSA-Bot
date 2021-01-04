@@ -79,6 +79,7 @@ PROS = ServerPartition("Pro", 792530124560924677,
                   **__pro_add_ons)
 ##set_role_selections(); CONST_MSG = [role_selection_s, role_selection_b] # To be deprecated
 BOT = os.getenv("BOT_SECRET", bot_pass())
+TEST_MODE = True
 SP = os.getenv("SECRET_PASS", secret_pass())
 DB_SECRET = re.sub(r"\\n", '\n', os.getenv("DB_SECRET", db_pass()))
 ENCRYPT_KEY = re.sub(r"\\n", '\n', os.getenv("PUBLIC_KEY", pub_pass()))

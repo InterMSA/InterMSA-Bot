@@ -4,17 +4,16 @@ Author: David J. Morfe
 Application Name: InterMSA-Bot
 Functionality Purpose: An agile Discord Bot to fit InterMSA's needs
 '''
-RELEASE = "v0.2.3 - 1/2/21"
+RELEASE = "v0.2.5 - 1/4/21"
 
 
 import re, os, sys, time, json, datetime
 from cmds import *
 from config import *
 from tools import *
-try:
-    import GeoLiberator as GL
-except ModuleNotFoundError:
-    pass
+from web_app import keep_alive
+
+
 RUN_TIME = datetime.datetime.now()
 LAST_MODIFIED = RUN_TIME.strftime("%m/%d/%Y %I:%M %p")
 
@@ -114,6 +113,9 @@ async def on_message(message):
             await message.channel.send("Because I'm Eggcellent", delete_after=10)
             await asyncio.sleep(5)
             await message.channel.send("https://gyazo.com/8160eef16f1ae4c1c30add7044545542", delete_after=10)
+    if message.content.lower().startswith("/baraa"): # Baraa
+        if message.author.id == 670325339263860758:
+          await message.channel.send("very well inshAllah")
 
     # Professional Introductions Chat
     if message.channel.id == PROS.wait:
@@ -133,18 +135,20 @@ async def on_message(message):
     # Verification System
     if listen_verify(message): # Verify command
         email, gender = listen_verify(message)
-        if not re.search(r"^\w+@\w+\.", email) or \
-           not re.search(r"(Brother|Sister|Professional)", gender) or \
+        if not re.search(r"^.+@.+\.", email) or \
            not re.search(r"^/verify ", str(message.content)) or \
-           email == '' and gender == '':
+           email == '':
             await message.channel.send("**Invalid command! Please make sure you're typing everything correctly.**", delete_after=25)
+            await message.delete(delay=300)
+        elif not re.search(r"(Brother|Sister|Professional)", gender):
+            await message.channel.send("**Invalid command! Are you a brother, sister or workforce?**", delete_after=25)
             await message.delete(delay=300)
         elif re.search(r"\d{8}", message.content):
             await message.channel.send("**Invalid command! NOT your student ID, use your UCID!**", delete_after=25)
             await message.delete(delay=300)
         else:
             email_addr = email.lower()
-            vCode = send_email(email_addr, test); ID = message.author.id
+            vCode = send_email(email_addr, test=TEST_MODE); ID = message.author.id
             with open("verify.txt", 'a') as f:
                 f.write(f"{vCode} {email_addr} {ID} {gender}\n")
             temp = await message.channel.send(f"**We've sent a verification code to your email at** ___{email_addr}___**, please copy & paste it below.**", delete_after=300)
@@ -177,7 +181,10 @@ async def on_message(message):
                                 except KeyError:
                                     pro = True
                             if not pro:
+                                if lst[3] == "Professional":
+                                    lst[3] = "Pro"
                                 role = get(guild.roles, name=f"{lst[3]}s Waiting Room")
+                                print(f"{lst[3]}s Waiting Room")
                                 await message.author.add_roles(role) # Add Waiting Room role to user
                             else:
                                 role = get(guild.roles, name="Pros Waiting Room")
@@ -192,12 +199,12 @@ async def on_message(message):
                                     await message.author.edit(nick=str(nName))
                             except errors.Forbidden:
                                 print("Success!\n", nName)
-                            sibling = get_sibling(lst[3]) # Get brother/sister object
+                            sibling = get_sibling(lst[3]) # Get brother/sister/pro object
                             channel = bot.get_channel(sibling.wait) # Waiting room channel
                             if sibling.wait != PROS.wait:
-                                await channel.send(f"@here ***" + message.author.mention + "***" + " *has joined the NJIT MSA Discord!*")
+                                await channel.send(f"@here ***" + message.author.mention + "***" + " *has joined the InterMSA Discord!*")
                             else:
-                                msg = await channel.send(f"@here ***" + message.author.mention + "***" + " *has joined the NJIT MSA Discord!*")
+                                msg = await channel.send(f"@here ***" + message.author.mention + "***" + " *has joined the InterMSA Discord!*")
                                 with open("introductions.txt", 'a') as f:
                                     f.write(f"{lst[2]} {msg.id}\n")
                         else:
@@ -215,6 +222,7 @@ async def on_message(message):
 
 # Bot Starting Point
 if __name__ == "__main__":
+    #keep_alive()
     token = BOT
     bot.run(token)
 ##bot.logout()

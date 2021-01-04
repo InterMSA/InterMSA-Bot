@@ -6,6 +6,10 @@ from email.message import EmailMessage
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_OAEP
 from config import *
+try:
+    import GeoLiberator as GeoLib
+except ModuleNotFoundError:
+    pass
 # (Note: All variables not declared probably came from config.py)
 
 
@@ -151,6 +155,8 @@ def listen_verify(msg):
     if msg.channel.id == VERIFY_ID:
         if msg.content.startswith('/verify'):
             request = re.sub(r"/verify ", '', msg.content)
+            if '@' not in request:
+                return ('', '')
             join_type = re.search(r"(brothers?|sis(tas?|ters?)|workforce)", request) or ''
             if join_type:
                 email = re.sub(fr"{join_type.group()}", '', request).strip(' ')
@@ -158,10 +164,12 @@ def listen_verify(msg):
                     join_type = "Brother"
                 elif join_type.group()[0] == 's':
                     join_type = "Sister"
-                else:
+                elif join_type.group()[0] == 'w':
                     join_type = "Professional"
+                else:
+                    join_type = ''
                 return email, join_type
-            return ('', '')
+            return (request, '')
 
 # Listen for 4-digit code in #verify
 def listen_code(msg):
