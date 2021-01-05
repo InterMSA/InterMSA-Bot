@@ -4,7 +4,7 @@ Author: David J. Morfe
 Application Name: InterMSA-Bot
 Functionality Purpose: An agile Discord Bot to fit InterMSA's needs
 '''
-RELEASE = "v0.2.5 - 1/4/21"
+RELEASE = "v0.2.6 - 1/5/21"
 
 
 import re, os, sys, time, json, datetime
@@ -222,7 +222,7 @@ async def on_message(message):
 
 # Bot Starting Point
 if __name__ == "__main__":
-    #keep_alive()
+    keep_alive()
     token = BOT
     bot.run(token)
 ##bot.logout()
