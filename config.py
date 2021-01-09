@@ -79,12 +79,13 @@ PROS = ServerPartition("Pro", 792530124560924677,
                   **__pro_add_ons)
 ##set_role_selections(); CONST_MSG = [role_selection_s, role_selection_b] # To be deprecated
 BOT = os.getenv("BOT_SECRET", bot_pass())
-TEST_MODE = True
+TEST_MODE = False
 SP = os.getenv("SECRET_PASS", secret_pass())
 DB_SECRET = re.sub(r"\\n", '\n', os.getenv("DB_SECRET", db_pass()))
 ENCRYPT_KEY = re.sub(r"\\n", '\n', os.getenv("PUBLIC_KEY", pub_pass()))
 APP_PASS = os.getenv("EMAIL_SECRET", email_pass())
 DB_PATH = "database/database.db"
+INTROS_ID = 792530124560924677
 VERIFY_ID = 791466283836506162
 SERVER_ID = 777022217284354079
 COLLEGES = {"njit": 793236123124105227, "rutgers": 793236159027085372,

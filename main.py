@@ -4,7 +4,7 @@ Author: David J. Morfe
 Application Name: InterMSA-Bot
 Functionality Purpose: An agile Discord Bot to fit InterMSA's needs
 '''
-RELEASE = "v0.2.6 - 1/5/21"
+RELEASE = "v0.2.7 - 1/8/21"
 
 
 import re, os, sys, time, json, datetime
@@ -36,13 +36,16 @@ sys.stdout = Unbuffered(sys.stdout)
 async def on_ready():
     await bot.change_presence(activity = Game(name = "/help (For all cmds)"))
     print("We have logged in as {0.user}".format(bot))
+    if TEST_MODE == True:
+        print("WARNING: TEST_MODE set to True")
 
-'''@bot.event
+@bot.event
 async def on_member_join(member):
     #await bot.edit_message(message_var, "This is the edit to replace the message.")
-    channel = bot.get_channel(BROTHERS.general)
-    await asyncio.sleep(15)
-    await channel.send("__***Welcome to the NJIT MSA Discord Server!***__\n\n**Please type `/verify <YOUR_NJIT_UCID>` to join the chat.**")'''
+    channel = bot.get_channel(VERIFY_ID)
+    await asyncio.sleep(86400)
+    if len(member.roles) == 1:
+        await channel.send(member.mention + " ***OI WAKE UP!***\n\n**Please verify to join the chat!**", delete_after=60)
 
 # Listen to added reactions in specified channels
 @bot.event
@@ -102,13 +105,13 @@ async def on_message(message):
             await message.channel.send("Yo that junk is fire :fire:", delete_after=10)
     if "ws" == message.content:
         await message.channel.send("Walaikumu Salam")
-    if "texas" in str(message.content).lower(): # Siraj
+    if "texas" in message.content.lower(): # Siraj
         if message.author.id == 416430987241586698:
             await message.channel.send("https://media.tenor.co/videos/c8bad30e8d9834c6543b7575c3d7bd89/mp4")
-    if "cap" in str(message.content).lower(): # Usmaan
+    if "cap" in message.content.lower(): # Usmaan
         if message.author.id == 397082457179947029:
             await message.channel.send("yo that's cap'n cap'n")
-    if "egg" in str(message.content).lower(): # Egg
+    if "egg" in message.content.lower(): # Egg
         if message.author.id == 714641624571052076:
             await message.channel.send("Because I'm Eggcellent", delete_after=10)
             await asyncio.sleep(5)
@@ -116,6 +119,13 @@ async def on_message(message):
     if message.content.lower().startswith("/baraa"): # Baraa
         if message.author.id == 670325339263860758:
           await message.channel.send("very well inshAllah")
+    if "choco" in message.content.lower():
+        if message.author.id == 732373611775524926:
+            lst = ["https://tenor.com/view/chocolate-spongebob-fish-rage-love-chocolate-gif-4938413",
+                   "https://tenor.com/view/spongebob-chocolate-gif-9718522",
+                   "https://tenor.com/view/kermit-the-frog-chocolate-gif-18833858"]
+            r_i = randint(0,2)
+            await message.channel.send(str(lst[r_i]), delete_after=30)
 
     # Professional Introductions Chat
     if message.channel.id == PROS.wait:
@@ -172,12 +182,13 @@ async def on_message(message):
                         if lst[0] == eCode.group() and lst[2] == str(message.author.id): # Verify code
                             edit_file("verify.txt", line.strip('\n'))
                             college = re.search(r"(?<=@)\w+", str(lst[1]))
-                            guild = bot.get_guild(SERVER_ID); pro = False
+                            guild = bot.get_guild(SERVER_ID); pro = False; c_role = "N/A"
                             if college:
                                 try:
-                                    college_role = COLLEGES[college.group().replace(".edu", '').lower()]
-                                    role = get(guild.roles, id=college_role)
-                                    await message.author.add_roles(role) # Add Specific College role to user
+                                    college = college.group().replace(".edu", '').lower()
+                                    college_role = COLLEGES[college]
+                                    c_role = get(guild.roles, id=college_role)
+                                    await message.author.add_roles(c_role) # Add Specific College role to user
                                 except KeyError:
                                     pro = True
                             if not pro:
@@ -202,9 +213,9 @@ async def on_message(message):
                             sibling = get_sibling(lst[3]) # Get brother/sister/pro object
                             channel = bot.get_channel(sibling.wait) # Waiting room channel
                             if sibling.wait != PROS.wait:
-                                await channel.send(f"@here ***" + message.author.mention + "***" + " *has joined the InterMSA Discord!*")
+                                await channel.send(f"@here " + message.author.mention + f" from {c_role.mention} *has joined the InterMSA Discord!*")
                             else:
-                                msg = await channel.send(f"@here ***" + message.author.mention + "***" + " *has joined the InterMSA Discord!*")
+                                msg = await channel.send(f"@here " + message.author.mention + " *has joined the InterMSA Discord!*")
                                 with open("introductions.txt", 'a') as f:
                                     f.write(f"{lst[2]} {msg.id}\n")
                         else:

@@ -70,7 +70,7 @@ async def add(ctx, *args):
          await channel.send("<@!" + user_id.group() + "> *has* ***officially*** *joined the InterMSA Discord! Welcome your fellow " + sibling + "!*")
          read = []
          if ctx.channel.id == PROS.wait: # Check if in #introductions chat
-            channel = bot.get_channel(792530124560924677)
+            channel = bot.get_channel(INTROS_ID)
             with open("introductions.txt") as f:
                for line in f.readlines():
                   entry = line.strip('\n').split(' ')
@@ -101,10 +101,9 @@ async def timer(ctx, *args):
 # GeoLiberator demo command
 @bot.command()
 async def GL(ctx, *, arg):
-   get = re.sub(r"^/GL ", '', str(arg))
-   result = GeoLib.parse_address(get, "full")
+   result = GeoLib.parse_address(arg, "full")
    if result == "OTHER":
-      result = GeoLib.parse_address(get, "address")
+      result = GeoLib.parse_address(arg, "address")
    await ctx.send(str(result))
 
 
