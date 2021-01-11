@@ -4,7 +4,7 @@ Author: David J. Morfe
 Application Name: InterMSA-Bot
 Functionality Purpose: An agile Discord Bot to fit InterMSA's needs
 '''
-RELEASE = "v0.2.7 - 1/8/21"
+RELEASE = "v0.2.8 - 1/10/21"
 
 
 import re, os, sys, time, json, datetime
@@ -45,7 +45,7 @@ async def on_member_join(member):
     channel = bot.get_channel(VERIFY_ID)
     await asyncio.sleep(86400)
     if len(member.roles) == 1:
-        await channel.send(member.mention + " ***OI WAKE UP!***\n\n**Please verify to join the chat!**", delete_after=60)
+        await channel.send(member.mention + " ***Hello again!***\n\n**Please verify to join the chat!**", delete_after=60)
 
 # Listen to added reactions in specified channels
 @bot.event
@@ -189,7 +189,7 @@ async def on_message(message):
                                     college_role = COLLEGES[college]
                                     c_role = get(guild.roles, id=college_role)
                                     await message.author.add_roles(c_role) # Add Specific College role to user
-                                except KeyError:
+                                except KeyError: # If college domain not registered under InterMSA
                                     pro = True
                             if not pro:
                                 if lst[3] == "Professional":
@@ -211,10 +211,16 @@ async def on_message(message):
                             except errors.Forbidden:
                                 print("Success!\n", nName)
                             sibling = get_sibling(lst[3]) # Get brother/sister/pro object
-                            channel = bot.get_channel(sibling.wait) # Waiting room channel
-                            if sibling.wait != PROS.wait:
-                                await channel.send(f"@here " + message.author.mention + f" from {c_role.mention} *has joined the InterMSA Discord!*")
-                            else:
+                            if sibling.wait != PROS.wait: # bro/sis wait channel
+                                channel = bot.get_channel(sibling.wait) # Waiting room channel
+                                if pro == True and "Pro" not in lst[3]:
+                                    channel = bot.get_channel(PROS.wait)
+                                    await channel.send(f"@here " + message.author.mention + " *has joined the InterMSA Discord!*")
+                                    await channel.send("`Note: user will join pro chat by default because college is not registered under InterMSA!`")
+                                else:
+                                    await channel.send(f"@here " + message.author.mention + f" from {c_role.mention} *has joined the InterMSA Discord!*")
+                            else: # introductions channel
+                                channel = bot.get_channel(sibling.wait) # Waiting room channel
                                 msg = await channel.send(f"@here " + message.author.mention + " *has joined the InterMSA Discord!*")
                                 with open("introductions.txt", 'a') as f:
                                     f.write(f"{lst[2]} {msg.id}\n")
