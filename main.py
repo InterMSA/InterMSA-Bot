@@ -4,7 +4,7 @@ Author: David J. Morfe
 Application Name: InterMSA-Bot
 Functionality Purpose: An agile Discord Bot to fit InterMSA's needs
 '''
-RELEASE = "v0.2.8 - 1/10/21"
+RELEASE = "v0.2.9 - 2/12/21"
 
 
 import re, os, sys, time, json, datetime
@@ -181,7 +181,7 @@ async def on_message(message):
                         lst = line.strip('\n').split(' ')
                         if lst[0] == eCode.group() and lst[2] == str(message.author.id): # Verify code
                             edit_file("verify.txt", line.strip('\n'))
-                            college = re.search(r"(?<=@)\w+", str(lst[1]))
+                            college = re.search(r"\w+(?=.edu)", str(lst[1]))
                             guild = bot.get_guild(SERVER_ID); pro = False; c_role = "N/A"
                             if college:
                                 try:
@@ -195,7 +195,6 @@ async def on_message(message):
                                 if lst[3] == "Professional":
                                     lst[3] = "Pro"
                                 role = get(guild.roles, name=f"{lst[3]}s Waiting Room")
-                                print(f"{lst[3]}s Waiting Room")
                                 await message.author.add_roles(role) # Add Waiting Room role to user
                             else:
                                 role = get(guild.roles, name="Pros Waiting Room")
@@ -215,8 +214,8 @@ async def on_message(message):
                                 channel = bot.get_channel(sibling.wait) # Waiting room channel
                                 if pro == True and "Pro" not in lst[3]:
                                     channel = bot.get_channel(PROS.wait)
-                                    await channel.send(f"@here " + message.author.mention + " *has joined the InterMSA Discord!*")
-                                    await channel.send("`Note: user will join pro chat by default because college is not registered under InterMSA!`")
+                                    await channel.send(f"@here " + message.author.mention + " *has joined the InterMSA Discord!*", delete_after=60)
+                                    await channel.send("`Note: user will join pro chat by default because college is not registered under InterMSA!`", delete_after=60)
                                 else:
                                     await channel.send(f"@here " + message.author.mention + f" from {c_role.mention} *has joined the InterMSA Discord!*")
                             else: # introductions channel
