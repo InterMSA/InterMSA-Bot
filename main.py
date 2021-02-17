@@ -4,7 +4,7 @@ Author: David J. Morfe
 Application Name: InterMSA-Bot
 Functionality Purpose: An agile Discord Bot to fit InterMSA's needs
 '''
-RELEASE = "v0.2.9 - 2/12/21"
+RELEASE = "v0.3.0 - 2/17/21"
 
 
 import re, os, sys, time, json, datetime
@@ -54,10 +54,10 @@ async def on_raw_reaction_add(payload):
        payload.channel_id != BROTHERS.role_select and \
        payload.channel_id != PROS.role_select:
         return -1
-    role_id = listen_role_reaction(payload.emoji)
+    role_id = listen_role_reaction(payload.emoji, payload.channel_id)
     if role_id:
         role = get(
-                    bot.get_guild(SERVER_ID).roles, id=role_id)
+            bot.get_guild(SERVER_ID).roles, id=role_id)
         del(role_id)
         await payload.member.add_roles(role)
 
@@ -68,7 +68,7 @@ async def on_raw_reaction_remove(payload):
        payload.channel_id != BROTHERS.role_select and \
        payload.channel_id != PROS.role_select:
         return -1
-    role_id = listen_role_reaction(payload.emoji)
+    role_id = listen_role_reaction(payload.emoji, payload.channel_id)
     if role_id:
         guild = bot.get_guild(SERVER_ID)
         member = guild.get_member(payload.user_id)

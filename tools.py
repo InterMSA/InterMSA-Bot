@@ -135,11 +135,17 @@ def listen_announce(msg):
     elif msg.channel.id == SISTERS.announce:
         if "@everyone" in msg.content:
             return BROTHERS.announce
+    elif msg.channel.id == BROTHERS.events:
+        if "@everyone" in msg.content:
+            return SISTERS.events
+    elif msg.channel.id == SISTERS.events:
+        if "@everyone" in msg.content:
+            return BROTHERS.events
     else:
         False
 
-# Return role based on emoji
-def listen_role_reaction(emoji):
+# Return role id based on emoji
+def listen_role_reaction(emoji, channel):
     role_id = 0
     emoji = emoji.name.encode('unicode-escape')
     emote = re.search(r".+?\\", str(emoji).strip("b'\\"))
@@ -148,6 +154,9 @@ def listen_role_reaction(emoji):
     for role_emoji in ROLE_EMOJIS:
         if emoji == role_emoji.encode('unicode-escape'):
             return ROLE_EMOJIS[role_emoji]
+    for role_select_channel in SPLIT_ROLES_EMOJIS:
+        if role_select_channel == channel:
+            return SPLIT_ROLES_EMOJIS[channel][emoji.decode('unicode-escape')]
     return False
 
 # Parse and return email & join type based on /verify request

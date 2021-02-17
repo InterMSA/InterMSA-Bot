@@ -59,8 +59,10 @@ async def add(ctx, *args):
             if nName != None:
                await member.edit(nick=str(nName))
             else:
-               nName = ' '.join(args[1:])
-               await member.edit(nick=str(nName))
+               new_name = args[1:]; nName = ''
+               for name in new_name:
+                    nName += name.capitalize() + ' '
+               await member.edit(nick=str(nName).strip(' '))
          except errors.Forbidden:
             print("Success!\n", nName)
          await member.add_roles(role)

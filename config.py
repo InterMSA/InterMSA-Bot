@@ -18,8 +18,10 @@ class StaticMsg(object):
       self.message = message
       self.reaction = reaction
 
-__bro_add_ons = {"role_select": 792531850740498482}
-__sis_add_ons = {"role_select": 792531967832227841}
+__bro_add_ons = {"role_select": 792531850740498482,
+                 "events": 811467259225702480}
+__sis_add_ons = {"role_select": 792531967832227841,
+                 "events": 811471035332296740}
 __pro_add_ons = {"role_select": 793371378736431144}
 
 role_selection_s = role_selection_b = None
@@ -103,6 +105,9 @@ ROLE_EMOJIS = {"\U0001f9d5": 750931950964965506,
                "\U0001f50c": 793381155021914124,
                "\U0001f9d4": 781726794226335784,
                "\U0001f9d5": 781726844591800350}
+SPLIT_ROLES_EMOJIS = {SISTERS.role_select: {"\U0001f4e2": 811470807033315359},
+                      BROTHERS.role_select: {"\U0001f4e2": 811466169072222221},
+                      PROS.role_select: {}}
 os.chdir(CWD) # Return to original directory
 
 

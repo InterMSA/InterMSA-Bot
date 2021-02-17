@@ -3,3 +3,5 @@ seacrats.txt
 loot.txt
 *.db
 key.txt
+*.pickle
+credentials.json
