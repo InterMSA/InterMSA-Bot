@@ -1,6 +1,7 @@
 from discord.ext import commands
 from discord.utils import get
 from discord import Intents
+from discord import File
 from discord import Embed
 from discord import Game
 from discord import errors

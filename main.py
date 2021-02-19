@@ -4,10 +4,10 @@ Author: David J. Morfe
 Application Name: InterMSA-Bot
 Functionality Purpose: An agile Discord Bot to fit InterMSA's needs
 '''
-RELEASE = "v0.3.0 - 2/17/21"
+RELEASE = "v0.3.1 - 2/19/21"
 
 
-import re, os, sys, time, json, datetime
+import re, os, sys, time, json, datetime, requests
 from cmds import *
 from config import *
 from tools import *
@@ -140,7 +140,16 @@ async def on_message(message):
     if listen_announce(message): # Send to alternate announcement channel
         announce_channel = listen_announce(message)
         channel = bot.get_channel(announce_channel)
-        await channel.send(message.content)
+        ext = re.search(r".(png|jpg|jpeg|mp4)$", message.attachments[0].url)
+        if len(message.attachments) == 1 and ext:
+            file_name = "imgs/reattach" + str(ext.group())
+            with open(file_name, "wb") as f:
+                await message.attachments[0].save(f)
+            img = File(file_name)
+            await channel.send(message.content, file=img)
+            os.remove(file_name)
+        else:
+            await channel.send(message.content)
 
     # Verification System
     if listen_verify(message): # Verify command

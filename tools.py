@@ -127,7 +127,7 @@ def get_sibling(sibling):
     else:
         return PROS
 
-# Return announcement channel id while listening to announcements
+# Return announcement channel id while listening to announcements/events
 def listen_announce(msg):
     if msg.channel.id == BROTHERS.announce:
         if "@everyone" in msg.content:
