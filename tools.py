@@ -163,7 +163,7 @@ def listen_role_reaction(emoji, channel):
 def listen_verify(msg):
     if msg.channel.id == VERIFY_ID:
         if msg.content.startswith('/verify'):
-            request = re.sub(r"/verify ", '', msg.content)
+            request = re.sub(r"/verify ", '', msg.content.lower())
             if '@' not in request:
                 return ('', '')
             join_type = re.search(r"(brothers?|sis(tas?|ters?)|workforce)", request) or ''

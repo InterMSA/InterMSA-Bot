@@ -7,7 +7,7 @@ Functionality Purpose: An agile Discord Bot to fit InterMSA's needs
 RELEASE = "v0.3.1 - 2/19/21"
 
 
-import re, os, sys, time, json, datetime, requests
+import re, os, sys, time, json, datetime
 from cmds import *
 from config import *
 from tools import *
