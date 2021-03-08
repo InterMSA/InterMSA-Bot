@@ -83,7 +83,7 @@ async def on_raw_reaction_remove(payload):
 @bot.event
 async def on_message(message):
     if message.author == bot.user:
-        return -1;
+        return -1;    
     # Exclusive Experimental Commands
     if message.content == 'nu u':
         if "Cali#6919" == str(message.author):

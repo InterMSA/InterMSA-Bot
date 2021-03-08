@@ -80,6 +80,8 @@ def decrypt(cipher_text):
 
 # Return full name string based on email
 def get_name(addr: str) -> str:
+    if "njit" not in addr:
+        return None
     sid = re.sub(r"@.+\.", '', str(addr))
     sid = sid.replace("edu", '')
     hashed_sid = hashlib.sha1(sid.encode()).hexdigest()
