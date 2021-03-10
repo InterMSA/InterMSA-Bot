@@ -104,9 +104,14 @@ ROLE_EMOJIS = {"\U0001f9d5": 750931950964965506,
                "\U0001f50d": 793380988125970464,
                "\U0001f50c": 793381155021914124,
                "\U0001f9d4": 781726794226335784,
-               "\U0001f9d5": 781726844591800350}
-SPLIT_ROLES_EMOJIS = {SISTERS.role_select: {"\U0001f4e2": 811470807033315359},
-                      BROTHERS.role_select: {"\U0001f4e2": 811466169072222221},
+               "\U0001f9d5": 781726844591800350,
+               "\U0001f4d6": 819249140771848213}
+SPLIT_ROLES_EMOJIS = {BROTHERS.role_select:
+                      {"\U0001f4e2": 811466169072222221,
+                       "\U00002753": 819249562869956668},
+                      SISTERS.role_select:
+                      {"\U0001f4e2": 811470807033315359,
+                       "\U00002753": 819249898334453801},
                       PROS.role_select: {}}
 os.chdir(CWD) # Return to original directory
 

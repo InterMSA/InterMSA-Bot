@@ -152,7 +152,7 @@ def listen_role_reaction(emoji, channel):
     emoji = emoji.name.encode('unicode-escape')
     emote = re.search(r".+?\\", str(emoji).strip("b'\\"))
     if emote and str(emoji).lower().count('u') > 1:
-        emoji = ("\\" + emote.group().strip('\\')).encode()
+        emoji = ("\\" + emote.group().strip('\\')).encode('unicode-escape')
     for role_emoji in ROLE_EMOJIS:
         if emoji == role_emoji.encode('unicode-escape'):
             return ROLE_EMOJIS[role_emoji]
