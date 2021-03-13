@@ -23,6 +23,26 @@ async def help(ctx): # Help command
         cmds = f.read()
     await ctx.send("__**CaliBot Commands:**__```CSS\n" + cmds + "```")
 
+# Debug bot
+@bot.command()
+async def debug(ctx, *args):
+  with open("debug.txt") as f:
+    status = f.read()
+  if args[0] == "start" and status != "start":
+    with open("debug.txt", 'w') as f:
+      f.write("start")
+    status = "start"
+    while status == "start":
+        await ctx.send("`Discord Bot Live`", delete_after=3600)
+        with open("debug.txt") as f:
+          status = f.read()
+        await asyncio.sleep(3600)
+  elif args[0] == "stop" and status != "stop":
+    with open("debug.txt", 'w') as f:
+      f.write("stop")
+  else:
+    await ctx.send(f"Debug Status: `{status}`", delete_after=25)
+
 # Add user officially
 @bot.command()
 async def add(ctx, *args):
@@ -55,7 +75,7 @@ async def add(ctx, *args):
          member = guild.get_member(int(user_id.group()))
          sibling, rm_role = get_sibling_role(member)
          role = get(bot.get_guild(SERVER_ID).roles, name=f"{sibling}")
-         nName = get_name(member.nick)
+         nName = get_name(member.nick) # get member.name if nick is None
          try:
             if nName != None:
                await member.edit(nick=str(nName))

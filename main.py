@@ -4,7 +4,7 @@ Author: David J. Morfe
 Application Name: InterMSA-Bot
 Functionality Purpose: An agile Discord Bot to fit InterMSA's needs
 '''
-RELEASE = "v0.3.2 - 3/10/21"
+RELEASE = "v0.3.3 - 3/13/21"
 
 
 import re, os, sys, time, json, datetime
@@ -199,10 +199,10 @@ async def on_message(message):
                                     c_role = get(guild.roles, id=college_role)
                                     await message.author.add_roles(c_role) # Add Specific College role to user
                                 except KeyError: # If college domain not registered under InterMSA
-                                    pro = True
-                            if not pro:
-                                if lst[3] == "Professional":
-                                    lst[3] = "Pro"
+                                    pro = True; lst[3] = "Pro"
+                            else:
+                                pro = True; lst[3] = "Pro"
+                            if not pro or ".edu" not in lst[1]:
                                 role = get(guild.roles, name=f"{lst[3]}s Waiting Room")
                                 await message.author.add_roles(role) # Add Waiting Room role to user
                             else:
@@ -221,7 +221,7 @@ async def on_message(message):
                             sibling = get_sibling(lst[3]) # Get brother/sister/pro object
                             if sibling.wait != PROS.wait: # bro/sis wait channel
                                 channel = bot.get_channel(sibling.wait) # Waiting room channel
-                                if pro == True and "Pro" not in lst[3]:
+                                if pro == True and "Pro" not in lst[3] or c_role == "N/A":
                                     channel = bot.get_channel(PROS.wait)
                                     await channel.send(f"@here " + message.author.mention + " *has joined the InterMSA Discord!*", delete_after=60)
                                     await channel.send("`Note: user will join pro chat by default because college is not registered under InterMSA!`", delete_after=60)
