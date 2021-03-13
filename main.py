@@ -227,9 +227,9 @@ async def on_message(message):
                                     await channel.send("`Note: user will join pro chat by default because college is not registered under InterMSA!`", delete_after=60)
                                 else:
                                     await channel.send(f"@here " + message.author.mention + f" from {c_role.mention} *has joined the InterMSA Discord!*")
-                            else: # introductions channel
+                            else: # pro wait channel
                                 channel = bot.get_channel(sibling.wait) # Waiting room channel
-                                msg = await channel.send(f"@here " + message.author.mention + " *has joined the InterMSA Discord!*")
+                                msg = await channel.send(f"@here " + message.author.mention + " *has joined the InterMSA Discord!*", delete_after=60)
                                 with open("introductions.txt", 'a') as f:
                                     f.write(f"{lst[2]} {msg.id}\n")
                         else:
