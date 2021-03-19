@@ -4,10 +4,10 @@ Author: David J. Morfe
 Application Name: InterMSA-Bot
 Functionality Purpose: An agile Discord Bot to fit InterMSA's needs
 '''
-RELEASE = "v0.3.3 - 3/13/21"
+RELEASE = "v0.3.5 - 3/18/21"
 
 
-import re, os, sys, time, json, datetime
+import re, os, sys, time, json, datetime, requests
 from cmds import *
 from config import *
 from tools import *
@@ -38,6 +38,10 @@ async def on_ready():
     print("We have logged in as {0.user}".format(bot))
     if TEST_MODE == True:
         print("WARNING: TEST_MODE set to True")
+    if MIRROR_REQ == True:
+      while True:
+        requests.request("HEAD", MIRROR_SITE)
+        await asyncio.sleep(2000)
 
 @bot.event
 async def on_member_join(member):

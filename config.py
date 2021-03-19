@@ -81,7 +81,8 @@ PROS = ServerPartition("Pro", 792530124560924677,
                   **__pro_add_ons)
 ##set_role_selections(); CONST_MSG = [role_selection_s, role_selection_b] # To be deprecated
 BOT = os.getenv("BOT_SECRET", bot_pass())
-TEST_MODE = False
+TEST_MODE = False; MIRROR_REQ = True;
+MIRROR_SITE = "https://UpTimeDiscBot.intermsa.repl.co"
 SP = os.getenv("SECRET_PASS", secret_pass())
 DB_SECRET = re.sub(r"\\n", '\n', os.getenv("DB_SECRET", db_pass()))
 ENCRYPT_KEY = re.sub(r"\\n", '\n', os.getenv("PUBLIC_KEY", pub_pass()))
@@ -95,7 +96,8 @@ COLLEGES = {"njit": 793236123124105227, "rutgers": 793236159027085372,
             "ramapo": 793236446789369926, "shu": 793236471259201607,
             "stevens": 793236525302939658, "tcnj": 793236740457627668,
             "stockton": 793236769415364648, "njcu": 797974411906514956,
-            "pccc": 809924040587870250}
+            "pccc": 809924040587870250, "spu": 820882908372795392,
+            "saintpeters": 820882908372795392}
 ROLE_EMOJIS = {"\U0001f9d5": 750931950964965506,
                "\N{STRAIGHT RULER}": 756328774764593173,
                "\N{DESKTOP COMPUTER}": 756329639588397197,
@@ -108,10 +110,12 @@ ROLE_EMOJIS = {"\U0001f9d5": 750931950964965506,
                "\U0001f4d6": 819249140771848213}
 SPLIT_ROLES_EMOJIS = {BROTHERS.role_select:
                       {"\U0001f4e2": 811466169072222221,
-                       "\U00002753": 819249562869956668},
+                       "\U00002753": 819249562869956668,
+                       "\U0001f5f3": 822259258690371614},
                       SISTERS.role_select:
                       {"\U0001f4e2": 811470807033315359,
-                       "\U00002753": 819249898334453801},
+                       "\U00002753": 819249898334453801,
+                       "\U0001f5f3": 822259456619708500},
                       PROS.role_select: {}}
 os.chdir(CWD) # Return to original directory
 

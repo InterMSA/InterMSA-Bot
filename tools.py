@@ -156,9 +156,13 @@ def listen_role_reaction(emoji, channel):
     for role_emoji in ROLE_EMOJIS:
         if emoji == role_emoji.encode('unicode-escape'):
             return ROLE_EMOJIS[role_emoji]
+    if len(emoji) == 11:
+        emoji = emoji[1:].decode('unicode-escape')
+    else:
+        emoji = emoji.decode('unicode-escape')
     for role_select_channel in SPLIT_ROLES_EMOJIS:
         if role_select_channel == channel:
-            return SPLIT_ROLES_EMOJIS[channel][emoji.decode('unicode-escape')]
+            return SPLIT_ROLES_EMOJIS[channel][emoji]
     return False
 
 # Parse and return email & join type based on /verify request
