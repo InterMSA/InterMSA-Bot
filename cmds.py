@@ -43,6 +43,31 @@ async def debug(ctx, *args):
   else:
     await ctx.send(f"Debug Status: `{status}`", delete_after=25)
 
+@bot.command()
+async def addrole(ctx, *args):
+    is_admin = check_admin(ctx)
+    if not is_admin:
+        return -1
+    if len(args) == 0:
+        await ctx.send(f"`/addrole <emoji> <@Role>`\n"
+                       "`/addrole <emoji> <@Bro-Role> <@Sis-Role>`")
+        return 0
+    emoji = args[0]; role = args[1].replace("<@&", '').strip('>')
+    if len(args) == 3:
+        extra = args[2]
+    else:
+        extra = 0
+    with open("role_selection.txt", 'r+', encoding="utf-8") as f:
+        lines = f.readlines()
+        entry = f"{extra} {emoji} {role}\n"
+        if entry not in lines:
+            f.write(entry)
+        else:
+            await ctx.send(f"`Role Reaction already exists!`", delete_after=25)
+            return -1
+    update_role_select()
+    await ctx.send(f"`Role Reaction Added!`", delete_after=25)
+
 # Add user officially
 @bot.command()
 async def add(ctx, *args):

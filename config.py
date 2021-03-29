@@ -1,7 +1,6 @@
 import re
 from key import *
 
-
 class ServerPartition(object):
    #__slots__ = ("name", "wait", "general", "announce")
    def __init__(self, name, wait, general, announce, **kwargs):
@@ -26,48 +25,18 @@ __pro_add_ons = {"role_select": 793371378736431144}
 
 role_selection_s = role_selection_b = None
 def set_role_selections():
-   role_selection_s = (SISTERS.role_select, [StaticMsg(SISTERS.role_select,
-                            "**Peer Mentee** :woman_with_headscarf:",
-                            "\U0001f9d5"),
-                  StaticMsg(SISTERS.role_select,
-                            "**Senior** :older_woman:",
-                            "\N{OLDER WOMAN}"),
-                  StaticMsg(SISTERS.role_select,
-                            "**Junior** :woman:",
-                            "\N{WOMAN}"),
-                  StaticMsg(SISTERS.role_select,
-                            "**Sophmore** :girl:",
-                            "\N{GIRL}"),
-                  StaticMsg(SISTERS.role_select,
-                            "**Freshmen** :baby:",
-                            "\N{BABY}"),
-                  StaticMsg(BROTHERS.role_select,
-                            "**MATH Review** :straight_ruler:",
-                            "\N{STRAIGHT RULER}"),
-                  StaticMsg(BROTHERS.role_select,
-                            "**CS Review** :computer:",
-                            "\N{DESKTOP COMPUTER}"),
-                  StaticMsg(BROTHERS.role_select,
-                            "**PHYS Review** :atom:",
-                            "\N{ATOM SYMBOL}"),
-                  StaticMsg(BROTHERS.role_select,
-                            "**CHEM Review** :test_tube:",
-                            "\N{TEST TUBE}")])
-   role_selection_b = (BROTHERS.role_select, [StaticMsg(BROTHERS.role_select,
-                            "**MATH Review** :straight_ruler:",
-                            "\N{STRAIGHT RULER}"),
-		          StaticMsg(BROTHERS.role_select,
-                            "**CS Review** :computer:",
-                            "\N{DESKTOP COMPUTER}"),
-                  StaticMsg(BROTHERS.role_select,
-                            "**PHYS Review** :atom:",
-                            "\N{ATOM SYMBOL}"),
-                  StaticMsg(BROTHERS.role_select,
-                            "**CHEM Review** :test_tube:",
-                            "\N{TEST TUBE}"),
-                  StaticMsg(BROTHERS.role_select,
-                            "**Quran Circle** :book:",
-                            "\N{OPEN BOOK}")])
+   with open("role_selection.txt", encoding="utf-8") as f:
+       lines = f.readlines()
+       for line in lines:
+         extra, emote, role = line.split(' ')
+         if int(extra) == 0 and emote not in ROLE_EMOJIS:
+            ROLE_EMOJIS[emote] = int(role)
+         elif int(extra) != 0 and \
+              emote not in SPLIT_ROLES_EMOJIS[BROTHERS.role_select] or \
+              emote not in SPLIT_ROLES_EMOJIS[SISTERS.role_select]:
+            SPLIT_ROLES_EMOJIS[BROTHERS.role_select][emote] = int(role)
+            SPLIT_ROLES_EMOJIS[SISTERS.role_select][emote] = int(role)
+
 
 # Set all global variables
 BROTHERS = ServerPartition("Brother", 791466388031668265,
@@ -79,7 +48,6 @@ SISTERS = ServerPartition("Sister", 791466441031417866,
 PROS = ServerPartition("Pro", 792530124560924677,
                   792531673371246612, 793371080864563200,
                   **__pro_add_ons)
-##set_role_selections(); CONST_MSG = [role_selection_s, role_selection_b] # To be deprecated
 BOT = os.getenv("BOT_SECRET", bot_pass())
 TEST_MODE = False; MIRROR_REQ = True;
 MIRROR_SITE = "https://UpTimeDiscBot.intermsa.repl.co"
@@ -117,13 +85,13 @@ SPLIT_ROLES_EMOJIS = {BROTHERS.role_select:
                        "\U00002753": 819249898334453801,
                        "\U0001f5f3": 822259456619708500},
                       PROS.role_select: {}}
-os.chdir(CWD) # Return to original directory
 
+os.chdir(CWD) # Return to original directory
+set_role_selections() # Update the role-selection listener upon startup
 
 '''
 Notes:
-- Create 'Sibling' role or w/e you wanna call the role that
-  every sister gets to officially join
+- Create Brother/Sister roles role
 - Create #verify chat
 - Enable Developer Mode
   Copy ID's:

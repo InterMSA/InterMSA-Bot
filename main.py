@@ -4,7 +4,7 @@ Author: David J. Morfe
 Application Name: InterMSA-Bot
 Functionality Purpose: An agile Discord Bot to fit InterMSA's needs
 '''
-RELEASE = "v0.3.5 - 3/18/21"
+RELEASE = "v0.3.6 - 3/29/21"
 
 
 import re, os, sys, time, json, datetime, requests
@@ -144,7 +144,10 @@ async def on_message(message):
     if listen_announce(message): # Send to alternate announcement channel
         announce_channel = listen_announce(message)
         channel = bot.get_channel(announce_channel)
-        ext = re.search(r".(png|jpg|jpeg|mp4)$", message.attachments[0].url)
+        try:
+          ext = re.search(r".(png|jpg|jpeg|mp4)$", message.attachments[0].url)
+        except IndexError:
+          ext = None
         if len(message.attachments) == 1 and ext:
             file_name = "imgs/reattach" + str(ext.group())
             with open(file_name, "wb") as f:
