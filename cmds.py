@@ -18,10 +18,10 @@ bot = commands.Bot(command_prefix='/', help_command=None, intents=intents)
 
 # Extended InterMSA Bot Commands
 @bot.command()
-async def help(ctx): # Help command
+async def cmds(ctx): # Help command
     with open("cmds.md") as f:
         cmds = f.read()
-    await ctx.send("__**CaliBot Commands:**__```CSS\n" + cmds + "```")
+    await ctx.send("__**InterMSA Bot Commands:**__```CSS\n" + cmds + "```")
 
 # Debug bot
 @bot.command()
@@ -44,6 +44,12 @@ async def debug(ctx, *args):
     await ctx.send(f"Debug Status: `{status}`", delete_after=25)
 
 @bot.command()
+async def showroles(ctx, *args):
+    with open("role_selection.txt", 'r', encoding="utf-8") as f:
+        text = f.read()
+        await ctx.send(text)
+
+@bot.command()
 async def addrole(ctx, *args):
     is_admin = check_admin(ctx)
     if not is_admin:
@@ -54,7 +60,7 @@ async def addrole(ctx, *args):
         return 0
     emoji = args[0]; role = args[1].replace("<@&", '').strip('>')
     if len(args) == 3:
-        extra = args[2]
+        extra = args[2].replace("<@&", '').strip('>')
     else:
         extra = 0
     with open("role_selection.txt", 'r+', encoding="utf-8") as f:

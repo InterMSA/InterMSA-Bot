@@ -4,7 +4,7 @@ Author: David J. Morfe
 Application Name: InterMSA-Bot
 Functionality Purpose: An agile Discord Bot to fit InterMSA's needs
 '''
-RELEASE = "v0.3.6 - 3/29/21"
+RELEASE = "v0.3.9 - 3/31/21"
 
 
 import re, os, sys, time, json, datetime, requests
@@ -16,7 +16,7 @@ from web_app import keep_alive
 
 RUN_TIME = datetime.datetime.now()
 LAST_MODIFIED = RUN_TIME.strftime("%m/%d/%Y %I:%M %p")
-
+RELEASE += f" ({ENV})"
 
 class Unbuffered(object):
     def __init__(self, stream):
@@ -34,8 +34,8 @@ sys.stdout = Unbuffered(sys.stdout)
 # Executes when bot begins running
 @bot.event
 async def on_ready():
-    await bot.change_presence(activity = Game(name = "/help (For all cmds)"))
-    print("We have logged in as {0.user}".format(bot))
+    await bot.change_presence(activity = Game(name = "/cmds (For all cmds)"))
+    print("We have logged in as {0.user} in {1}".format(bot, ENV))
     if TEST_MODE == True:
         print("WARNING: TEST_MODE set to True")
     if MIRROR_REQ == True:
@@ -93,7 +93,7 @@ async def on_message(message):
         if "Cali#6919" == str(message.author):
             await message.channel.send("nu u!")
     if message.content.lower().startswith('/version'):
-        if "Cali#6919" == str(message.author):
+        if message.author.id in DEVS:
             await message.channel.send(f"`{RELEASE} | {LAST_MODIFIED}`")
     if re.search("(nu nu|Nunu|nunu)", message.content): # Taha
         if message.author.id == 496079190475538461:
@@ -123,6 +123,9 @@ async def on_message(message):
     if message.content.lower().startswith("/baraa"): # Baraa
         if message.author.id == 670325339263860758:
           await message.channel.send("very well inshAllah")
+    if re.search("(tired|sleep|night)", message.content.lower()):
+        if message.author.id == 508654889002467329:
+            await message.channel.send("***Never wake the sleeping Hafeth!***")
     if "choco" in message.content.lower():
         if message.author.id == 732373611775524926:
             lst = ["https://tenor.com/view/chocolate-spongebob-fish-rage-love-chocolate-gif-4938413",
