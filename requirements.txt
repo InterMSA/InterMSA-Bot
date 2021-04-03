@@ -1,0 +1,4 @@
+Flask==1.1.2
+pandas==1.2.3
+pycryptodome==3.10.1
+discord.py==1.6.0
