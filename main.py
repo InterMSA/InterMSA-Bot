@@ -4,14 +4,13 @@ Author: David J. Morfe
 Application Name: InterMSA-Bot
 Functionality Purpose: An agile Discord Bot to fit InterMSA's needs
 '''
-RELEASE = "v0.3.9 - 3/31/21"
+RELEASE = "v0.4.0 - 4/3/21"
 
 
-import re, os, sys, time, json, datetime, requests
+import re, os, sys, time, json, datetime
 from cmds import *
 from config import *
 from tools import *
-from web_app import keep_alive
 
 
 RUN_TIME = datetime.datetime.now()
@@ -36,12 +35,6 @@ sys.stdout = Unbuffered(sys.stdout)
 async def on_ready():
     await bot.change_presence(activity = Game(name = "/cmds (For all cmds)"))
     print("We have logged in as {0.user} in {1}".format(bot, ENV))
-    if TEST_MODE == True:
-        print("WARNING: TEST_MODE set to True")
-    if MIRROR_REQ == True:
-      while True:
-        requests.request("HEAD", MIRROR_SITE)
-        await asyncio.sleep(2000)
 
 @bot.event
 async def on_member_join(member):
@@ -122,7 +115,7 @@ async def on_message(message):
             await message.channel.send("https://gyazo.com/8160eef16f1ae4c1c30add7044545542", delete_after=10)
     if message.content.lower().startswith("/baraa"): # Baraa
         if message.author.id == 670325339263860758:
-          await message.channel.send("very well inshAllah!")
+          await message.channel.send("very well inshAllah")
     if re.search("(tired|sleep|night)", message.content.lower()):
         if message.author.id == 508654889002467329:
             await message.channel.send("***Never wake the sleeping Hafeth!***")
@@ -257,7 +250,6 @@ async def on_message(message):
 
 # Bot Starting Point
 if __name__ == "__main__":
-    keep_alive()
     token = BOT
     bot.run(token)
 ##bot.logout()
