@@ -122,7 +122,7 @@ async def on_message(message):
             await message.channel.send("https://gyazo.com/8160eef16f1ae4c1c30add7044545542", delete_after=10)
     if message.content.lower().startswith("/baraa"): # Baraa
         if message.author.id == 670325339263860758:
-          await message.channel.send("very well inshAllah")
+          await message.channel.send("very well inshAllah!")
     if re.search("(tired|sleep|night)", message.content.lower()):
         if message.author.id == 508654889002467329:
             await message.channel.send("***Never wake the sleeping Hafeth!***")
