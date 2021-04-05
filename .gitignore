@@ -6,3 +6,8 @@ key.txt
 *.pickle
 credentials.json
 msu_loot.txt
+config.py
+secret/bot.txt
+secret/db.txt
+secret/sp.txt
+secret/email.txt
