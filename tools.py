@@ -1,5 +1,5 @@
 import asyncio
-import re, os, time, smtplib, hashlib
+import re, os, time, smtplib, hashlib, urllib.request
 import sqlite3 as sql
 from random import randint
 from email.message import EmailMessage
@@ -40,16 +40,36 @@ def edit_file(file, value):
         return found
 
 # Return 4-digit verification code string after sending email
-def send_email(addr: str, test=False) -> str:
+def send_email(addr: str, gender='', test=False) -> str:
     sCode = f"{randint(0,9)}{randint(0,9)}{randint(0,9)}{randint(0,9)}"
+    verify_link = f"{MIRROR_SITE}/verified/{sCode}/{gender}"
+    verify_btn = f'<a class="button" type="button" href="{verify_link}" target="_blank">VERIFY!</a>'
+    style_btn = """<head><style>
+                    .button {
+                        font-size: 14px;
+                        text-decoration: none;
+                        background-color:#0BA2D3;
+                        color: #FFFFFF;
+                        border-radius: 2px;
+                        border: 1px solid #0A83A8;
+                        font-family: Helvetica, Arial, sans-serif;
+                        font-weight: bold;
+                        padding: 8px 12px;
+                    }
+                    .button:hover {
+                        background-color:#0FC7FF
+                    }
+                  </style></head>"""
+    html = f"""<html>{style_btn}<body>
+            <b>Your verification link to join the chat is below:<b><br><br>
+            <a class="button" type="button" href="{verify_link}" target="_blank">VERIFY!</a><br>
+            <h4>{verify_link}</h4><br>
+            Please click this link to join the InterMSA Discord. This link will expire in 15 minutes.
+            </body></html>"""
     if not test:
         msg = EmailMessage()
-        msg.set_content(f"\
-    <html><body><b>Your verification code to join the chat is below:<br><br>\
-    <h2>{sCode}</h2></b>Please copy & paste this code in the \
-    <i><u>#verify</u></i> text channel of your InterMSA Discord. \
-    This code will expire in 15 minutes.</body></html>", subtype="html")
-        msg["Subject"] = "Verification Code for InterMSA Discord"
+        msg.set_content(html, subtype="html")
+        msg["Subject"] = "Verification Link for InterMSA Discord"
         msg["From"] = "no-reply@intermsa.com"
         msg["To"] = addr
         with smtplib.SMTP_SSL("smtp.gmail.com", 465) as s:
@@ -59,6 +79,16 @@ def send_email(addr: str, test=False) -> str:
     else:
         print(sCode)
     return sCode
+
+# Send Post Request
+def send_verify_post(data={}, test=False):
+    if test:
+        return '1'
+    url = MIRROR_SITE + '/verify'
+    data_encoded = urllib.parse.urlencode(data)
+    data_encoded = data_encoded.encode("ascii")
+    resp = urllib.request.urlopen(url, data_encoded)
+    return resp.read().decode()
 
 # SQL Query Function
 def sqlite_query(query, args=(), one=False):
