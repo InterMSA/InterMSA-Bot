@@ -4,7 +4,7 @@ Author: David J. Morfe
 Application Name: InterMSA-Bot
 Functionality Purpose: An agile Discord Bot to fit InterMSA's needs
 '''
-RELEASE = "v0.4.0 - 4/3/21"
+RELEASE = "v0.4.02 - 4/6/2021"
 
 
 import re, os, sys, time, json, datetime

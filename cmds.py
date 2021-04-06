@@ -19,9 +19,16 @@ bot = commands.Bot(command_prefix='/', help_command=None, intents=intents)
 # Extended InterMSA Bot Commands
 @bot.command()
 async def cmds(ctx): # Help command
-    with open("cmds.md") as f:
-        cmds = f.read()
-    await ctx.send("__**InterMSA Bot Commands:**__```CSS\n" + cmds + "```")
+    if check_admin ==True:
+    #if ctx.message.author.check_admin:
+      with open("modCMDS.md") as f:
+          cmds = f.read()
+      await ctx.send("__**InterMSA Bot Commands:**__```CS\n" + cmds + "```")
+      #await ctx.send("hello there")
+    else:
+      with open("cmds.md") as f:
+          cmds = f.read()
+      await ctx.send("__**InterMSA Bot Commands:**__```CSS\n" + cmds + "```")
 
 # Debug bot
 @bot.command()

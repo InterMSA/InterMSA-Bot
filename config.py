@@ -92,11 +92,11 @@ SPLIT_ROLES_EMOJIS = {BROTHERS.role_select:
                        "\U0001f5f3": 822259456619708500},
                       PROS.role_select: {}}
 
-DEVS = [233691753922691072, 714641624571052076, 670325339263860758]
+DEVS = [233691753922691072, 714641624571052076, 670325339263860758] #jakeID,EggID,BaraaID
 os.chdir(CWD) # Return to original directory
 update_role_select() # Update the role-selection listener upon startup
 
-print (BOT)
+#print (BOT)
 
 '''
 Notes:
