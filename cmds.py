@@ -23,31 +23,14 @@ async def cmds(ctx): # Help command
         cmds = f.read()
     await ctx.send("__**InterMSA Bot Commands:**__```CSS\n" + cmds + "```")
 
-# Debug bot
-@bot.command()
-async def debug(ctx, *args):
-  with open("debug.txt") as f:
-    status = f.read()
-  if args[0] == "start" and status != "start":
-    with open("debug.txt", 'w') as f:
-      f.write("start")
-    status = "start"
-    while status == "start":
-        await ctx.send("`Discord Bot Live`", delete_after=3600)
-        with open("debug.txt") as f:
-          status = f.read()
-        await asyncio.sleep(3600)
-  elif args[0] == "stop" and status != "stop":
-    with open("debug.txt", 'w') as f:
-      f.write("stop")
-  else:
-    await ctx.send(f"Debug Status: `{status}`", delete_after=25)
-
 @bot.command()
 async def showroles(ctx, *args):
     with open("role_selection.txt", 'r', encoding="utf-8") as f:
         text = f.read()
-        await ctx.send(text)
+        if text == '':
+            await ctx.send("`Role selections empty`")
+        else:
+            await ctx.send(text)
 
 @bot.command()
 async def addrole(ctx, *args):
@@ -73,6 +56,20 @@ async def addrole(ctx, *args):
             return -1
     update_role_select()
     await ctx.send(f"`Role Reaction Added!`", delete_after=25)
+
+@bot.command()
+async def deleterole(ctx, *args): # Remove role-selection role
+    is_admin = check_admin(ctx)
+    if not is_admin:
+        return -1
+    if len(args) != 1:
+        await ctx.send(f"`/deleterole <emoji>`\n")
+        return 0
+    emoji = args[0]
+    if edit_file("role_selection.txt", emoji, exact=False):
+        await ctx.send(f"`Role Reaction Removed!`", delete_after=25)
+    else:
+        await ctx.send(f"`Role Reaction does not exist!`", delete_after=25)
 
 # Add user officially
 @bot.command()

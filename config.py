@@ -48,10 +48,9 @@ SISTERS = ServerPartition("Sister", 791466441031417866,
 PROS = ServerPartition("Pro", 792530124560924677,
                   792531673371246612, 793371080864563200,
                   **__pro_add_ons)
-ENV = ENV
+TEST_MODE = False; ENV = ENV
 BOT = os.getenv("BOT_SECRET", bot_pass())
-TEST_MODE = False; MIRROR_REQ = True;
-MIRROR_SITE = "https://UpTimeDiscBot.intermsa.repl.co"
+VERIFY_SITE = "https://VerificationSystem.intermsa.repl.co"
 SP = os.getenv("SECRET_PASS", secret_pass())
 DB_SECRET = re.sub(r"\\n", '\n', os.getenv("DB_SECRET", db_pass()))
 ENCRYPT_KEY = re.sub(r"\\n", '\n', os.getenv("PUBLIC_KEY", pub_pass()))
@@ -73,7 +72,6 @@ ROLE_EMOJIS = {"\U0001f9d5": 750931950964965506,
                "\N{ATOM SYMBOL}": 756334778881540137,
                "\U0001f4af": 792530378719756318,
                "\U0001f50d": 793380988125970464,
-               "\U0001f50c": 793381155021914124,
                "\U0001f9d4": 781726794226335784,
                "\U0001f9d5": 781726844591800350,
                "\U0001f4d6": 819249140771848213}

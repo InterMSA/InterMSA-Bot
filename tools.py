@@ -26,23 +26,31 @@ KEY = RSA.import_key(DB_SECRET.encode("ascii"), SP) # Just you try and get it :D
 
 
 # Remove a line from a file based on value
-def edit_file(file, value):
-    with open(file, 'r+') as f:
+def edit_file(file, value, exact=True):
+    with open(file, 'r+', encoding="utf-8") as f:
         lines = f.readlines()
         f.seek(0); found = False
-        for line in lines:
-            line = line.strip('\n')
-            if str(line).lower() != str(value).lower():
-                f.write(line + '\n')
-            else:
-                found = True
+        if exact == True:
+            for line in lines:
+                line = line.strip('\n')
+                if str(line).lower() != str(value).lower():
+                    f.write(line + '\n')
+                else:
+                    found = True
+        else:
+            for line in lines:
+                line = line.strip('\n')
+                if str(value).lower() not in str(line).lower() :
+                    f.write(line + '\n')
+                else:
+                    found = True
         f.truncate()
         return found
 
 # Return 4-digit verification code string after sending email
 def send_email(addr: str, gender='', test=False) -> str:
     sCode = f"{randint(0,9)}{randint(0,9)}{randint(0,9)}{randint(0,9)}"
-    verify_link = f"{MIRROR_SITE}/verified/{sCode}/{gender}"
+    verify_link = f"{VERIFY_SITE}/verified/{sCode}/{gender}"
     verify_btn = f'<a class="button" type="button" href="{verify_link}" target="_blank">VERIFY!</a>'
     style_btn = """<head><style>
                     .button {
@@ -84,7 +92,7 @@ def send_email(addr: str, gender='', test=False) -> str:
 def send_verify_post(data={}, test=False):
     if test:
         return '1'
-    url = MIRROR_SITE + '/verify'
+    url = VERIFY_SITE + '/verify'
     data_encoded = urllib.parse.urlencode(data)
     data_encoded = data_encoded.encode("ascii")
     resp = urllib.request.urlopen(url, data_encoded)
