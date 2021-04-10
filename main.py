@@ -4,7 +4,7 @@ Author: David J. Morfe
 Application Name: InterMSA-Bot
 Functionality Purpose: An agile Discord Bot to fit InterMSA's needs
 '''
-RELEASE = "v0.4.2 - 4/6/21"
+RELEASE = "v0.4.3 - 4/10/21"
 
 
 import re, os, sys, time, json, datetime
@@ -170,14 +170,16 @@ async def on_message(message):
             await message.delete(delay=300)
         else:
             email_addr = email.lower(); ID = message.author.id
-            temp = await message.channel.send(f"**We've sent a verification link to your email at** ___{email_addr}___**, please check your email.**", delete_after=300)
+            temp = await message.channel.send(f"**We've sent a verification link to your email at** ___{email_addr}___**, please check your email.**",
+                                              delete_after=300)
             await message.delete(delay=300)
             vCode = send_email(email_addr, gender, test=TEST_MODE)
-            result = send_verify_post({"code": str(vCode)}, test=TEST_MODE)
+            args = ({"code": str(vCode)}, TEST_MODE)
+            result = await send_verify_post(*args)
             if result == '0':
-                await message.delete(); temp.delete()
+                await message.delete(); await temp.delete()
             elif result == '-1':
-                await message.delete(); temp.delete()
+                await message.delete(); await temp.delete()
             elif result == vCode:
                 await message.delete(); await temp.delete()
                 # {vCode} {email_addr} {ID} {gender}
@@ -226,20 +228,10 @@ async def on_message(message):
                 print("Invalid post request!")
     else: # Delete every other message in #verify in 5 min.
         if message.channel.id == VERIFY_ID:
-            if re.search(r"^[a-zA-Z]{2,4}\d{0,4}$", message.content):
+            if re.search(r"[a-zA-Z]{2,}\d{0,4}", message.content):
                 await message.channel.send("**Invalid command! Read instructions above and use /verify please!**", delete_after=25)
-            await message.delete(delay=300)
+        await message.delete(delay=5)
     await bot.process_commands(message)
-##            with open("verify.txt", 'a') as f:
-##                f.write(f"{vCode} {email_addr} {ID} {gender}\n")
-##            try: # Purge messages when record is removed from 'verify.txt' otherwise purge in 15 minutes
-##                await asyncio.wait_for(check_verify(f"{vCode} {email_addr}", message, temp), timeout=900)
-##            except asyncio.TimeoutError:
-##                try:
-##                    await message.delete(); await temp.delete()
-##                except errors.NotFound:
-##                    pass
-##                edit_file("verify.txt", f"{vCode} {email_addr} {ID} {gender}")
 
 
 # Bot Starting Point

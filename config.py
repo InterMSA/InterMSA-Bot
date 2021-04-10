@@ -29,9 +29,9 @@ def update_role_select():
       lines = f.readlines()
       for line in lines:
          extra, emote, role = line.split(' ')
-         if extra == 0 and emote not in ROLE_EMOJIS:
+         if extra == '0' and emote not in ROLE_EMOJIS:
             ROLE_EMOJIS[emote] = int(role)
-         elif extra != 0 and \
+         elif extra != '0' and \
               emote not in SPLIT_ROLES_EMOJIS[BROTHERS.role_select] or \
               emote not in SPLIT_ROLES_EMOJIS[SISTERS.role_select]:
             SPLIT_ROLES_EMOJIS[BROTHERS.role_select][emote] = int(role)

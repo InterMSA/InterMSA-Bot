@@ -1,5 +1,5 @@
-import asyncio
-import re, os, time, smtplib, hashlib, urllib.request
+import asyncio, aiohttp
+import re, os, time, smtplib, hashlib
 import sqlite3 as sql
 from random import randint
 from email.message import EmailMessage
@@ -87,16 +87,6 @@ def send_email(addr: str, gender='', test=False) -> str:
     else:
         print(sCode)
     return sCode
-
-# Send Post Request
-def send_verify_post(data={}, test=False):
-    if test:
-        return '1'
-    url = VERIFY_SITE + '/verify'
-    data_encoded = urllib.parse.urlencode(data)
-    data_encoded = data_encoded.encode("ascii")
-    resp = urllib.request.urlopen(url, data_encoded)
-    return resp.read().decode()
 
 # SQL Query Function
 def sqlite_query(query, args=(), one=False):
@@ -201,7 +191,7 @@ def listen_role_reaction(emoji, channel):
     for role_select_channel in SPLIT_ROLES_EMOJIS:
         if role_select_channel == channel:
             return SPLIT_ROLES_EMOJIS[channel][emoji]
-    return False
+    return role_id
 
 # Parse and return email & join type based on /verify request
 def listen_verify(msg):
@@ -237,6 +227,16 @@ def in_general(channel_id):
         return SISTERS
     else:
         return False
+
+# Send Post Request
+async def send_verify_post(data={}, test=False):
+    if test:
+        return '1'
+    url = VERIFY_SITE + '/verify'
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, json=data) as resp:
+            result = await resp.text()
+    return result
 
 # Dynamically mute/unmute every member in a voice channel
 async def mute_voice_members(voice_channel, mute=True):
