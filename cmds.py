@@ -31,7 +31,7 @@ async def cmds(ctx):
       embed.add_field(name="**About**", value="Hello Mod! these are your commands", inline=False)
       embed.add_field(name="**Commands**", value=cmds, inline=False) 
       embed.add_field(name="Social Media",
-                      value="➤ [Instagram](https://www.instagram.com/intermsa/) @intermsa\n➤ [website](http://intermsa.com/) http://intermsa.com/\n➤ [Linkin group]( https://www.linkedin.com/groups/9002140) prof. meet\n",
+                      value="➤ [Instagram](https://www.instagram.com/intermsa/) @intermsa\n➤ [website](https://intermsa.com/) http://intermsa.com/\n➤ [Linkin group]( https://www.linkedin.com/groups/9002140) prof. meet\n",
                       inline=False)
       embed.set_author(name = "InterMSA Bot Commands:",icon_url="https://cdn.discordapp.com/attachments/824860377480429588/829180591811461150/InterMSA_Logo.png")
       embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/814602442910072842/838359760037216296/240_F_218846526_SqlIXtk20dEnVcuXvVTGpzUeE3rmLkAe.png")
@@ -44,7 +44,7 @@ async def cmds(ctx):
       embed.add_field(name="**Commands**", value=cmds, inline=False) 
       embed.set_author(name = "InterMSA Bot Commands:",icon_url="https://cdn.discordapp.com/attachments/824860377480429588/829180591811461150/InterMSA_Logo.png")
       embed.add_field(name="Social Media",
-                        value="➤ [Instagram](https://www.instagram.com/intermsa/) @intermsa\n➤ [website](http://intermsa.com/) http://intermsa.com/\n➤ [Linkin group]( https://www.linkedin.com/groups/9002140) prof. meet\n",
+                        value="➤ [Instagram](https://www.instagram.com/intermsa/) @intermsa\n➤ [website](https://intermsa.com/) http://intermsa.com/\n➤ [Linkin group]( https://www.linkedin.com/groups/9002140) prof. meet\n",
                         inline=False)
       embed.set_thumbnail(url="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/281/white-question-mark_2754.png")
       await ctx.send(embed=embed)
