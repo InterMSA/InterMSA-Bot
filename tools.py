@@ -1,4 +1,4 @@
-import asyncio
+import asyncio, aiohttp
 import re, os, time, smtplib, hashlib
 import sqlite3 as sql
 from random import randint
@@ -28,30 +28,58 @@ DB_CONN = sql.connect(DB_PATH)
 KEY = RSA.import_key(DB_SECRET.encode("ascii"), SP) # Just you try and get it :D
 
 # Remove a line from a file based on value
-def edit_file(file, value):
-    with open(file, 'r+') as f:
+def edit_file(file, value, exact=True):
+    with open(file, 'r+', encoding="utf-8") as f:
         lines = f.readlines()
         f.seek(0); found = False
-        for line in lines:
-            line = line.strip('\n')
-            if str(line).lower() != str(value).lower():
-                f.write(line + '\n')
-            else:
-                found = True
+        if exact == True:
+            for line in lines:
+                line = line.strip('\n')
+                if str(line).lower() != str(value).lower():
+                    f.write(line + '\n')
+                else:
+                    found = True
+        else:
+            for line in lines:
+                line = line.strip('\n')
+                if str(value).lower() not in str(line).lower() :
+                    f.write(line + '\n')
+                else:
+                    found = True
         f.truncate()
         return found
 
 # Return 4-digit verification code string after sending email
-def send_email(addr: str, test=False) -> str:
+def send_email(addr: str, gender='', test=False) -> str:
     sCode = f"{randint(0,9)}{randint(0,9)}{randint(0,9)}{randint(0,9)}"
+    verify_link = f"{VERIFY_SITE}/verified/{sCode}/{gender}"
+    verify_btn = f'<a class="button" type="button" href="{verify_link}" target="_blank">VERIFY!</a>'
+    style_btn = """<head><style>
+                    .button {
+                        font-size: 14px;
+                        text-decoration: none;
+                        background-color:#0BA2D3;
+                        color: #FFFFFF;
+                        border-radius: 2px;
+                        border: 1px solid #0A83A8;
+                        font-family: Helvetica, Arial, sans-serif;
+                        font-weight: bold;
+                        padding: 8px 12px;
+                    }
+                    .button:hover {
+                        background-color:#0FC7FF
+                    }
+                  </style></head>"""
+    html = f"""<html>{style_btn}<body>
+            <b>Your verification link to join the chat is below:<b><br><br>
+            <a class="button" type="button" href="{verify_link}" target="_blank">VERIFY!</a><br>
+            <h4>{verify_link}</h4><br>
+            Please click this link to join the InterMSA Discord. This link will expire in 15 minutes.
+            </body></html>"""
     if not test:
         msg = EmailMessage()
-        msg.set_content(f"\
-    <html><body><b>Your verification code to join the chat is below:<br><br>\
-    <h2>{sCode}</h2></b>Please copy & paste this code in the \
-    <i><u>#verify</u></i> text channel of your InterMSA Discord. \
-    This code will expire in 15 minutes.</body></html>", subtype="html")
-        msg["Subject"] = "Verification Code for InterMSA Discord"
+        msg.set_content(html, subtype="html")
+        msg["Subject"] = "Verification Link for InterMSA Discord"
         msg["From"] = "no-reply@intermsa.com"
         msg["To"] = addr
         with smtplib.SMTP_SSL("smtp.gmail.com", 465) as s:
@@ -165,7 +193,7 @@ def listen_role_reaction(emoji, channel):
     for role_select_channel in SPLIT_ROLES_EMOJIS:
         if role_select_channel == channel:
             return SPLIT_ROLES_EMOJIS[channel][emoji]
-    return False
+    return role_id
 
 # Parse and return email & join type based on /verify request
 def listen_verify(msg):
@@ -201,6 +229,16 @@ def in_general(channel_id):
         return SISTERS
     else:
         return False
+
+# Send Post Request
+async def send_verify_post(data={}, test=False):
+    if test:
+        return '1'
+    url = VERIFY_SITE + '/verify'
+    async with aiohttp.ClientSession() as session:
+        async with session.post(url, json=data) as resp:
+            result = await resp.text()
+    return result
 
 # Dynamically mute/unmute every member in a voice channel
 async def mute_voice_members(voice_channel, mute=True):

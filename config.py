@@ -29,9 +29,9 @@ def update_role_select():
       lines = f.readlines()
       for line in lines:
          extra, emote, role = line.split(' ')
-         if extra == 0 and emote not in ROLE_EMOJIS:
+         if extra == '0' and emote not in ROLE_EMOJIS:
             ROLE_EMOJIS[emote] = int(role)
-         elif extra != 0 and \
+         elif extra != '0' and \
               emote not in SPLIT_ROLES_EMOJIS[BROTHERS.role_select] or \
               emote not in SPLIT_ROLES_EMOJIS[SISTERS.role_select]:
             SPLIT_ROLES_EMOJIS[BROTHERS.role_select][emote] = int(role)
@@ -48,10 +48,9 @@ SISTERS = ServerPartition("Sister", 791466441031417866,
 PROS = ServerPartition("Pro", 792530124560924677,
                   792531673371246612, 793371080864563200,
                   **__pro_add_ons)
-ENV = ENV
+TEST_MODE = False; ENV = ENV
 BOT = os.getenv("BOT_SECRET", bot_pass())
-TEST_MODE = False; MIRROR_REQ = True;
-MIRROR_SITE = "https://UpTimeDiscBot.intermsa.repl.co"
+VERIFY_SITE = "https://VerificationSystem.intermsa.repl.co"
 SP = os.getenv("SECRET_PASS", secret_pass())
 
 DB_SECRET = re.sub(r"\\n", '\n', os.getenv("DB_SECRET", str(db_pass())))
@@ -70,34 +69,36 @@ COLLEGES = {"njit": 793236123124105227, "rutgers": 793236159027085372,
             "stevens": 793236525302939658, "tcnj": 793236740457627668,
             "stockton": 793236769415364648, "njcu": 797974411906514956,
             "pccc": 809924040587870250, "spu": 820882908372795392,
-            "saintpeters": 820882908372795392}
-
+            "saintpeters": 820882908372795392, "kean": 832071978935517245,
+            "mcdaniel": 836739387295399946}
 ROLE_EMOJIS = {"\U0001f9d5": 750931950964965506,
                "\N{STRAIGHT RULER}": 756328774764593173,
                "\N{DESKTOP COMPUTER}": 756329639588397197,
                "\N{ATOM SYMBOL}": 756334778881540137,
-               "\U0001f4af": 792530378719756318, #💯 alumini emoji 
-               "\U0001f50d": 793380988125970464, #🔍 Seeking Work
-               "\U0001f50c": 793381155021914124, 
-               "\U0001f9d4": 781726794226335784,
-               "\U0001f9d5": 781726844591800350,
+               "\U0001f4af": 792530378719756318,
+               "\U0001f50d": 793380988125970464,
+               "\U0001f50c": 793381155021914124,
+               "\U0001f9d4": 830450589841883176,
+               "\U0001f9d5": 830450726982647818,
                "\U0001f4d6": 819249140771848213}
 
 SPLIT_ROLES_EMOJIS = {BROTHERS.role_select:
-                      {"\U0001f4e2": 811466169072222221, #📢
-                       "\U00002753": 819249562869956668, #❓ tutorials
-                       "\U0001f5f3": 822259258690371614},
+                      {"\U0001f4e2": 811466169072222221,
+                       "\U00002753": 819249562869956668,
+                       "\U0001f5f3": 822259258690371614,
+                       "\U0001f3ae": 826886828665470996,
+                       "\U0001f4f7": 826890240533856286},
                       SISTERS.role_select:
                       {"\U0001f4e2": 811470807033315359, #📢
                        "\U00002753": 819249898334453801,
-                       "\U0001f5f3": 822259456619708500},
+                       "\U0001f5f3": 822259456619708500,
+                       "\U0001f3ae": 826886911339266089,
+                       "\U0001f4f7": 826890322700271676},
                       PROS.role_select: {}}
 
 DEVS = [233691753922691072, 714641624571052076, 670325339263860758] #jakeID,EggID,BaraaID
 os.chdir(CWD) # Return to original directory
 update_role_select() # Update the role-selection listener upon startup
-
-#print (BOT)
 
 '''
 Notes:

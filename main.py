@@ -4,7 +4,7 @@ Author: David J. Morfe
 Application Name: InterMSA-Bot
 Functionality Purpose: An agile Discord Bot to fit InterMSA's needs
 '''
-RELEASE = "v0.4.02 - 4/6/2021"
+RELEASE = "v0.4.3 - 4/18/21"
 
 
 import re, os, sys, time, json, datetime
@@ -145,6 +145,13 @@ async def on_message(message):
                    "https://tenor.com/view/kermit-the-frog-chocolate-gif-18833858"]
             r_i = randint(0,2)
             await message.channel.send(str(lst[r_i]), delete_after=30)
+    if "hey" in message.content.lower():
+        if message.author.id == 562285596668723219:
+            lst = ["https://tenor.com/view/what-horse-grumpy-gif-10246564",
+                   "https://tenor.com/view/the-lemon-has-landed-land-lemon-fruit-gif-16305448",
+                   "https://tenor.com/view/crazy-adventuretime-lemon-wiggle-gif-5018832"]
+            r_i = randint(0,2)
+            await message.channel.send(str(lst[r_i]), delete_after=30)
 
     # Professional Introductions Chat
     if message.channel.id == PROS.wait:
@@ -188,80 +195,66 @@ async def on_message(message):
             await message.channel.send("**Invalid command! NOT your student ID, use your UCID!**", delete_after=25)
             await message.delete(delay=300)
         else:
-            email_addr = email.lower()
-            vCode = send_email(email_addr, test=TEST_MODE); ID = message.author.id
-            with open("verify.txt", 'a') as f:
-                f.write(f"{vCode} {email_addr} {ID} {gender}\n")
-            temp = await message.channel.send(f"**We've sent a verification code to your email at** ___{email_addr}___**, please copy & paste it below.**", delete_after=300)
+            email_addr = email.lower(); ID = message.author.id
+            temp = await message.channel.send(f"**We've sent a verification link to your email at** ___{email_addr}___**, please check your email.**",
+                                              delete_after=300)
             await message.delete(delay=300)
-            try: # Purge messages when record is removed from 'verify.txt' otherwise purge in 15 minutes
-                await asyncio.wait_for(check_verify(f"{vCode} {email_addr}", message, temp), timeout=900)
-            except asyncio.TimeoutError:
+            vCode = send_email(email_addr, gender, test=TEST_MODE)
+            args = ({"code": str(vCode)}, TEST_MODE)
+            result = await send_verify_post(*args)
+            if result == '0':
+                await message.delete(); await temp.delete()
+            elif result == '-1':
+                await message.delete(); await temp.delete()
+            elif result == vCode:
+                await message.delete(); await temp.delete()
+                # {vCode} {email_addr} {ID} {gender}
+                college = re.search(r"\w+(?=.edu)", email_addr)
+                guild = bot.get_guild(SERVER_ID); pro = False; c_role = "N/A"
+                if college:
+                    try:
+                        college = college.group().replace(".edu", '').lower()
+                        college_role = COLLEGES[college]
+                        c_role = get(guild.roles, id=college_role)
+                        await message.author.add_roles(c_role) # Add Specific College role to user
+                    except KeyError: # If college domain not registered under InterMSA
+                        pro = True; lst[3] = "Pro"
+                else:
+                    pro = True; gender = "Pro"
+                if not pro or ".edu" not in email_addr:
+                    role = get(guild.roles, name=f"{gender}s Waiting Room")
+                    await message.author.add_roles(role) # Add Waiting Room role to user
+                else:
+                    role = get(guild.roles, name="Pros Waiting Room")
+                    await message.author.add_roles(role) # Add Pro Waiting Room role to user
+                nName = get_name(email_addr) # New Nick Name
+                flag = False
                 try:
-                    await message.delete(); await temp.delete()
-                except errors.NotFound:
-                    pass
-                edit_file("verify.txt", f"{vCode} {email_addr} {ID} {gender}")
-    elif listen_code(message): # Listen for 4-digit code in #verify
-        eCode = listen_code(message)
-        if eCode:
-            with open("verify.txt") as f:
-                lines = f.readlines(); flag = True
-                if len(lines) != 0:
-                    for line in lines:
-                        lst = line.strip('\n').split(' ')
-                        if lst[0] == eCode.group() and lst[2] == str(message.author.id): # Verify code
-                            edit_file("verify.txt", line.strip('\n'))
-                            college = re.search(r"\w+(?=.edu)", str(lst[1]))
-                            guild = bot.get_guild(SERVER_ID); pro = False; c_role = "N/A"
-                            if college:
-                                try:
-                                    college = college.group().replace(".edu", '').lower()
-                                    college_role = COLLEGES[college]
-                                    c_role = get(guild.roles, id=college_role)
-                                    await message.author.add_roles(c_role) # Add Specific College role to user
-                                except KeyError: # If college domain not registered under InterMSA
-                                    pro = True; lst[3] = "Pro"
-                            else:
-                                pro = True; lst[3] = "Pro"
-                            if not pro or ".edu" not in lst[1]:
-                                role = get(guild.roles, name=f"{lst[3]}s Waiting Room")
-                                await message.author.add_roles(role) # Add Waiting Room role to user
-                            else:
-                                role = get(guild.roles, name="Pros Waiting Room")
-                                await message.author.add_roles(role) # Add Pro Waiting Room role to user
-                            nName = get_name(lst[1]) # New Nick Name
-                            await message.delete(); flag = False
-                            try:
-                                if nName != None: # Re-name user
-                                    await message.author.edit(nick=str(nName))
-                                else:
-                                    nName = lst[1]
-                                    await message.author.edit(nick=str(nName))
-                            except errors.Forbidden:
-                                print("Success!\n", nName)
-                            sibling = get_sibling(lst[3]) # Get brother/sister/pro object
-                            if sibling.wait != PROS.wait: # bro/sis wait channel
-                                channel = bot.get_channel(sibling.wait) # Waiting room channel
-                                if pro == True and "Pro" not in lst[3] or c_role == "N/A":
-                                    channel = bot.get_channel(PROS.wait)
-                                    await channel.send(f"@here " + message.author.mention + " *has joined the InterMSA Discord!*", delete_after=60)
-                                    await channel.send("`Note: user will join pro chat by default because college is not registered under InterMSA!`", delete_after=60)
-                                else:
-                                    await channel.send(f"@here " + message.author.mention + f" from {c_role.mention} *has joined the InterMSA Discord!*")
-                            else: # pro wait channel
-                                channel = bot.get_channel(sibling.wait) # Waiting room channel
-                                msg = await channel.send(f"@here " + message.author.mention + " *has joined the InterMSA Discord!*", delete_after=60)
-                                with open("introductions.txt", 'a') as f:
-                                    f.write(f"{lst[2]} {msg.id}\n")
-                        else:
-                            await message.delete(delay=60)
-                    if flag:
-                        temp = await message.channel.send("**Invalid code! Who a u?!**")
-                        await temp.delete(delay=60)
+                    if nName != None: # Re-name user
+                        await message.author.edit(nick=str(nName))
+                    else:
+                        nName = email_addr
+                        await message.author.edit(nick=str(nName))
+                except errors.Forbidden:
+                    print("Success!\n", nName)
+                sibling = get_sibling(gender) # Get brother/sister/pro object
+                if sibling.wait != PROS.wait: # bro/sis wait channel
+                    channel = bot.get_channel(sibling.wait) # Waiting room channel
+                    if pro == True and "Pro" not in gender or c_role == "N/A":
+                        channel = bot.get_channel(PROS.wait)
+                        await channel.send(f"@here " + message.author.mention + " *has joined the InterMSA Discord!*", delete_after=60)
+                        await channel.send("`Note: user will join pro chat by default because college is not registered under InterMSA!`", delete_after=60)
+                    else:
+                        await channel.send(f"@here " + message.author.mention + f" from {c_role.mention} *has joined the InterMSA Discord!*")
+                else: # pro wait channel
+                    channel = bot.get_channel(sibling.wait) # Waiting room channel
+                    msg = await channel.send(f"@here " + message.author.mention + " *has joined the InterMSA Discord!*", delete_after=60)
+
+            else:
+                print("Invalid post request!")
     else: # Delete every other message in #verify in 5 min.
         if message.channel.id == VERIFY_ID:
-            if re.search(r"^[a-zA-Z]{2,4}\d{0,4}$", message.content):
+            if re.search(r"[a-zA-Z]{2,}\d{0,4}", message.content):
                 await message.channel.send("**Invalid command! Read instructions above and use /verify please!**", delete_after=25)
             await message.delete(delay=300)
     await bot.process_commands(message)
