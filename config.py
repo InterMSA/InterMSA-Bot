@@ -52,10 +52,14 @@ TEST_MODE = False; ENV = ENV
 BOT = os.getenv("BOT_SECRET", bot_pass())
 VERIFY_SITE = "https://VerificationSystem.intermsa.repl.co"
 SP = os.getenv("SECRET_PASS", secret_pass())
-DB_SECRET = re.sub(r"\\n", '\n', os.getenv("DB_SECRET", db_pass()))
-ENCRYPT_KEY = re.sub(r"\\n", '\n', os.getenv("PUBLIC_KEY", pub_pass()))
+
+DB_SECRET = re.sub(r"\\n", '\n', os.getenv("DB_SECRET", str(db_pass())))
+
+#ENCRYPT_KEY = re.sub(r"\\n", '\n', os.getenv("PUBLIC_KEY", str(pub_pass())))
+
 APP_PASS = os.getenv("EMAIL_SECRET", email_pass())
 DB_PATH = "database/database.db"
+
 INTROS_ID = 792530124560924677
 VERIFY_ID = 791466283836506162
 SERVER_ID = 777022217284354079
@@ -77,6 +81,7 @@ ROLE_EMOJIS = {"\U0001f9d5": 750931950964965506,
                "\U0001f9d4": 830450589841883176,
                "\U0001f9d5": 830450726982647818,
                "\U0001f4d6": 819249140771848213}
+
 SPLIT_ROLES_EMOJIS = {BROTHERS.role_select:
                       {"\U0001f4e2": 811466169072222221,
                        "\U00002753": 819249562869956668,
@@ -84,7 +89,7 @@ SPLIT_ROLES_EMOJIS = {BROTHERS.role_select:
                        "\U0001f3ae": 826886828665470996,
                        "\U0001f4f7": 826890240533856286},
                       SISTERS.role_select:
-                      {"\U0001f4e2": 811470807033315359,
+                      {"\U0001f4e2": 811470807033315359, #📢
                        "\U00002753": 819249898334453801,
                        "\U0001f5f3": 822259456619708500,
                        "\U0001f3ae": 826886911339266089,

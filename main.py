@@ -261,9 +261,11 @@ async def on_message(message):
 
 
 # Bot Starting Point
+
 if __name__ == "__main__":
     token = BOT
     bot.run(token)
+    
 ##bot.logout()
 ##bot.close()
 ##print("We have logged out of bot bot")

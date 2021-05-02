@@ -6,6 +6,9 @@ from email.message import EmailMessage
 from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_OAEP
 from config import *
+from key import *
+#import Crypto
+
 try:
     import GeoLiberator as GeoLib
 except ModuleNotFoundError:
@@ -23,7 +26,6 @@ except ModuleNotFoundError:
 
 DB_CONN = sql.connect(DB_PATH)
 KEY = RSA.import_key(DB_SECRET.encode("ascii"), SP) # Just you try and get it :D
-
 
 # Remove a line from a file based on value
 def edit_file(file, value, exact=True):
@@ -132,8 +134,8 @@ def check_admin(msg, add_on=''):
     for role in roles:
         if role.name == "Admin" or "Shura" in role.name:
             return True
-        if role.name == add_on:
-            return True
+        #if role.name == add_on:
+         #   return True
     return False
 
 # Retrieve role for those in waiting room
