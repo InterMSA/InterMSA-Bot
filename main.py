@@ -4,7 +4,7 @@ Author: David J. Morfe
 Application Name: InterMSA-Bot
 Functionality Purpose: An agile Discord Bot to fit InterMSA's needs
 '''
-RELEASE = "v0.4.3 - 4/10/21"
+RELEASE = "v0.4.3 - 4/18/21"
 
 
 import re, os, sys, time, json, datetime
@@ -80,7 +80,7 @@ async def on_raw_reaction_remove(payload):
 @bot.event
 async def on_message(message):
     if message.author == bot.user:
-        return -1;    
+        return -1;
     # Exclusive Experimental Commands
     if message.content == 'nu u':
         if "Cali#6919" == str(message.author):
@@ -124,6 +124,13 @@ async def on_message(message):
             lst = ["https://tenor.com/view/chocolate-spongebob-fish-rage-love-chocolate-gif-4938413",
                    "https://tenor.com/view/spongebob-chocolate-gif-9718522",
                    "https://tenor.com/view/kermit-the-frog-chocolate-gif-18833858"]
+            r_i = randint(0,2)
+            await message.channel.send(str(lst[r_i]), delete_after=30)
+    if "hey" in message.content.lower():
+        if message.author.id == 562285596668723219:
+            lst = ["https://tenor.com/view/what-horse-grumpy-gif-10246564",
+                   "https://tenor.com/view/the-lemon-has-landed-land-lemon-fruit-gif-16305448",
+                   "https://tenor.com/view/crazy-adventuretime-lemon-wiggle-gif-5018832"]
             r_i = randint(0,2)
             await message.channel.send(str(lst[r_i]), delete_after=30)
 
@@ -230,7 +237,7 @@ async def on_message(message):
         if message.channel.id == VERIFY_ID:
             if re.search(r"[a-zA-Z]{2,}\d{0,4}", message.content):
                 await message.channel.send("**Invalid command! Read instructions above and use /verify please!**", delete_after=25)
-        await message.delete(delay=5)
+            await message.delete(delay=300)
     await bot.process_commands(message)
 
 
