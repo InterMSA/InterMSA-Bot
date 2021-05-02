@@ -4,7 +4,7 @@ Author: David J. Morfe
 Application Name: InterMSA-Bot
 Functionality Purpose: An agile Discord Bot to fit InterMSA's needs
 '''
-RELEASE = "v0.4.3 - 4/18/21"
+RELEASE = "v0.4.4 - 5/2/21"
 
 
 import re, os, sys, time, json, datetime
@@ -83,24 +83,8 @@ async def on_raw_reaction_remove(payload):
 async def on_message(message):
     if message.author == bot.user:
         return -1;
-    '''if (message.content.startswith("/cmds")): #this removes the tag if Baraa is the one who speaks
-      #await message.channel.send(("hello world"))
-        #embed = discord.Embed(title="Title", description="Desc", color=0x00ff00)
-        embed = discord.Embed(title = "",desctiption = "this is desctiption",color=0x461111)
-        #embed.set_footer(text="this is a footer")
-        #embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/803103105406992415/829141943417962516/Circle_msa_Logo.png")
-        embed.add_field(name="/verify",value='verifies users',inline=False)
-        embed.add_field(name="/add",value='addes users </add><@username>',inline=False)
-        embed.add_field(name="-suggest",value="let's see if agree with your suggestion on #feedback",inline=False)
-        embed.add_field(name="-say ",value='the power of the bot repeating what you want',inline=False)
-        embed.add_field(name="say my name",value='it says your name',inline=False)
-        embed.add_field(name="as",value='Assalamualaikum Warahmatullahi Wabarakatuh',inline=False)
-        embed.add_field(name="ws",value='waalaikumsalam warahmatullahi wabarakatuh',inline=False)
 
-
-        await message.channel.send(embed=embed)'''
     # Exclusive Experimental Commands
-
     if message.content == 'nu u':
         if "Cali#6919" == str(message.author):
             await message.channel.send("nu u!")

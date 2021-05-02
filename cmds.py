@@ -8,10 +8,6 @@ from discord import errors
 import asyncio
 from config import *
 from tools import *
-import discord
-
-#import discord
-
 
 
 intents = Intents.default()
@@ -22,60 +18,43 @@ bot = commands.Bot(command_prefix='/', help_command=None, intents=intents)
 
 # Extended InterMSA Bot Commands
 
-
 @bot.command()
 async def cmds(ctx):
-  '''
-    Shows what bot can do
-  '''
-  if check_admin == True: #this is a special mod list with custom commands 
-    with open("modCMDS.md") as f: 
+   '''
+   Shows what bot can do
+   '''
+   if check_admin(ctx) == True: # This is a special list of custom admin commands 
+      with open("modCMDS.md") as f: 
         cmds = f.read()
 
-    embed = discord.Embed(  
-            color=0xFFD700 ) #changes the color to golden 
-    embed.add_field(name="**About**", value="Hello Mod! these are your commands", inline=False)
-    embed.add_field(name="**Commands**", value=cmds, inline=False) 
-    embed.add_field(name="Social Media",
+      embed = Embed(color=0xFFD700) #changes the color to golden 
+      embed.add_field(name="**About**", value="Hello Mod! these are your commands", inline=False)
+      embed.add_field(name="**Commands**", value=cmds, inline=False) 
+      embed.add_field(name="Social Media",
+                      value="➤ [Instagram](https://www.instagram.com/intermsa/) @intermsa\n➤ [website](http://intermsa.com/) http://intermsa.com/\n➤ [Linkin group]( https://www.linkedin.com/groups/9002140) prof. meet\n",
+                      inline=False)
+      embed.set_author(name = "InterMSA Bot Commands:",icon_url="https://cdn.discordapp.com/attachments/824860377480429588/829180591811461150/InterMSA_Logo.png")
+      embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/814602442910072842/838359760037216296/240_F_218846526_SqlIXtk20dEnVcuXvVTGpzUeE3rmLkAe.png")
+      await ctx.send(embed=embed)
+   else:
+      with open("cmds.md") as f:
+         cmds = f.read()
+      embed = Embed(color=0xadd8e6)
+      embed.add_field(name="**About**", value="These commands are accessible to everyone in the server", inline=False)
+      embed.add_field(name="**Commands**", value=cmds, inline=False) 
+      embed.set_author(name = "InterMSA Bot Commands:",icon_url="https://cdn.discordapp.com/attachments/824860377480429588/829180591811461150/InterMSA_Logo.png")
+      embed.add_field(name="Social Media",
                         value="➤ [Instagram](https://www.instagram.com/intermsa/) @intermsa\n➤ [website](http://intermsa.com/) http://intermsa.com/\n➤ [Linkin group]( https://www.linkedin.com/groups/9002140) prof. meet\n",
                         inline=False)
-    embed.set_author(name = "InterMSA Bot Commands:",icon_url="https://cdn.discordapp.com/attachments/824860377480429588/829180591811461150/InterMSA_Logo.png")
-
-    embed.set_thumbnail(
-          url=
-          "https://cdn.discordapp.com/attachments/814602442910072842/838359760037216296/240_F_218846526_SqlIXtk20dEnVcuXvVTGpzUeE3rmLkAe.png")
-    await ctx.send(embed=embed)
-
-  else:
-    with open("cmds.md") as f:
-      cmds = f.read()
-    embed = discord.Embed(  
-            color=0xadd8e6 )
-    embed.add_field(name="**About**", value="These commands are accessible to everyone in the server", inline=False)
-    embed.add_field(name="**Commands**", value=cmds, inline=False) 
-    embed.set_author(name = "InterMSA Bot Commands:",icon_url="https://cdn.discordapp.com/attachments/824860377480429588/829180591811461150/InterMSA_Logo.png")
-    embed.add_field(name="Social Media",
-                        value="➤ [Instagram](https://www.instagram.com/intermsa/) @intermsa\n➤ [website](http://intermsa.com/) http://intermsa.com/\n➤ [Linkin group]( https://www.linkedin.com/groups/9002140) prof. meet\n",
-                        inline=False)
-    embed.set_thumbnail(
-          url=
-          "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/281/white-question-mark_2754.png")
-    await ctx.send(embed=embed)
-
+      embed.set_thumbnail(url="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/281/white-question-mark_2754.png")
+      await ctx.send(embed=embed)
 
 '''
 @bot.command()
 async def cmds(ctx): # Help command
-    if check_admin ==True:
-    #if ctx.message.author.check_admin:
-      with open("modCMDS.md") as f:
-          cmds = f.read()
-      await ctx.send("__**InterMSA Bot Commands:**__```CS\n" + cmds + "```")
-      #await ctx.send("hello there")
-    else:
-      with open("cmds.md") as f:
-          cmds = f.read()
-      await ctx.send("__**InterMSA Bot Commands:**__```CSS\n" + cmds + "```")
+    with open("cmds.md") as f:
+        cmds = f.read()
+    await ctx.send("__**InterMSA Bot Commands:**__```CSS\n" + cmds + "```")
 '''
 
 @bot.command()
