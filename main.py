@@ -11,8 +11,7 @@ import re, os, sys, time, json, datetime
 from cmds import *
 from config import *
 from tools import *
-from discord import Embed
-import discord
+
 
 RUN_TIME = datetime.datetime.now()
 LAST_MODIFIED = RUN_TIME.strftime("%m/%d/%Y %I:%M %p")
@@ -77,13 +76,11 @@ async def on_raw_reaction_remove(payload):
         except AttributeError:
             return -1
 
-
 # Standard InterMSA Bot Commands
 @bot.event
 async def on_message(message):
     if message.author == bot.user:
         return -1;
-
     # Exclusive Experimental Commands
     if message.content == 'nu u':
         if "Cali#6919" == str(message.author):
@@ -245,11 +242,9 @@ async def on_message(message):
 
 
 # Bot Starting Point
-
 if __name__ == "__main__":
     token = BOT
     bot.run(token)
-    
 ##bot.logout()
 ##bot.close()
 ##print("We have logged out of bot bot")
