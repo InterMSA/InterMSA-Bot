@@ -11,3 +11,4 @@ secret/bot.txt
 secret/db.txt
 secret/sp.txt
 secret/email.txt
+*.pyc
