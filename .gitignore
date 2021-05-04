@@ -7,3 +7,7 @@ key.txt
 credentials.json
 msu_loot.txt
 *.pyc
+secret/bot.txt
+secret/db.txt
+secret/email.txt
+secret/sp.txt
