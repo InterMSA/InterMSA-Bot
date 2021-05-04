@@ -7,7 +7,7 @@
 `ws` 				| Walaikumu Salam
 
 
-**#special commands**
+**#Admin commands**
 `/GL`          	  	| Demo my Python Module? (ex: /GL 123 Main St)
 
 `/version`			| latest update for TDC
