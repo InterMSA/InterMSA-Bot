@@ -7,7 +7,6 @@ from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_OAEP
 from config import *
 from key import *
-#import Crypto
 
 try:
     import GeoLiberator as GeoLib
@@ -15,13 +14,8 @@ except ModuleNotFoundError:
     pass
 # (Note: All variables not declared probably came from config.py)
 
-
 #If email treated as spam:
  #https://support.google.com/mail/contact/bulk_send_new?rd=1
-#Print Emojis Safely
- #print(u'\U0001f604'.encode('unicode-escape'))
- #print('\N{grinning face with smiling eyes}')
-#Make way to update #role-selection
 
 
 DB_CONN = sql.connect(DB_PATH)
@@ -80,7 +74,7 @@ def send_email(addr: str, gender='', test=False) -> str:
         msg = EmailMessage()
         msg.set_content(html, subtype="html")
         msg["Subject"] = "Verification Link for InterMSA Discord"
-        msg["From"] = "no-reply@intermsa.com"
+        msg["From"] = "intermuslimstudentassociation@gmail.com"
         msg["To"] = addr
         with smtplib.SMTP_SSL("smtp.gmail.com", 465) as s:
                 s.login("intermuslimstudentassociation@gmail.com",

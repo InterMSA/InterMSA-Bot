@@ -177,7 +177,7 @@ async def on_message(message):
             await message.delete(delay=300)
         else:
             email_addr = email.lower(); ID = message.author.id
-            temp = await message.channel.send(f"**We've sent a verification link to your email at** ___{email_addr}___**, please check your email.**",
+            temp = await message.channel.send(f"**We've sent a verification link to your email at** ___{email_addr}___**, please check your email (& spam just in case).**",
                                               delete_after=300)
             await message.delete(delay=300)
             vCode = send_email(email_addr, gender, test=TEST_MODE)
