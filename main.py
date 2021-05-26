@@ -4,7 +4,7 @@ Author: David J. Morfe
 Application Name: InterMSA-Bot
 Functionality Purpose: An agile Discord Bot to fit InterMSA's needs
 '''
-RELEASE = "v0.4.4 - 5/2/21"
+RELEASE = "v0.4.4 - 5/22/21"
 
 
 import re, os, sys, time, json, datetime
@@ -165,7 +165,6 @@ async def on_message(message):
     if listen_verify(message): # Verify command
         email, gender = listen_verify(message)
         if not re.search(r"^.+@.+\.", email) or \
-           not re.search(r"^/verify ", str(message.content)) or \
            email == '':
             await message.channel.send("**Invalid command! Please make sure you're typing everything correctly.**", delete_after=25)
             await message.delete(delay=300)
@@ -180,6 +179,7 @@ async def on_message(message):
             temp = await message.channel.send(f"**We've sent a verification link to your email at** ___{email_addr}___**, please check your email (& spam just in case).**",
                                               delete_after=300)
             await message.delete(delay=300)
+            # If haven't sent an email for over 8 hours, send 2 emails.
             vCode = send_email(email_addr, gender, test=TEST_MODE)
             args = ({"code": str(vCode)}, TEST_MODE)
             result = await send_verify_post(*args)

@@ -192,11 +192,9 @@ def listen_role_reaction(emoji, channel):
 # Parse and return email & join type based on /verify request
 def listen_verify(msg):
     if msg.channel.id == VERIFY_ID:
-        if msg.content.startswith('/verify'):
+        if msg.content.startswith('/verify') or "@" in msg.content:
             request = re.sub(r"/verify ", '', msg.content.lower())
-            if '@' not in request:
-                return ('', '')
-            join_type = re.search(r"(brothers?|sis(tas?|ters?)|workforce)", request) or ''
+            join_type = re.search(r"(bro(ther)?s?|sis(tas?|ters?)|work(force)?)", request) or ''
             if join_type:
                 email = re.sub(fr"{join_type.group()}", '', request).strip(' ')
                 if join_type.group()[0] == 'b':
@@ -209,6 +207,7 @@ def listen_verify(msg):
                     join_type = ''
                 return email, join_type
             return (request, '')
+        return ('', '')
 
 # Listen for 4-digit code in #verify
 def listen_code(msg):
