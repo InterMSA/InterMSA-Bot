@@ -2,6 +2,8 @@ import re, time, sqlite3, hashlib
 from config import DB_SECRET
 from tools import encrypt
 
+# Populate database.db with new data from a data text file
+
 def populate_links(conn, data_file):
    cur = conn.cursor()
    to_db = []

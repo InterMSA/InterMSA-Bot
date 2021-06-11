@@ -13,11 +13,11 @@ from tools import *
 intents = Intents.default()
 intents.members = True # Subscribe to the privileged members intent.
 bot = commands.Bot(command_prefix='/', help_command=None, intents=intents)
-#client = discord.Client(intents=intents)
 
 
 # Extended InterMSA Bot Commands
 
+# Help command
 @bot.command()
 async def cmds(ctx):
    '''
@@ -57,15 +57,62 @@ async def cmds(ctx): # Help command
     await ctx.send("__**InterMSA Bot Commands:**__```CSS\n" + cmds + "```")
 '''
 
+# Show role universities 
+@bot.command()
+async def showunis(ctx, *args):
+    with open("uni_library.txt", 'r', encoding="utf-8") as f:
+        text = f.read()
+        if text == '':
+            await ctx.send("`University library reset!`")
+        else:
+            text = ''
+            for uni,role in COLLEGES.items():
+                text += f"{uni} <@&{role}>\n"
+            await ctx.send(text)
+
+# Show role emojis accessible through #role-selection chat
 @bot.command()
 async def showroles(ctx, *args):
     with open("role_selection.txt", 'r', encoding="utf-8") as f:
         text = f.read()
         if text == '':
-            await ctx.send("`Role selections empty`")
+            await ctx.send("`Role selections reset!`")
         else:
+            parts = ["Brothers", "Sisters", "Professionals"]; c = 0
+            text = ''
+            for emoji,role in ROLE_EMOJIS.items():
+                text += f"{emoji} <@&{role}>\n"
+            text += "\n"
+            for key,part in SPLIT_ROLES_EMOJIS.items():
+                if len(SPLIT_ROLES_EMOJIS[key]) != 0:
+                    text += f"__{parts[c]} Selections__\n"
+                c += 1
+                for emoji,role in part.items():
+                    text += f"{emoji} <@&{role}>\n"
             await ctx.send(text)
 
+# Add emoji & role 
+@bot.command()
+async def adduni(ctx, *args):
+    is_admin = check_admin(ctx)
+    if not is_admin:
+        return -1
+    if len(args) == 0:
+        await ctx.send(f"`/adduni <university domain name> <@Role>`\n")
+        return 0
+    uni = args[0]; role = args[1].replace("<@&", '').strip('>')
+    with open("uni_library.txt", 'r+', encoding="utf-8") as f:
+        lines = f.readlines()
+        entry = f"{uni} {role}\n"
+        if entry not in lines:
+            f.write(entry)
+        else:
+            await ctx.send(f"`University already in library!`", delete_after=25)
+            return -1
+    update_uni_library()
+    await ctx.send(f"`University added to library!`", delete_after=25)
+
+# Add emoji & role accessible through #role-selection chat
 @bot.command()
 async def addrole(ctx, *args):
     is_admin = check_admin(ctx)
@@ -86,11 +133,32 @@ async def addrole(ctx, *args):
         if entry not in lines:
             f.write(entry)
         else:
-            await ctx.send(f"`Role Reaction already exists!`", delete_after=25)
+            await ctx.send(f"`Role reaction already exists!`", delete_after=25)
             return -1
     update_role_select()
-    await ctx.send(f"`Role Reaction Added!`", delete_after=25)
+    await ctx.send(f"`Role reaction added!`", delete_after=25)
 
+# Delete emoji & role based on university domain name
+@bot.command()
+async def deleteuni(ctx, *args): # Remove role-selection role
+    is_admin = check_admin(ctx)
+    if not is_admin:
+        return -1
+    if len(args) != 1:
+        await ctx.send(f"`/deleterole <university domain name>`\n")
+        return 0
+    uni = args[0]
+    try:
+        del(COLLEGES[uni])
+    except KeyError:
+        pass
+    if edit_file("uni_library.txt", uni, exact=False):
+        await ctx.send(f"`University removed from library!`", delete_after=25)
+    else:
+        await ctx.send(f"`University does not exist!`", delete_after=25)
+
+
+# Delete emoji & role based on emoji
 @bot.command()
 async def deleterole(ctx, *args): # Remove role-selection role
     is_admin = check_admin(ctx)
@@ -100,12 +168,17 @@ async def deleterole(ctx, *args): # Remove role-selection role
         await ctx.send(f"`/deleterole <emoji>`\n")
         return 0
     emoji = args[0]
+    try:
+        del(ROLE_EMOJIS[emoji])
+        del(SPLIT_ROLES_EMOJIS[emoji])
+    except KeyError:
+        pass
     if edit_file("role_selection.txt", emoji, exact=False):
-        await ctx.send(f"`Role Reaction Removed!`", delete_after=25)
+        await ctx.send(f"`Role reaction removed!`", delete_after=25)
     else:
-        await ctx.send(f"`Role Reaction does not exist!`", delete_after=25)
+        await ctx.send(f"`Role reaction does not exist!`", delete_after=25)
 
-# Add user officially
+# Add user officially to the Discord server
 @bot.command()
 async def add(ctx, *args):
    is_admin = check_admin(ctx, add_on="Representative")
@@ -183,14 +256,6 @@ async def timer(ctx, *args):
       await asyncio.sleep(eta)
       await ctx.send(ctx.author.mention + " **ALERT! YOUR TIMER HAS RUN OUT! DO WHAT YOU MUST!**")
 
-# GeoLiberator demo command
-@bot.command()
-async def GL(ctx, *, arg):
-   result = GeoLib.parse_address(arg, "full")
-   if result == "OTHER":
-      result = GeoLib.parse_address(arg, "address")
-   await ctx.send(str(result))
-
 
 # Sisters Exclusive Commands
 ##async def SIS_EXAMPLE_CMD(ctx):
@@ -204,7 +269,7 @@ async def GL(ctx, *, arg):
 ##        print("Brothers command executed!")
 
 
-
+# Handle command errors
 @bot.event
 async def on_command_error(ctx, error):
     if isinstance(error, commands.CommandNotFound):

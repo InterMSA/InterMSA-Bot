@@ -4,7 +4,7 @@ Author: David J. Morfe
 Application Name: InterMSA-Bot
 Functionality Purpose: An agile Discord Bot to fit InterMSA's needs
 '''
-RELEASE = "v0.4.4 - 5/22/21"
+RELEASE = "v0.4.5 - 6/11/21"
 
 
 import re, os, sys, time, json, datetime
@@ -36,6 +36,7 @@ async def on_ready():
     await bot.change_presence(activity = Game(name = "/cmds (For all cmds)"))
     print("We have logged in as {0.user} in {1}".format(bot, ENV))
 
+# Executes when member joins
 @bot.event
 async def on_member_join(member):
     #await bot.edit_message(message_var, "This is the edit to replace the message.")
@@ -161,7 +162,7 @@ async def on_message(message):
         else:
             await channel.send(message.content)
 
-    # Verification System
+    # The Verification System
     if listen_verify(message): # Verify command
         email, gender = listen_verify(message)
         if not re.search(r"^.+@.+\.", email) or \
@@ -179,7 +180,6 @@ async def on_message(message):
             temp = await message.channel.send(f"**We've sent a verification link to your email at** ___{email_addr}___**, please check your email (& spam just in case).**",
                                               delete_after=300)
             await message.delete(delay=300)
-            # If haven't sent an email for over 8 hours, send 2 emails.
             vCode = send_email(email_addr, gender, test=TEST_MODE)
             args = ({"code": str(vCode)}, TEST_MODE)
             result = await send_verify_post(*args)

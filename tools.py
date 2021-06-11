@@ -81,7 +81,7 @@ def send_email(addr: str, gender='', test=False) -> str:
                         APP_PASS)
                 s.send_message(msg)
     else:
-        print(sCode)
+        print(verify_link)
     return sCode
 
 # SQL Query Function
