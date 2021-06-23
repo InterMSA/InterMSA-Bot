@@ -57,6 +57,7 @@ def populate_links(conn, data_file):
    print("\nDone!\n", c, "records created!")
    print("Database updated!")
 
-db_path = "database/database.db"
-conn = sql.connect(db_path)
-populate_links(conn, "loot2.txt")
+if __name__ == "__main__":
+   db_path = "database/database.db"
+   conn = sql.connect(db_path)
+   populate_links(conn, "loot2.txt")

@@ -43,17 +43,13 @@ def show_data(table):
    print("\n__________")
 
 '''CREATE'''
-##query = "CREATE TABLE Links(sid VARCHAR(40) PRIMARY KEY NOT NULL,"\
+##query = "CREATE TABLE NJIT_Links(sid VARCHAR(40) PRIMARY KEY NOT NULL,"\
 ##        "full_name VARBINARY(130) NOT NULL, email VARBINARY(130) NOT NULL)"
 ##conn.execute(query)
 
 '''CREATE MSU TABLE'''
 ##query = "CREATE TABLE MSU_Links(sid VARCHAR(40) PRIMARY KEY NOT NULL,"\
 ##        "full_name VARBINARY(130) NOT NULL, email VARBINARY(130) NOT NULL)"
-##conn.execute(query)
-
-'''RENAME LINKS TABLE TO NJIT_LINK'''
-##query = "ALTER TABLE Links RENAME TO NJIT_Links"
 ##conn.execute(query)
 
 '''INSERT'''
@@ -85,10 +81,10 @@ def show_data(table):
 ##print("Table deleted!")
 
 '''SELECT'''
-show_data("Links")
+show_data("MSU_Links")
 
 '''SHOW COLUMNS'''
-for column in show_columns('Links'):
+for column in show_columns('NJIT_Links'):
    print(column)
 
 conn.close()

@@ -12,13 +12,6 @@ class ServerPartition(object):
       self.general = general
       self.announce = announce
 
-# Attributes to add on to ServerPartition object(s)
-__bro_add_ons = {"role_select": 792531850740498482,
-                 "events": 811467259225702480}
-__sis_add_ons = {"role_select": 792531967832227841,
-                 "events": 811471035332296740}
-__pro_add_ons = {"role_select": 793371378736431144}
-
 # Update the role-selection listener
 def update_uni_library():
    with open("uni_library.txt", encoding="utf-8") as f:
@@ -43,6 +36,13 @@ def update_role_select():
             SPLIT_ROLES_EMOJIS[SISTERS.role_select][emote] = int(extra)
 
 
+# Attributes to add on to ServerPartition object(s)
+__bro_add_ons = {"role_select": 792531850740498482,
+                 "events": 811467259225702480}
+__sis_add_ons = {"role_select": 792531967832227841,
+                 "events": 811471035332296740}
+__pro_add_ons = {"role_select": 793371378736431144}
+
 # Set all global variables
 # PROS, BROTHERS & SISTERS represent the server partitions
 BROTHERS = ServerPartition("Brother", 791466388031668265,
@@ -65,7 +65,6 @@ APP_PASS = os.getenv("EMAIL_SECRET", email_pass())
 DB_PATH = "database/database.db"
 
 # Needed ID's
-INTROS_ID = 792530124560924677 # deprecated
 VERIFY_ID = 791466283836506162 # #verify chat channel
 SERVER_ID = 777022217284354079 # Server ID
 
@@ -109,8 +108,12 @@ update_role_select() # Update the role-selection listener upon startup
 
 '''
 Notes:
-- Create Brother/Sister roles role
+- Create Server
+- Create Brother/Sister, Owner, Waiting oom roles role
 - Create #verify chat
+- Create waiting rooms
+- Create Bro/Sis Categories
+- Set Perms
 - Enable Developer Mode
   Copy ID's:
   - Right click on Server Name
