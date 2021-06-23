@@ -47,6 +47,15 @@ def show_data(table):
 ##        "full_name VARBINARY(130) NOT NULL, email VARBINARY(130) NOT NULL)"
 ##conn.execute(query)
 
+'''CREATE MSU TABLE'''
+##query = "CREATE TABLE MSU_Links(sid VARCHAR(40) PRIMARY KEY NOT NULL,"\
+##        "full_name VARBINARY(130) NOT NULL, email VARBINARY(130) NOT NULL)"
+##conn.execute(query)
+
+'''RENAME LINKS TABLE TO NJIT_LINK'''
+##query = "ALTER TABLE Links RENAME TO NJIT_Links"
+##conn.execute(query)
+
 '''INSERT'''
 ##populate_links(conn, "loot.txt")
 ##sid = hashlib.sha1("djm65".encode()).hexdigest()
