@@ -9,7 +9,7 @@ from google.auth.transport.requests import Request
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ["https://www.googleapis.com/auth/directory.readonly"]
 
-def main():
+def main(uni):
     """Shows basic usage of the People API.
     Prints the name of the first 10 connections.
     """
@@ -52,7 +52,11 @@ def main():
                 sources="DIRECTORY_SOURCE_TYPE_DOMAIN_CONTACT")
         req = request.execute()
         contacts = req.get("people", [])
-        with open("loot2.txt", 'a') as f:
+        if uni == "NJIT":
+            file_name = "loot.txt"
+        elif uni == "MSU":
+            file_name = "loot2.txt"
+        with open(file_name, 'a') as f:
             for person in contacts:
                 names = person.get("names", [])
                 emails = person.get("emailAddresses", [])
@@ -68,7 +72,8 @@ def main():
 
 if __name__ == "__main__":
     t0 = time.process_time()
-    service = main()
+    service = main("NJIT")
+##    service = main("MSU")
     t1 = time.process_time()
     total = t1 - t0
     print(f"\nTimestamp 1: {t0} secs\nTimestamp 2: {t1} secs")

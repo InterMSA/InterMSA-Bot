@@ -50,8 +50,10 @@ def populate_links(conn, data_file):
          if str(c)[0] != thous:
             thous = str(c)[0]
             print("Number of appended records:", c)
-
-   query = "INSERT INTO Links VALUES(?,?,?)"
+   if data_file == "loot.txt":
+      query = "INSERT INTO NJIT_Links VALUES(?,?,?)"
+   elif data_file == "loot2.txt":
+      query = "INSERT INTO MSU_Links VALUES(?,?,?)"
    cur.executemany(query, to_db)
    conn.commit()
    print("\nDone!\n", c, "records created!")
@@ -60,4 +62,5 @@ def populate_links(conn, data_file):
 if __name__ == "__main__":
    db_path = "database/database.db"
    conn = sql.connect(db_path)
-   populate_links(conn, "loot2.txt")
+   populate_links(conn, "loot.txt")
+##   populate_links(conn, "loot2.txt")

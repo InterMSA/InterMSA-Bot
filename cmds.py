@@ -145,7 +145,7 @@ async def deleteuni(ctx, *args): # Remove role-selection role
     if not is_admin:
         return -1
     if len(args) != 1:
-        await ctx.send(f"`/deleterole <university domain name>`\n")
+        await ctx.send(f"`/deleteuni <university domain name>`\n")
         return 0
     uni = args[0]
     try:
@@ -247,10 +247,11 @@ async def add(ctx, *args):
 # Set timer command
 @bot.command()
 async def timer(ctx, *args):
-   is_a_num = re.search(r"^(\d{2,4})$", ''.join(args))
-   if is_a_num and len(args) != 2: # Make sure 2 arguments were passed
-      await ctx.send("***Invalid Command! Must include hours followed by minutes!***\n (ex: `/time 0 30`)")
+   is_not_a_num = re.search(r"^(\d{2,4})$", ''.join(args))
+   if is_not_a_num or len(args) != 2: # Make sure 2 arguments were passed
+      await ctx.send("***Invalid Command! Must include hours followed by minutes!***\n (ex: `/timer 0 30`)")
    else:
+      print(args, type(args))
       eta = ((int(args[0]) * 60) * 60) + (int(args[1]) * 60)
       await ctx.send(f"You will be notified in **" + args[0] + "** hour(s) & **" + args[1] + "** minute(s)!")
       await asyncio.sleep(eta)
