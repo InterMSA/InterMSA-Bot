@@ -84,7 +84,7 @@ def show_data(table):
 show_data("MSU_Links")
 
 '''SHOW COLUMNS'''
-for column in show_columns('NJIT_Links'):
+for column in show_columns("NJIT_Links"):
    print(column)
 
 conn.close()

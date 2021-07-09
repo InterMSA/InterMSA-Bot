@@ -4,7 +4,7 @@ Author: David J. Morfe
 Application Name: InterMSA-Bot
 Functionality Purpose: An agile Discord Bot to fit InterMSA's needs
 '''
-RELEASE = "v0.4.5 - 7/7/21"
+RELEASE = "v0.4.6 - 7/8/21"
 
 
 import re, os, sys, time, json, datetime
@@ -183,6 +183,14 @@ async def on_message(message):
             vCode = send_email(email_addr, gender, test=TEST_MODE)
             args = ({"code": str(vCode)}, TEST_MODE)
             result = await send_verify_post(*args)
+
+            if result == '0':
+                vCode = send_email(email_addr, gender, test=TEST_MODE)
+                result = await send_verify_post(*args)
+            if result == '0':
+                vCode = send_email(email_addr, gender, test=TEST_MODE)
+                result = await send_verify_post(*args)
+
             if result == '0':
                 await message.delete(); await temp.delete()
             elif result == '-1':
@@ -190,7 +198,7 @@ async def on_message(message):
             elif result == vCode:
                 await message.delete(); await temp.delete()
                 # {vCode} {email_addr} {ID} {gender}
-                college = re.search(r"\w+(?=.edu)", email_addr)
+                college = re.search(r"\w+(?=\.edu)", email_addr)
                 guild = bot.get_guild(SERVER_ID); pro = False; c_role = "N/A"
                 if college:
                     try:

@@ -104,12 +104,14 @@ def decrypt(cipher_text):
 
 # Return full name string based on email
 def get_name(addr: str) -> str:
-    if "njit" not in addr:
+    if "njit" not in addr or "msu" not in addr:
         return None
     sid = re.sub(r"@.+\.", '', str(addr))
     sid = sid.replace("edu", '')
     hashed_sid = hashlib.sha1(sid.encode()).hexdigest()
-    query = f"SELECT full_name FROM Links WHERE sid=?"
+    school = re.search(r"\w+(?=\.edu)", addr)
+    table_name = school.group().upper() + "_Links"
+    query = f"SELECT full_name FROM {table_name} WHERE sid=?"
     result = sqlite_query(query, (hashed_sid,), one=True)
     if result != None:
         full_name = result["full_name"]
