@@ -187,9 +187,6 @@ async def on_message(message):
             if result == '0':
                 vCode = send_email(email_addr, gender, test=TEST_MODE)
                 result = await send_verify_post(*args)
-            if result == '0':
-                vCode = send_email(email_addr, gender, test=TEST_MODE)
-                result = await send_verify_post(*args)
 
             if result == '0':
                 await message.delete(); await temp.delete()
