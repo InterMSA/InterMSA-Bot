@@ -130,8 +130,8 @@ def check_admin(msg, add_on=''):
     for role in roles:
         if role.name == "Admin" or "Shura" in role.name:
             return True
-        #if role.name == add_on:
-         #   return True
+        if role.name == add_on:
+            return True
     return False
 
 # Retrieve role for those in waiting room

@@ -42,6 +42,10 @@ def main(uni):
         readMask="names,emailAddresses",
         sources="DIRECTORY_SOURCE_TYPE_DOMAIN_CONTACT")
     c = 0
+    if uni == "NJIT":
+        file_name = "njit.txt"
+    elif uni == "MSU":
+        file_name = "msu.txt"
     while request != None:
         if c != 0:
             request = service.people().listDirectoryPeople(
@@ -52,10 +56,6 @@ def main(uni):
                 sources="DIRECTORY_SOURCE_TYPE_DOMAIN_CONTACT")
         req = request.execute()
         contacts = req.get("people", [])
-        if uni == "NJIT":
-            file_name = "loot.txt"
-        elif uni == "MSU":
-            file_name = "loot2.txt"
         with open(file_name, 'a') as f:
             for person in contacts:
                 names = person.get("names", [])
@@ -72,8 +72,8 @@ def main(uni):
 
 if __name__ == "__main__":
     t0 = time.process_time()
-    service = main("NJIT")
-##    service = main("MSU")
+    #service = main("NJIT")
+    service = main("MSU")
     t1 = time.process_time()
     total = t1 - t0
     print(f"\nTimestamp 1: {t0} secs\nTimestamp 2: {t1} secs")
