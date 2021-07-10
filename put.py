@@ -1,6 +1,10 @@
 import re, time, sqlite3, hashlib
 from config import DB_SECRET
 from tools import encrypt
+import sqlite3 as sql
+
+
+# Populate database.db with new data from a data text file
 
 def populate_links(conn, data_file):
    cur = conn.cursor()
@@ -46,9 +50,17 @@ def populate_links(conn, data_file):
          if str(c)[0] != thous:
             thous = str(c)[0]
             print("Number of appended records:", c)
-
-   query = "INSERT INTO Links VALUES(?,?,?)"
+   if data_file == "njit.txt":
+      query = "INSERT INTO NJIT_Links VALUES(?,?,?)"
+   elif data_file == "msu.txt":
+      query = "INSERT INTO MSU_Links VALUES(?,?,?)"
    cur.executemany(query, to_db)
    conn.commit()
    print("\nDone!\n", c, "records created!")
    print("Database updated!")
+
+if __name__ == "__main__":
+   db_path = "database/database.db"
+   conn = sql.connect(db_path)
+##   populate_links(conn, "njit.txt")
+   populate_links(conn, "msu.txt")

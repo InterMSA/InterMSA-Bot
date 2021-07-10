@@ -4,7 +4,7 @@ Author: David J. Morfe
 Application Name: InterMSA-Bot
 Functionality Purpose: An agile Discord Bot to fit InterMSA's needs
 '''
-RELEASE = "v0.4.4 - 5/2/21"
+RELEASE = "v0.4.6 - 7/9/21"
 
 
 import re, os, sys, time, json, datetime
@@ -36,6 +36,7 @@ async def on_ready():
     await bot.change_presence(activity = Game(name = "/cmds (For all cmds)"))
     print("We have logged in as {0.user} in {1}".format(bot, ENV))
 
+# Executes when member joins
 @bot.event
 async def on_member_join(member):
     #await bot.edit_message(message_var, "This is the edit to replace the message.")
@@ -161,11 +162,10 @@ async def on_message(message):
         else:
             await channel.send(message.content)
 
-    # Verification System
+    # The Verification System
     if listen_verify(message): # Verify command
         email, gender = listen_verify(message)
         if not re.search(r"^.+@.+\.", email) or \
-           not re.search(r"^/verify ", str(message.content)) or \
            email == '':
             await message.channel.send("**Invalid command! Please make sure you're typing everything correctly.**", delete_after=25)
             await message.delete(delay=300)
@@ -177,12 +177,17 @@ async def on_message(message):
             await message.delete(delay=300)
         else:
             email_addr = email.lower(); ID = message.author.id
-            temp = await message.channel.send(f"**We've sent a verification link to your email at** ___{email_addr}___**, please check your email.**",
+            temp = await message.channel.send(f"**We've sent a verification link to your email at** ___{email_addr}___**, please check your email (& spam just in case).**",
                                               delete_after=300)
             await message.delete(delay=300)
             vCode = send_email(email_addr, gender, test=TEST_MODE)
             args = ({"code": str(vCode)}, TEST_MODE)
             result = await send_verify_post(*args)
+
+            if result == '0':
+                vCode = send_email(email_addr, gender, test=TEST_MODE)
+                result = await send_verify_post(*args)
+
             if result == '0':
                 await message.delete(); await temp.delete()
             elif result == '-1':
@@ -190,7 +195,7 @@ async def on_message(message):
             elif result == vCode:
                 await message.delete(); await temp.delete()
                 # {vCode} {email_addr} {ID} {gender}
-                college = re.search(r"\w+(?=.edu)", email_addr)
+                college = re.search(r"\w+(?=\.edu)", email_addr)
                 guild = bot.get_guild(SERVER_ID); pro = False; c_role = "N/A"
                 if college:
                     try:

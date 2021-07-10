@@ -1,14 +1,15 @@
 from __future__ import print_function
-import pickle
-import os.path
+import os.path, pickle, time
 from googleapiclient.discovery import build
 from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 
+# Retrieves Google Contacts Directory Data
+
 # If modifying these scopes, delete the file token.pickle.
 SCOPES = ["https://www.googleapis.com/auth/directory.readonly"]
 
-def main():
+def main(uni):
     """Shows basic usage of the People API.
     Prints the name of the first 10 connections.
     """
@@ -34,24 +35,46 @@ def main():
     service = build('people', 'v1', credentials=creds)
 
     # Call the People API
-    print('List 10 connection names')
 ##    return service
-    results = service.people().listDirectoryPeople(
+    request = service.people().listDirectoryPeople(
         mergeSources="DIRECTORY_MERGE_SOURCE_TYPE_CONTACT",
-        pageSize=10,
+        pageSize=1000,
         readMask="names,emailAddresses",
-        sources="DIRECTORY_SOURCE_TYPE_DOMAIN_CONTACT").execute()
-    contacts = results.get("people", [])
-
-    for person in contacts:
-        names = person.get("names", [])
-        emails = person.get("emailAddresses", [])
-        if names:
-            name = names[0].get("displayName")
-            print(name)
-        if emails:
-            email = emails[0].get("value")
-            print(email)
+        sources="DIRECTORY_SOURCE_TYPE_DOMAIN_CONTACT")
+    c = 0
+    if uni == "NJIT":
+        file_name = "njit.txt"
+    elif uni == "MSU":
+        file_name = "msu.txt"
+    while request != None:
+        if c != 0:
+            request = service.people().listDirectoryPeople(
+                mergeSources="DIRECTORY_MERGE_SOURCE_TYPE_CONTACT",
+                pageSize=1000,
+                pageToken=req.get("nextPageToken"),
+                readMask="names,emailAddresses",
+                sources="DIRECTORY_SOURCE_TYPE_DOMAIN_CONTACT")
+        req = request.execute()
+        contacts = req.get("people", [])
+        with open(file_name, 'a') as f:
+            for person in contacts:
+                names = person.get("names", [])
+                emails = person.get("emailAddresses", [])
+                if names and emails:
+                    name = names[0].get("displayName")
+                    email = emails[0].get("value")
+                    f.write(f"{name}\t{email}\n")
+            print(name, email)
+            print(req.get("nextPageToken"))
+            c += 1
+        time.sleep(60)
+    print("Escaped with", c, "records!")
 
 if __name__ == "__main__":
-    service = main()
+    t0 = time.process_time()
+    #service = main("NJIT")
+    service = main("MSU")
+    t1 = time.process_time()
+    total = t1 - t0
+    print(f"\nTimestamp 1: {t0} secs\nTimestamp 2: {t1} secs")
+    print("Module Time Elapsed:", total, "seconds")

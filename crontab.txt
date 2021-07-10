@@ -1,0 +1,1 @@
+0 0 10 1,9 * cd /home/jake/MSA-Bot && rm -f loot2.txt && /usr/bin/python verify.py && /usr/bin/python put.py

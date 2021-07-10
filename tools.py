@@ -7,7 +7,6 @@ from Crypto.PublicKey import RSA
 from Crypto.Cipher import PKCS1_OAEP
 from config import *
 from key import *
-#import Crypto
 
 try:
     import GeoLiberator as GeoLib
@@ -15,13 +14,8 @@ except ModuleNotFoundError:
     pass
 # (Note: All variables not declared probably came from config.py)
 
-
 #If email treated as spam:
  #https://support.google.com/mail/contact/bulk_send_new?rd=1
-#Print Emojis Safely
- #print(u'\U0001f604'.encode('unicode-escape'))
- #print('\N{grinning face with smiling eyes}')
-#Make way to update #role-selection
 
 
 DB_CONN = sql.connect(DB_PATH)
@@ -80,14 +74,14 @@ def send_email(addr: str, gender='', test=False) -> str:
         msg = EmailMessage()
         msg.set_content(html, subtype="html")
         msg["Subject"] = "Verification Link for InterMSA Discord"
-        msg["From"] = "no-reply@intermsa.com"
+        msg["From"] = "intermuslimstudentassociation@gmail.com"
         msg["To"] = addr
         with smtplib.SMTP_SSL("smtp.gmail.com", 465) as s:
                 s.login("intermuslimstudentassociation@gmail.com",
                         APP_PASS)
                 s.send_message(msg)
     else:
-        print(sCode)
+        print(verify_link)
     return sCode
 
 # SQL Query Function
@@ -110,12 +104,14 @@ def decrypt(cipher_text):
 
 # Return full name string based on email
 def get_name(addr: str) -> str:
-    if "njit" not in addr:
+    if "njit" not in addr or "msu" not in addr:
         return None
     sid = re.sub(r"@.+\.", '', str(addr))
     sid = sid.replace("edu", '')
     hashed_sid = hashlib.sha1(sid.encode()).hexdigest()
-    query = f"SELECT full_name FROM Links WHERE sid=?"
+    school = re.search(r"\w+(?=\.edu)", addr)
+    table_name = school.group().upper() + "_Links"
+    query = f"SELECT full_name FROM {table_name} WHERE sid=?"
     result = sqlite_query(query, (hashed_sid,), one=True)
     if result != None:
         full_name = result["full_name"]
@@ -134,8 +130,8 @@ def check_admin(msg, add_on=''):
     for role in roles:
         if role.name == "Admin" or "Shura" in role.name:
             return True
-        #if role.name == add_on:
-         #   return True
+        if role.name == add_on:
+            return True
     return False
 
 # Retrieve role for those in waiting room
@@ -198,11 +194,9 @@ def listen_role_reaction(emoji, channel):
 # Parse and return email & join type based on /verify request
 def listen_verify(msg):
     if msg.channel.id == VERIFY_ID:
-        if msg.content.startswith('/verify'):
+        if msg.content.startswith('/verify') or "@" in msg.content:
             request = re.sub(r"/verify ", '', msg.content.lower())
-            if '@' not in request:
-                return ('', '')
-            join_type = re.search(r"(brothers?|sis(tas?|ters?)|workforce)", request) or ''
+            join_type = re.search(r"(bro(ther)?s?|sis(tas?|ters?)|work(force)?)", request) or ''
             if join_type:
                 email = re.sub(fr"{join_type.group()}", '', request).strip(' ')
                 if join_type.group()[0] == 'b':
@@ -215,6 +209,7 @@ def listen_verify(msg):
                     join_type = ''
                 return email, join_type
             return (request, '')
+        return ('', '')
 
 # Listen for 4-digit code in #verify
 def listen_code(msg):
