@@ -65,14 +65,13 @@ def main(uni):
                     email = emails[0].get("value")
                     f.write(f"{name}\t{email}\n")
             print(name, email)
-            print(req.get("nextPageToken"))
             c += 1
         time.sleep(60)
     print("Escaped with", c, "records!")
 
 if __name__ == "__main__":
     t0 = time.process_time()
-    #service = main("NJIT")
+##    service = main("NJIT")
     service = main("MSU")
     t1 = time.process_time()
     total = t1 - t0

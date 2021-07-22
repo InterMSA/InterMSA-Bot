@@ -40,12 +40,19 @@ def populate_links(conn, data_file):
             name = names[0]
          name = re.sub(r"  ", ' ', name).strip(' ')
 
-         if len(sid) > 20 or len(name) > 55 or len(email) > 20: # Ignore professor records
-            continue
+         if "msu" not in data_file:
+            if len(sid) > 20 or len(name) > 55 or len(email) > 20: # Ignore professor records
+               continue
          # Encryption here
          sid = hashlib.sha1(sid.encode()).hexdigest()
          name = encrypt(name); email = encrypt(email)
          val = (sid, name, email)
+##         query = "INSERT INTO MSU_Links VALUES(?,?,?)"
+##         try:
+##            cur.execute(query, val)
+##            conn.commit()
+##         except sql.IntegrityError:
+##            continue
          to_db.append(val); c += 1
          if str(c)[0] != thous:
             thous = str(c)[0]
@@ -62,5 +69,6 @@ def populate_links(conn, data_file):
 if __name__ == "__main__":
    db_path = "database/database.db"
    conn = sql.connect(db_path)
-##   populate_links(conn, "njit.txt")
-   populate_links(conn, "msu.txt")
+   populate_links(conn, "njit.txt")
+##   populate_links(conn, "msu.txt")
+   conn.close()

@@ -54,14 +54,14 @@ def show_data(table):
 
 '''INSERT'''
 ##populate_links(conn, "loot.txt")
-##sid = hashlib.sha1("djm65".encode()).hexdigest()
+##sid = hashlib.sha1("nassarb1".encode()).hexdigest()
 ##name = encrypt("David Jake Morfe")
 ##email = encrypt("djm65@njit.edu")
 ##query = "INSERT INTO Links(sid, full_name, email) VALUES(?,?,?)"
 ##sqlite_query(query, (sid, name, email))
 
 '''INSERT CHECK'''
-##query = "SELECT * FROM Links WHERE sid=?"
+##query = "SELECT * FROM MSU_Links WHERE sid=?"
 ##result = sqlite_query(query, (sid,), one=True)
 ##print("Decrypted Result:", decrypt(result["full_name"]))
 
@@ -73,7 +73,7 @@ def show_data(table):
 '''DELETE'''
 ##sqlite_query("DELETE FROM Links WHERE sid=?", ('3',))
 ##print("Record deleted!")
-##sqlite_query("DELETE FROM Links")
+##sqlite_query("DELETE FROM MSU_Links")
 ##print("Table data deleted!")
 
 '''DROP'''
@@ -81,10 +81,10 @@ def show_data(table):
 ##print("Table deleted!")
 
 '''SELECT'''
-show_data("MSU_Links")
+show_data("NJIT_Links")
 
 '''SHOW COLUMNS'''
-for column in show_columns("NJIT_Links"):
+for column in show_columns("MSU_Links"):
    print(column)
 
 conn.close()
