@@ -31,7 +31,7 @@ async def cmds(ctx):
       embed.add_field(name="**About**", value="Hello Mod! these are your commands", inline=False)
       embed.add_field(name="**Commands**", value=cmds, inline=False) 
       embed.add_field(name="Social Media",
-                      value="➤ [Instagram](https://www.instagram.com/intermsa/) @intermsa\n➤ [website](https://intermsa.com/) http://intermsa.com/\n➤ [Linkin group]( https://www.linkedin.com/groups/9002140) prof. meet\n",
+                      value="⚡ [Discord Server Link](https://discord.gg/rKFNrvKWqu)\n🕸 [InerMSA Website](https://intermsa.com/)\n💼 [LinkedIn Group]( https://www.linkedin.com/groups/9002140)\n📱 [Instagram](https://www.instagram.com/intermsa/)",
                       inline=False)
       embed.set_author(name = "InterMSA Bot Commands:",icon_url="https://cdn.discordapp.com/attachments/824860377480429588/829180591811461150/InterMSA_Logo.png")
       embed.set_thumbnail(url="https://cdn.discordapp.com/attachments/814602442910072842/838359760037216296/240_F_218846526_SqlIXtk20dEnVcuXvVTGpzUeE3rmLkAe.png")
@@ -44,7 +44,7 @@ async def cmds(ctx):
       embed.add_field(name="**Commands**", value=cmds, inline=False) 
       embed.set_author(name = "InterMSA Bot Commands:",icon_url="https://cdn.discordapp.com/attachments/824860377480429588/829180591811461150/InterMSA_Logo.png")
       embed.add_field(name="Social Media",
-                        value="➤ [Instagram](https://www.instagram.com/intermsa/) @intermsa\n➤ [website](https://intermsa.com/) http://intermsa.com/\n➤ [Linkin group]( https://www.linkedin.com/groups/9002140) prof. meet\n",
+                        value="⚡ [Discord Server Link](https://discord.gg/rKFNrvKWqu)\n🕸 [InerMSA Website](https://intermsa.com/)\n💼 [LinkedIn Group]( https://www.linkedin.com/groups/9002140)\n📱 [Instagram](https://www.instagram.com/intermsa/)",
                         inline=False)
       embed.set_thumbnail(url="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/281/white-question-mark_2754.png")
       await ctx.send(embed=embed)
@@ -245,17 +245,6 @@ async def add(ctx, *args):
          await ctx.message.delete(delay=300)
 
 # Set timer command
-@bot.command()
-async def timer(ctx, *args):
-   is_not_a_num = re.search(r"^(\d{2,4})$", ''.join(args))
-   if is_not_a_num or len(args) != 2: # Make sure 2 arguments were passed
-      await ctx.send("***Invalid Command! Must include hours followed by minutes!***\n (ex: `/timer 0 30`)")
-   else:
-      print(args, type(args))
-      eta = ((int(args[0]) * 60) * 60) + (int(args[1]) * 60)
-      await ctx.send(f"You will be notified in **" + args[0] + "** hour(s) & **" + args[1] + "** minute(s)!")
-      await asyncio.sleep(eta)
-      await ctx.send(ctx.author.mention + " **ALERT! YOUR TIMER HAS RUN OUT! DO WHAT YOU MUST!**")
 
 
 # Sisters Exclusive Commands
@@ -273,6 +262,13 @@ async def timer(ctx, *args):
 # Handle command errors
 @bot.event
 async def on_command_error(ctx, error):
+    #if isinstance(error, commands.MissingRequiredArgument):
+        #if error.param.name == 'when':
+    #    await ctx.send("You forgot to give me input! Try `!remind me tomorrow at 2:59pm to send email to prof. Baraa`")
+
+    if isinstance(error, commands.TooManyArguments):
+      await ctx.send('too many arguments')
     if isinstance(error, commands.CommandNotFound):
         return
-    raise error
+    
+

@@ -4,7 +4,7 @@ Author: David J. Morfe
 Application Name: InterMSA-Bot
 Functionality Purpose: An agile Discord Bot to fit InterMSA's needs
 '''
-RELEASE = "v0.4.6 - 7/9/21"
+RELEASE = "v0.4.8 - 7/9/21"
 
 
 import re, os, sys, time, json, datetime
@@ -29,6 +29,9 @@ class Unbuffered(object):
     def __getattr__(self, attr):
         return getattr(self .stream, attr)
 sys.stdout = Unbuffered(sys.stdout)
+
+bot.load_extension("cogs.remindercog") #loading the time reminder cogs for interMSA
+
 
 # Executes when bot begins running
 @bot.event
@@ -86,7 +89,7 @@ async def on_message(message):
     if message.content == 'nu u':
         if "Cali#6919" == str(message.author):
             await message.channel.send("nu u!")
-    if message.content.lower().startswith('/version'):
+    if message.content.lower().startswith(f'{command_prefix}version'):
         if message.author.id in DEVS:
             await message.channel.send(f"`{RELEASE} | {LAST_MODIFIED}`")
     if re.search("(nu nu|Nunu|nunu)", message.content): # Taha
