@@ -1,16 +1,6 @@
 import os
 
-
-# Module to acquire all passwords/secrets
-
-
 CWD = os.getcwd(); ENV = "DEV"
-# Navigate to secret directory
-try:
-    os.chdir(".."); os.chdir(".."); os.chdir("..")
-    os.chdir("Desktop\\Prog\\InterMSA-Bot")
-except FileNotFoundError:
-    pass
 
 try:
     os.chdir("secret")

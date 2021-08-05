@@ -60,7 +60,7 @@ BOT = os.getenv("BOT_SECRET", bot_pass())
 VERIFY_SITE = "https://VerificationSystem.intermsa.repl.co"
 SP = os.getenv("SECRET_PASS", secret_pass())
 DB_SECRET = re.sub(r"\\n", '\n', os.getenv("DB_SECRET", db_pass()))
-ENCRYPT_KEY = re.sub(r"\\n", '\n', os.getenv("PUBLIC_KEY", pub_pass()))
+#ENCRYPT_KEY = re.sub(r"\\n", '\n', os.getenv("PUBLIC_KEY", pub_pass()))
 APP_PASS = os.getenv("EMAIL_SECRET", email_pass())
 DB_PATH = "database/database.db"
 
