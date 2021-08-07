@@ -5,7 +5,6 @@ loot.txt
 key.txt
 *.pickle
 credentials.json
-msu_loot.txt
 *.pyc
 secret/bot.txt
 secret/db.txt

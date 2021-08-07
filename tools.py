@@ -43,7 +43,7 @@ def edit_file(file, value, exact=True):
         f.truncate()
         return found
 
-# Return 4-digit verification code string after sending email
+# Return 4-digit verification code string after sending email with verification link
 def send_email(addr: str, gender='', test=False) -> str:
     sCode = f"{randint(0,9)}{randint(0,9)}{randint(0,9)}{randint(0,9)}"
     verify_link = f"{VERIFY_SITE}/verified/{sCode}/{gender}"
@@ -196,8 +196,8 @@ def listen_role_reaction(emoji, channel):
 # Parse and return email & join type based on /verify request
 def listen_verify(msg):
     if msg.channel.id == VERIFY_ID:
-        if msg.content.startswith('/verify') or "@" in msg.content:
-            request = re.sub(r"/verify ", '', msg.content.lower())
+        if msg.content.startswith(f'{COMMAND_PREFIX}verify') or "@" in msg.content:
+            request = re.sub(fr"{COMMAND_PREFIX}verify ", '', msg.content.lower())
             join_type = re.search(r"(bro(ther)?s?|sis(tas?|ters?)|work(force)?)", request) or ''
             if join_type:
                 email = re.sub(fr"{join_type.group()}", '', request).strip(' ')

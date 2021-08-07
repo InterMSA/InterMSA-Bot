@@ -12,7 +12,7 @@ from tools import *
 
 intents = Intents.default()
 intents.members = True # Subscribe to the privileged members intent.
-bot = commands.Bot(command_prefix='/', help_command=None, intents=intents)
+bot = commands.Bot(command_prefix=COMMAND_PREFIX, help_command=None, intents=intents)
 
 
 # Extended InterMSA Bot Commands
@@ -24,7 +24,7 @@ async def cmds(ctx):
    Shows what bot can do
    '''
    if check_admin(ctx) == True: # This is a special list of custom admin commands 
-      with open("modCMDS.md") as f: 
+      with open("cmds_for_mods.md") as f: 
         cmds = f.read()
 
       embed = Embed(color=0xFFD700) #changes the color to golden 
@@ -243,8 +243,6 @@ async def add(ctx, *args):
       else:
          await ctx.send("**Invalid command! Please make sure you're @ing the user.**", delete_after=25)
          await ctx.message.delete(delay=300)
-
-# Set timer command
 
 
 # Sisters Exclusive Commands

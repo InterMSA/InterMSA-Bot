@@ -4,7 +4,7 @@ Author: David J. Morfe
 Application Name: InterMSA-Bot
 Functionality Purpose: An agile Discord Bot to fit InterMSA's needs
 '''
-RELEASE = "v0.4.8 - 7/9/21"
+RELEASE = "v0.4.8a - 8/6/21"
 
 
 import re, os, sys, time, json, datetime
@@ -36,7 +36,7 @@ bot.load_extension("cogs.remindercog") #loading the time reminder cogs for inter
 # Executes when bot begins running
 @bot.event
 async def on_ready():
-    await bot.change_presence(activity = Game(name = "/cmds (For all cmds)"))
+    await bot.change_presence(activity = Game(name = f"{COMMAND_PREFIX}cmds (For all cmds)"))
     print("We have logged in as {0.user} in {1}".format(bot, ENV))
 
 # Executes when member joins
@@ -89,7 +89,7 @@ async def on_message(message):
     if message.content == 'nu u':
         if "Cali#6919" == str(message.author):
             await message.channel.send("nu u!")
-    if message.content.lower().startswith(f'{command_prefix}version'):
+    if message.content.lower().startswith(f'{COMMAND_PREFIX}version'):
         if message.author.id in DEVS:
             await message.channel.send(f"`{RELEASE} | {LAST_MODIFIED}`")
     if re.search("(nu nu|Nunu|nunu)", message.content): # Taha
@@ -140,7 +140,7 @@ async def on_message(message):
 
     # Professional Introductions Chat
     if message.channel.id == PROS.wait:
-        if not message.content.startswith("/add "):
+        if not message.content.startswith("{COMMAND_PREFIX}add "):
             with open("introductions.txt", 'a') as f:
                 user_id = str(message.author.id)
                 msg_id = str(message.id)
@@ -238,7 +238,6 @@ async def on_message(message):
                 else: # pro wait channel
                     channel = bot.get_channel(sibling.wait) # Waiting room channel
                     msg = await channel.send(f"@here " + message.author.mention + " *has joined the InterMSA Discord!*", delete_after=60)
-
             else:
                 print("Invalid post request!")
     else: # Delete every other message in #verify in 5 min.

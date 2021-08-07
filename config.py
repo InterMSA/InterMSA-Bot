@@ -101,6 +101,7 @@ SPLIT_ROLES_EMOJIS = {BROTHERS.role_select:
 
 # Last globals and config setup
 DEVS = [233691753922691072, 714641624571052076, 670325339263860758]
+COMMAND_PREFIX = '/'
 TEST_MODE = False; ENV = ENV
 os.chdir(CWD) # Return to original directory
 update_uni_library() # Update the COLLEGE library upon startup
