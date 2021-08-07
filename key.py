@@ -6,7 +6,7 @@ try:
     os.chdir("secret")
 except FileNotFoundError:
     pass
-
+command_prefix = "/"
 def bot_pass():
    try:
       with open("bot.txt") as f:
