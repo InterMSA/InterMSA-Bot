@@ -352,7 +352,7 @@ class MyCog(commands.Cog):
 
     @yourtask.before_loop
     async def before_yourtask(self):
-      print ('loading tasks...')
+      #print ('loading tasks...')
       await self.bot.wait_until_ready()
 
 def setup(bot):

@@ -11,3 +11,4 @@ secret/db.txt
 secret/email.txt
 secret/sp.txt
 key.py
+*.sqlite
