@@ -268,5 +268,3 @@ async def on_command_error(ctx, error):
       await ctx.send('too many arguments')
     if isinstance(error, commands.CommandNotFound):
         return
-    
-
