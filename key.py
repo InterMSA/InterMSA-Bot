@@ -2,11 +2,6 @@
 import os
 
 CWD = os.getcwd(); ENV = "DEV"
-# try:
-#     os.chdir("..");os.chdir("..");os.chdir("..")
-#     os.chdir("Desktop\\Prog\\InterMSA-Bot")
-# except FileNotFoundError:
-#     pass
 
 try:
     os.chdir("secret")
