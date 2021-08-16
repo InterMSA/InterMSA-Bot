@@ -65,7 +65,7 @@ async def botserver(ctx, *args):
         await ctx.send(f"```{MSA} Bot CI/CD system triggered!```")
         os.popen("git fetch origin");
         out = os.popen("git pull origin main")
-        print(out.read()); asyncio.sleep(2);
+        print("CLI OUTPUT:", out.read()); await asyncio.sleep(2);
         os.popen("systemctl restart botd")
 
 # Show role universities 
