@@ -51,7 +51,7 @@ async def cmds(ctx):
 
 # Manage Bot Server
 @bot.command()
-async def botserver(ctx, *args):
+async def botserver(ctx, *args): # (WARNING: Do NOT edit this bot command function unless you know what you're doing)
     if len(args) == 0 or int(ctx.author.id) not in DEVS:
         return -1
     cmd = args[0].lower()
