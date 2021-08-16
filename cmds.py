@@ -5,7 +5,7 @@ from discord import File
 from discord import Embed
 from discord import Game
 from discord import errors
-import asyncio
+import asyncio, git
 from config import *
 from tools import *
 
@@ -49,7 +49,7 @@ async def cmds(ctx):
       embed.set_thumbnail(url="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/281/white-question-mark_2754.png")
       await ctx.send(embed=embed)
 
-# Start/Stop/Restart Bot
+# Manage Bot Server
 @bot.command()
 async def botserver(ctx, *args):
     if len(args) == 0 or int(ctx.author.id) not in DEVS:
@@ -61,7 +61,9 @@ async def botserver(ctx, *args):
     elif cmd == "restart":
         await ctx.send(f"```{MSA} Bot restarted!```")
         os.popen("systemctl restart botd")
-
+    elif cmd == "update":
+        await ctx.send(f"```{MSA} Bot CI/CD system triggered!```")
+        os.popen("./update_bot.sh")
 
 # Show role universities 
 @bot.command()
