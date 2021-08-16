@@ -63,8 +63,7 @@ async def botserver(ctx, *args):
         os.popen("systemctl restart botd")
     elif cmd == "update":
         await ctx.send(f"```{MSA} Bot CI/CD system triggered!```")
-        out = os.popen("git pull origin main"); a = out.read()
-        await ctx.send(a); print(a)
+        os.popen("git pull origin main")
         os.popen("systemctl restart botd")
 
 # Show role universities 
