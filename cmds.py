@@ -64,6 +64,8 @@ async def botserver(ctx, *args):
     elif cmd == "update":
         await ctx.send(f"```{MSA} Bot CI/CD system triggered!```"); await asyncio.sleep(1)
         out = os.popen("sudo ./update_bot.sh"); print("CLI OUTPUT:", out.read())
+    else:
+        await ctx.send(f"```Error: Command does not exist!```")
 
 # Show role universities 
 @bot.command()
