@@ -49,13 +49,19 @@ async def cmds(ctx):
       embed.set_thumbnail(url="https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/twitter/281/white-question-mark_2754.png")
       await ctx.send(embed=embed)
 
-'''
+# Start/Stop/Restart Bot
 @bot.command()
-async def cmds(ctx): # Help command
-    with open("cmds.md") as f:
-        cmds = f.read()
-    await ctx.send("__**InterMSA Bot Commands:**__```CSS\n" + cmds + "```")
-'''
+async def botserver(ctx, *args):
+    if len(args) == 0 or int(ctx.author.id) not in DEVS:
+        return -1
+    cmd = args[0].lower()
+    if cmd == "stop":
+        await ctx.send(f"```{MSA} Bot stopped!```")
+        os.popen("systemctl stop botd")
+    elif cmd == "restart":
+        await ctx.send(f"```{MSA} Bot restarted!```")
+        os.popen("systemctl restart botd")
+
 
 # Show role universities 
 @bot.command()
@@ -98,7 +104,7 @@ async def adduni(ctx, *args):
     if not is_admin:
         return -1
     if len(args) == 0:
-        await ctx.send(f"`/adduni <university domain name> <@Role>`\n")
+        await ctx.send(f"`/adduni <university domain name> <@Role>`")
         return 0
     uni = args[0]; role = args[1].replace("<@&", '').strip('>')
     with open("uni_library.txt", 'r+', encoding="utf-8") as f:
@@ -145,7 +151,7 @@ async def deleteuni(ctx, *args): # Remove role-selection role
     if not is_admin:
         return -1
     if len(args) != 1:
-        await ctx.send(f"`/deleteuni <university domain name>`\n")
+        await ctx.send(f"`/deleteuni <university domain name>`")
         return 0
     uni = args[0]
     try:
@@ -165,7 +171,7 @@ async def deleterole(ctx, *args): # Remove role-selection role
     if not is_admin:
         return -1
     if len(args) != 1:
-        await ctx.send(f"`/deleterole <emoji>`\n")
+        await ctx.send(f"`/deleterole <emoji>`")
         return 0
     emoji = args[0]
     try:

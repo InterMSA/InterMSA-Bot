@@ -100,9 +100,10 @@ SPLIT_ROLES_EMOJIS = {BROTHERS.role_select:
                       PROS.role_select: {}}
 
 # Last globals and config setup
-DEVS = [233691753922691072, 714641624571052076, 670325339263860758]
+DEVS = [233691753922691072, 714641624571052076, 670325339263860758,
+        508654889002467329, 714618776020320396, 459493208905220138]
 COMMAND_PREFIX = '/'
-TEST_MODE = False; ENV = ENV
+TEST_MODE = False; MSA = "InterMSA"; ENV = ENV
 os.chdir(CWD) # Return to original directory
 update_uni_library() # Update the COLLEGE library upon startup
 update_role_select() # Update the role-selection listener upon startup
