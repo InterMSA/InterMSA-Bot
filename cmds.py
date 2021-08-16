@@ -57,7 +57,7 @@ async def botserver(ctx, *args):
     cmd = args[0].lower()
     if cmd == "stop":
         await ctx.send(f"```{MSA} Bot stopped!```"); await asyncio.sleep(2)
-        os.popen("sudo systemctl stop botd")
+        os.popen("sudo systemctl stop botd"); exit()
     elif cmd == "restart":
         await ctx.send(f"```{MSA} Bot restarted!```")
         os.popen("sudo systemctl restart botd")
