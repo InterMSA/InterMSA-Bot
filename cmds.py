@@ -56,14 +56,14 @@ async def botserver(ctx, *args):
         return -1
     cmd = args[0].lower()
     if cmd == "stop":
-        await ctx.send(f"```{MSA} Bot stopped!```"); await asyncio.sleep(2)
+        await ctx.send(f"```{MSA} Bot stopped!```"); await asyncio.sleep(1)
         os.popen("sudo systemctl stop botd"); exit()
     elif cmd == "restart":
-        await ctx.send(f"```{MSA} Bot restarted!```")
+        await ctx.send(f"```{MSA} Bot restarted!```"); await asyncio.sleep(1)
         os.popen("sudo systemctl restart botd")
     elif cmd == "update":
-        await ctx.send(f"```{MSA} Bot CI/CD system triggered!```")
-        out = os.popen("sudo ./update_bot.sh"); a = out.read(); print(a); exit()
+        await ctx.send(f"```{MSA} Bot CI/CD system triggered!```"); await asyncio.sleep(1)
+        out = os.popen("sudo ./update_bot.sh")
 
 # Show role universities 
 @bot.command()
