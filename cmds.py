@@ -56,17 +56,14 @@ async def botserver(ctx, *args):
         return -1
     cmd = args[0].lower()
     if cmd == "stop":
-        await ctx.send(f"```{MSA} Bot stopped!```")
+        await ctx.send(f"```{MSA} Bot stopped!```"); await asyncio.sleep(2)
         os.popen("sudo systemctl stop botd")
     elif cmd == "restart":
         await ctx.send(f"```{MSA} Bot restarted!```")
         os.popen("sudo systemctl restart botd")
     elif cmd == "update":
         await ctx.send(f"```{MSA} Bot CI/CD system triggered!```")
-        os.popen("git fetch origin");
-        out = os.popen("git pull origin main")
-        print("CLI OUTPUT:", out.read()); await asyncio.sleep(2);
-        os.popen("systemctl restart botd")
+        os.popen("sudo ./update_bot.sh")
 
 # Show role universities 
 @bot.command()
