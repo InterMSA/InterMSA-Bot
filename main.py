@@ -92,9 +92,19 @@ async def on_message(message):
     if message.content.lower().startswith(f'{COMMAND_PREFIX}version'):
         if message.author.id in DEVS:
             await message.channel.send(f"`{RELEASE} | {LAST_MODIFIED}`")
+            
     if re.search("(nu nu|Nunu|nunu)", message.content): # Taha
         if message.author.id == 496079190475538461:
             await message.channel.send("nu nu?")
+    if message.content.startswith("/suggest"):
+      #if message.channel.id == 785554461367468073:#suggestion channel
+        thumbsUp = '\N{THUMBS UP SIGN}' #thumbs up emoji
+        thumbsDown = "\U0001F44E" #thumbs down emoji
+
+        await message.add_reaction(thumbsUp)
+        await message.add_reaction(thumbsDown)
+
+
     if "/taha" in message.content.lower(): # Taha
         if message.author.id == 496079190475538461:
             await message.channel.send("Yes we can")
