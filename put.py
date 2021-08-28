@@ -1,4 +1,4 @@
-import re, time, sqlite3, hashlib
+import re, time, hashlib
 from config import DB_SECRET
 from tools import encrypt
 import sqlite3 as sql
