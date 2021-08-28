@@ -58,9 +58,9 @@ def populate_links(conn, data_file):
             thous = str(c)[0]
             print("Number of appended records:", c)
    if data_file == "njit.txt":
-      query = "INSERT INTO NJIT_Links VALUES(?,?,?)"
+      query = "INSERT OR IGNORE INTO NJIT_Links VALUES(?,?,?)"
    elif data_file == "msu.txt":
-      query = "INSERT INTO MSU_Links VALUES(?,?,?)"
+      query = "INSERT OR IGNORE INTO MSU_Links VALUES(?,?,?)"
    cur.executemany(query, to_db)
    conn.commit()
    print("\nDone!\n", c, "records created!")
