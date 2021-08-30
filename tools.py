@@ -182,6 +182,9 @@ def listen_role_reaction(emoji, channel):
     if emote and str(emoji).lower().count('u') > 1:
         emoji = ("\\" + emote.group().strip('\\')).encode('unicode-escape')
     for role_emoji in ROLE_EMOJIS:
+        if "\\U" not in emoji.decode():
+            if emoji.decode() in role_emoji:
+                return ROLE_EMOJIS[role_emoji]
         if emoji == role_emoji.encode('unicode-escape'):
             return ROLE_EMOJIS[role_emoji]
     if len(emoji) == 11:

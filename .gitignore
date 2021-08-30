@@ -12,3 +12,5 @@ secret/email.txt
 secret/sp.txt
 *.sqlite
 key.py
+role_selection.txt
+uni_library.txt
