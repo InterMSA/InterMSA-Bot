@@ -103,7 +103,9 @@ SPLIT_ROLES_EMOJIS = {BROTHERS.role_select:
 DEVS = [233691753922691072, 714641624571052076, 670325339263860758,
         508654889002467329, 714618776020320396, 459493208905220138,
         732373611775524926, 562285596668723219]
-COMMAND_PREFIX = '/'
+#COMMAND_PREFIX = '/'
+COMMAND_PREFIX =["/",">"]
+#bot = commands.Bot(command_prefix=["hi ","Hi "])
 TEST_MODE = False; MSA = "InterMSA"; ENV = ENV
 os.chdir(CWD) # Return to original directory
 update_uni_library() # Update the COLLEGE library upon startup

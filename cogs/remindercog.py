@@ -47,7 +47,7 @@ class TimeConverter(commands.Converter):
           #return parsed 
 
       if not parsed:
-          await ctx.send(f"***Invalid Command! see following example***\n (ex: `{COMMAND_PREFIX}remind me in 10 minutes to 'Do HW'\n {COMMAND_PREFIX}remind me next thursday at 3pm to attend MSA event`)")
+          await ctx.send(f"***Invalid Command! see following example***\n (ex: `{COMMAND_PREFIX[0]}remind me in 10 minutes to 'Do HW'\n {COMMAND_PREFIX[0]}remind me next thursday at 3pm to attend MSA event`)")
           embed = discord.Embed(color = discord.Color.red())
           #embed = discord.Embed(title = "",desctiption = "this is desctiption",color=0x461111)
           embed.set_image(url ="https://cdn.discordapp.com/attachments/841054606413791283/871492062665658398/unknown.png")
@@ -209,7 +209,7 @@ class MyCog(commands.Cog):
     async def reminder(self,ctx, *, when: TimeConverter):
 
       if ((when is None or when.dt is None ) ) : # Make sure 2 arguments were passed - #Error handler to show the correct input
-          await ctx.send(f"***Invalid Command! see following example***\n (ex: `{COMMAND_PREFIX}remind me in 10 minutes to 'Do HW'\n {COMMAND_PREFIX}remind me next thursday at 3pm to attend MSA event`)")
+          await ctx.send(f"***Invalid Command! see following example***\n (ex: `{COMMAND_PREFIX[0]}remind me in 10 minutes to 'Do HW'\n {COMMAND_PREFIX[0]}remind me next thursday at 3pm to attend MSA event`)")
           embed = discord.Embed(color = discord.Color.red())
           #embed = discord.Embed(title = "",desctiption = "this is desctiption",color=0x461111)
           embed.set_image(url ="https://cdn.discordapp.com/attachments/841054606413791283/871492062665658398/unknown.png")
@@ -269,10 +269,10 @@ class MyCog(commands.Cog):
         #if isinstance(error, TimeInPast):
         #    await ctx.send("Time is in the past.")
         if isinstance(error, commands.BadArgument):
-            await ctx.send(f"Invalid time. Try `{COMMAND_PREFIX}remind me to say salam to my friend in 5 min`")
+            await ctx.send(f"Invalid time. Try `{COMMAND_PREFIX[0]}remind me to say salam to my friend in 5 min`")
         if isinstance(error, commands.MissingRequiredArgument):
             if error.param.name == 'when':
-                await ctx.send(f"You forgot to give me input! Try `{COMMAND_PREFIX}remind me an hour min to do HW`")
+                await ctx.send(f"You forgot to give me input! Try `{COMMAND_PREFIX[0]}remind me an hour min to do HW`")
         if isinstance(error, commands.TooManyArguments):
                 await ctx.send(f'Too many arguments.')
               
