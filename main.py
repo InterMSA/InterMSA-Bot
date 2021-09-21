@@ -36,7 +36,7 @@ bot.load_extension("cogs.remindercog") #loading the time reminder cogs for inter
 # Executes when bot begins running
 @bot.event
 async def on_ready():
-    await bot.change_presence(activity = Game(name = f"{COMMAND_PREFIX}cmds (For all cmds)"))
+    await bot.change_presence(activity = Game(name = f"{COMMAND_PREFIX[0]}cmds (For all cmds)"))
     print("We have logged in as {0.user} in {1}".format(bot, ENV))
 
 # Executes when member joins
@@ -89,7 +89,7 @@ async def on_message(message):
     if message.content == 'nu u':
         if "Cali#6919" == str(message.author):
             await message.channel.send("nu u!")
-    if message.content.lower().startswith(f'{COMMAND_PREFIX}version'):
+    if message.content.lower().startswith(f'{COMMAND_PREFIX[0]}version'):
         if message.author.id in DEVS:
             await message.channel.send(f"`{RELEASE} | {LAST_MODIFIED}`")
             
@@ -150,7 +150,7 @@ async def on_message(message):
 
     # Professional Introductions Chat
     if message.channel.id == PROS.wait:
-        if not message.content.startswith("{COMMAND_PREFIX}add "):
+        if not message.content.startswith(f"{COMMAND_PREFIX[0]}add "):
             with open("introductions.txt", 'a') as f:
                 user_id = str(message.author.id)
                 msg_id = str(message.id)
