@@ -194,6 +194,7 @@ async def add(ctx, *args):
    is_admin = check_admin(ctx, add_on="Representative")
    if not is_admin:
       return -1
+      
    if len(args) <= 1: # If user already has full name
       user_id = re.search(r"\d{5,}", args[0])
       if user_id:
@@ -213,7 +214,8 @@ async def add(ctx, *args):
       else:
          await ctx.send("**Invalid command! Please make sure you're @ing the user.**", delete_after=25)
          await ctx.delete(delay=300)
-   else: # If you want to manually nickname user (Pros or non-G-Suite)
+
+   elif(len(args)>1): # If you want to manually nickname user (Pros or non-G-Suite)
       user_id = re.search(r"\d{5,}", args[0])
       if user_id:
          guild = bot.get_guild(SERVER_ID)
@@ -236,20 +238,20 @@ async def add(ctx, *args):
          siblinghood = get_sibling(sibling)
          channel = bot.get_channel(siblinghood.general)
          await channel.send("<@!" + user_id.group() + "> *has* ***officially*** *joined the InterMSA Discord! Welcome your fellow " + sibling + "!*")
-         read = []
-         if ctx.channel.id == PROS.wait: # Check if in #introductions chat
-            channel = bot.get_channel(INTROS_ID)
-            with open("introductions.txt") as f:
-               for line in f.readlines():
-                  entry = line.strip('\n').split(' ')
-                  if entry[0] == user_id.group():
-                     msg_id = int(entry[1])
-                     msg = await channel.fetch_message(msg_id)
-                     await msg.delete()
-                     read.append(f"{user_id.group()} {msg_id}")
-            await ctx.message.delete()
-            for old_msg in read: # Flush msg deletions
-               edit_file("introductions.txt", old_msg)
+         # read = []
+         # if ctx.channel.id == PROS.wait: # Check if in #introductions chat
+         #    channel = bot.get_channel(INTROS_ID)
+         #    with open("introductions.txt") as f:
+         #       for line in f.readlines():
+         #          entry = line.strip('\n').split(' ')
+         #          if entry[0] == user_id.group():
+         #             msg_id = int(entry[1])
+         #             msg = await channel.fetch_message(msg_id)
+         #             await msg.delete()
+         #             read.append(f"{user_id.group()} {msg_id}")
+         #    await ctx.message.delete()
+         #    for old_msg in read: # Flush msg deletions
+         #       edit_file("introductions.txt", old_msg)
       else:
          await ctx.send("**Invalid command! Please make sure you're @ing the user.**", delete_after=25)
          await ctx.message.delete(delay=300)
