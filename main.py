@@ -82,9 +82,49 @@ async def on_raw_reaction_remove(payload):
 
 # Standard InterMSA Bot Commands
 @bot.event
-async def on_message(message):
+async def on_message(message,*args):
     if message.author == bot.user:
         return -1;
+    # Exclusive Experimental Commands
+
+    if message.content.startswith('>fetch'): # Add user officially  in case the >add doesn't work, this is a backup
+       #you cannot write the names with this command
+       is_admin = check_admin(message, add_on="Representative")
+       if not is_admin:
+          return -1
+       #if len(args) <= 1: # If user already has full name
+
+       if is_admin:
+          user_id = re.search(r"\d{5,}", message.content)
+          #user_id = re.search(r"\d{5,}", args[0])
+          #print (args[0])
+          if user_id:
+             guild = bot.get_guild(SERVER_ID)
+             member = guild.get_member(int(user_id.group()))
+             sibling, rm_role = get_sibling_role(member)
+             print ("guild is", guild)
+             #print("type guild is",type(guild))
+             print ("groupID", (int (user_id.group())))
+             #if '@' in member.nick:
+                #await channel.send("**Please don't leave the user's nickname as email!**", delete_after=25)
+                #return -1
+             role = get(
+             bot.get_guild(SERVER_ID).roles, name=f"{sibling}")
+             await member.add_roles(role)
+             await member.remove_roles(rm_role)
+             siblinghood = get_sibling(sibling)
+             channel = bot.get_channel(siblinghood.general)
+             await channel.send("<@!" + user_id.group() + "> *has* ***officially*** *joined the InterMSA Discord! Welcome your " + sibling + "!*")
+
+          else:
+             await message.channel.send("**Invalid command! Please make sure you're @ing the user.**", delete_after=25)
+             await message.delete(delay=300)
+
+          #else:
+          #   await ctx.send("**Invalid command! Please make sure you're @ing the user.**", delete_after=25)
+             #await ctx.delete(delay=300)
+
+
     # Exclusive Experimental Commands
     if message.content == 'nu u':
         if "Cali#6919" == str(message.author):
