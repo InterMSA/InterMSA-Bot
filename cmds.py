@@ -8,6 +8,7 @@ from discord import errors
 import asyncio, git
 from config import *
 from tools import *
+import random
 
 
 intents = Intents.default()
@@ -187,16 +188,20 @@ async def deleterole(ctx, *args): # Remove role-selection role
         await ctx.send(f"`Role reaction removed!`", delete_after=25)
     else:
         await ctx.send(f"`Role reaction does not exist!`", delete_after=25)
-
+          #"join
 # Add user officially to the Discord server
+#print(random.choice(greeting))
+
 @bot.command()
 async def add(ctx, *args):
    is_admin = check_admin(ctx, add_on="Representative")
    if not is_admin:
+      await message.channel.send("**YOU ARE NOT ADMIN WHAT ARE YOU DOING!!!!**")
       return -1
-      
+   #print(args[0])   
    if len(args) <= 1: # If user already has full name
       user_id = re.search(r"\d{5,}", args[0])
+
       if user_id:
          guild = bot.get_guild(SERVER_ID)
          member = guild.get_member(int(user_id.group()))
@@ -209,8 +214,17 @@ async def add(ctx, *args):
          await member.add_roles(role)
          await member.remove_roles(rm_role)
          siblinghood = get_sibling(sibling)
+
          channel = bot.get_channel(siblinghood.general)
-         await channel.send("<@!" + user_id.group() + "> *has* ***officially*** *joined the InterMSA Discord! Welcome your " + sibling + "!*")
+         #await channel.send("<@!" + user_id.group() + "> *has* ***officially*** *joined the InterMSA Discord! Welcome your " + sibling + "!*")
+         #ed the interMSA Discord! Please check out <#773420851387301939> to get roles"]
+
+         if str(sibling) == "Brother":
+            await channel.send("<@!" + user_id.group() + "> " + random.choice(greeting)+"\ncheck out <#792531850740498482> to get roles")
+
+         if str(sibling) == "Sister":
+            await channel.send("<@!" + user_id.group() + "> " + random.choice(greeting)+"\ncheck out <#792531967832227841> to get roles")
+
       else:
          await ctx.send("**Invalid command! Please make sure you're @ing the user.**", delete_after=25)
          await ctx.delete(delay=300)
@@ -223,6 +237,7 @@ async def add(ctx, *args):
          sibling, rm_role = get_sibling_role(member)
          role = get(bot.get_guild(SERVER_ID).roles, name=f"{sibling}")
          nName = get_name(member.nick) # get member.name if nick is None
+
          try:
             if nName != None:
                await member.edit(nick=str(nName))
@@ -233,11 +248,22 @@ async def add(ctx, *args):
                await member.edit(nick=str(nName).strip(' '))
          except errors.Forbidden:
             print("Success!\n", nName)
+
          await member.add_roles(role)
          await member.remove_roles(rm_role)
          siblinghood = get_sibling(sibling)
          channel = bot.get_channel(siblinghood.general)
-         await channel.send("<@!" + user_id.group() + "> *has* ***officially*** *joined the InterMSA Discord! Welcome your fellow " + sibling + "!*")
+
+           #"joined the interMSA Discord! Please check out <#773420851387301939> to get roles"]
+
+         if str(sibling) == "Brother":
+            await channel.send("<@!" + user_id.group() + "> " + random.choice(greeting)+"Please check out <#792531850740498482> to get roles")
+
+         if str(sibling) == "Sister":
+            await channel.send("<@!" + user_id.group() + "> " + random.choice(greeting)+"Please check out <#792531967832227841> to get roles")
+            #await channel.send("<@!" + user_id.group() + "> " + random.choice(greeting))
+
+         #await channel.send("<@!" + user_id.group() + "> *has* ***officially*** *joined the InterMSA Discord! Welcome your fellow " + sibling + "!*")
          # read = []
          # if ctx.channel.id == PROS.wait: # Check if in #introductions chat
          #    channel = bot.get_channel(INTROS_ID)

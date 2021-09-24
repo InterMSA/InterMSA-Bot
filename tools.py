@@ -136,14 +136,22 @@ def check_admin(msg, add_on=''):
             return True
     return False
 
+greeting=["WELCOME WELCOME! ",f"*has* ***officially*** *joined the InterMSA Discord! Welcome!", "just hopped in! say Salam",
+          "REVEAL YOUR IDENTITY ... welcome :)", "5 dollars upon entry ... Welcome abord",
+           "welcome aboard", "You have reached your destination","ASALAM ALAYKUM! welcome", "did you knock the door? welcome to interMSA"
+           "Just joined, SALAAM!"]
+
 # Retrieve role for those in waiting room
 def get_sibling_role(member):
     roles = member.roles; ret = None
+
     for role in roles:
         if role.name == "Brothers Waiting Room":
             ret = ("Brother", role); break
+
         elif role.name == "Sisters Waiting Room":
             ret = ("Sister", role); break
+
         elif role.name == "Pros Waiting Room":
             ret = ("Professional", role); break
     return ret
@@ -156,6 +164,8 @@ def get_sibling(sibling):
         return SISTERS
     else:
         return PROS
+
+#sibling = get_sibling_role(member)
 
 # Return announcement channel id while listening to announcements/events
 def listen_announce(msg):

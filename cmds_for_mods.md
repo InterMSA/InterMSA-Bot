@@ -12,6 +12,10 @@
 
 **`/reminder delete <id>`** | deletes a specific reminder with given id
 
+**role a dice**
+
+**flip a coin**
+
 **`ws`** | Walaikumu Salam
 
 **#Admin commands**
