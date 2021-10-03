@@ -55,6 +55,7 @@ PROS = ServerPartition("Pro", 792530124560924677,
                   792531673371246612, 793371080864563200,
                   **__pro_add_ons)
 
+           #"join
 # Retrieve passwords/secrets
 BOT = os.getenv("BOT_SECRET", bot_pass())
 VERIFY_SITE = "https://VerificationSystem.intermsa.repl.co"

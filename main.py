@@ -4,14 +4,14 @@ Author: David J. Morfe
 Application Name: InterMSA-Bot
 Functionality Purpose: An agile Discord Bot to fit InterMSA's needs
 '''
-RELEASE = "v0.5.1 - 8/30/21"
+RELEASE = "v0.5.3 - 9/23/21"
 
 
 import re, os, sys, time, json, datetime
 from cmds import *
 from config import *
 from tools import *
-
+import random
 
 RUN_TIME = datetime.datetime.now()
 LAST_MODIFIED = RUN_TIME.strftime("%m/%d/%Y %I:%M %p")
@@ -82,9 +82,65 @@ async def on_raw_reaction_remove(payload):
 
 # Standard InterMSA Bot Commands
 @bot.event
-async def on_message(message):
+async def on_message(message,*args):
     if message.author == bot.user:
         return -1;
+    # Exclusive Experimental Commands
+    userMessage = message.content.lower() 
+    if (userMessage.startswith("flip a coin")) or (userMessage.startswith("flip coin")):
+        faceCoin = ["heads","tails"]
+        await message.reply(random.choice(faceCoin))
+
+    dice=["dice",'die','di','dic']
+    if userMessage.startswith(f"role a di"):
+        await message.reply("🎲"+str(random.randint(1,6)))
+
+    if message.content.startswith('>fetch'): # Add user officially  in case the >add doesn't work, this is a backup
+       #you cannot write the names with this command
+       is_admin = check_admin(message, add_on="Representative")
+       if not is_admin:
+          return -1
+       #if len(args) <= 1: # If user already has full name
+
+       if is_admin:
+          user_id = re.search(r"\d{5,}", message.content)
+          #user_id = re.search(r"\d{5,}", args[0])
+          #print (args[0])
+          if user_id:
+             guild = bot.get_guild(SERVER_ID)
+             member = guild.get_member(int(user_id.group()))
+             sibling, rm_role = get_sibling_role(member)
+             print ("guild is", guild)
+             #print("type guild is",type(guild))
+             print ("groupID", (int (user_id.group())))
+             #if '@' in member.nick:
+                #await channel.send("**Please don't leave the user's nickname as email!**", delete_after=25)
+                #return -1
+             role = get(
+             bot.get_guild(SERVER_ID).roles, name=f"{sibling}")
+             await member.add_roles(role)
+             await member.remove_roles(rm_role)
+             siblinghood = get_sibling(sibling)
+             channel = bot.get_channel(siblinghood.general)
+
+               #"joined the interMSA Discord! Please check out <#773420851387301939> to get roles"]
+
+             if str(sibling) == "Brother":
+                await channel.send("<@!" + user_id.group() + "> " + random.choice(greeting)+"Please check out <#792531850740498482> to get roles")
+
+             if str(sibling) == "Sister":
+                await channel.send("<@!" + user_id.group() + "> " + random.choice(greeting)+"Please check out <#792531967832227841> to get roles")
+                #await channel.send("<@!" + user_id.group() + "> " + random.choice(greeting))
+
+          else:
+             await message.channel.send("**Invalid command! Please make sure you're @ing the user.**", delete_after=25)
+             await message.delete(delay=300)
+
+          #else:
+          #   await ctx.send("**Invalid command! Please make sure you're @ing the user.**", delete_after=25)
+             #await ctx.delete(delay=300)
+
+
     # Exclusive Experimental Commands
     if message.content == 'nu u':
         if "Cali#6919" == str(message.author):
@@ -244,12 +300,19 @@ async def on_message(message):
                         await channel.send(f"@here " + message.author.mention + " *has joined the InterMSA Discord!*", delete_after=60)
                         await channel.send("`Note: user will join pro chat by default because college is not registered under InterMSA!`", delete_after=60)
                     else:
-                        await channel.send(f"@here " + message.author.mention + f" from {c_role.mention} *has joined the InterMSA Discord!*")
+                        if str(channel) == "bro-wait":
+                            await channel.send(f"*** You came from {c_role.mention} " + message.author.mention + "***" + " *please wait until <@&780660920363515914> adds you*")
+
+                        if str(channel) == "sis-wait":
+                            await channel.send(f"*** You came from {c_role.mention} " + message.author.mention + "***" + " *please wait until <@&792258252062064670> adds you*")
+
+                        #await channel.send(f"@here " + message.author.mention + f" from {c_role.mention} *has joined the InterMSA Discord!*")
                 else: # pro wait channel
                     channel = bot.get_channel(sibling.wait) # Waiting room channel
                     msg = await channel.send(f"@here " + message.author.mention + " *has joined the InterMSA Discord!*", delete_after=60)
             else:
                 print("Invalid post request!")
+
     else: # Delete every other message in #verify in 5 min.
         if message.channel.id == VERIFY_ID:
             if re.search(r"[a-zA-Z]{2,}\d{0,4}", message.content):
