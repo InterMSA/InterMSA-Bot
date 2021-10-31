@@ -8,6 +8,9 @@ RELEASE = "v0.5.3 - 9/23/21"
 
 
 import re, os, sys, time, json, datetime
+
+import discord
+
 from cmds import *
 from config import *
 from tools import *
@@ -87,6 +90,7 @@ async def on_message(message,*args):
         return -1;
     # Exclusive Experimental Commands
     userMessage = message.content.lower() 
+
     if (userMessage.startswith("flip a coin")) or (userMessage.startswith("flip coin")):
         faceCoin = ["heads","tails"]
         await message.reply(random.choice(faceCoin))
@@ -97,6 +101,8 @@ async def on_message(message,*args):
 
     if message.content.startswith('>fetch'): # Add user officially  in case the >add doesn't work, this is a backup
        #you cannot write the names with this command
+       # /add or >add @username
+
        is_admin = check_admin(message, add_on="Representative")
        if not is_admin:
           return -1
@@ -118,10 +124,13 @@ async def on_message(message,*args):
                 #return -1
              role = get(
              bot.get_guild(SERVER_ID).roles, name=f"{sibling}")
+
              await member.add_roles(role)
              await member.remove_roles(rm_role)
+
              siblinghood = get_sibling(sibling)
              channel = bot.get_channel(siblinghood.general)
+             #channel = bot.get_channel(9248729487408)
 
                #"joined the interMSA Discord! Please check out <#773420851387301939> to get roles"]
 
@@ -300,11 +309,19 @@ async def on_message(message,*args):
                         await channel.send(f"@here " + message.author.mention + " *has joined the InterMSA Discord!*", delete_after=60)
                         await channel.send("`Note: user will join pro chat by default because college is not registered under InterMSA!`", delete_after=60)
                     else:
+                        #channel = bot.get_channel(814602442910072842) discord-bot channel for debuging
+                       #if str(channel) == "bro-wait" or str(channel)=="discord-bot" :
                         if str(channel) == "bro-wait":
-                            await channel.send(f"*** You came from {c_role.mention} " + message.author.mention + "***" + " *please wait until <@&780660920363515914> adds you*")
+                            
 
+
+                            #await channel.send(f"*** You came from {c_role.mention} " + message.author.mention + "***" + " *please wait until <@&780660920363515914> adds you*")
+                            await channel.send(f"Salam "+message.author.mention+f"! please wait until ||<@&780660920363515914>|| or your representative from {c_role.mention} adds you ")
+
+                        
                         if str(channel) == "sis-wait":
-                            await channel.send(f"*** You came from {c_role.mention} " + message.author.mention + "***" + " *please wait until <@&792258252062064670> adds you*")
+                            await channel.send(f"Salam "+message.author.mention+f"! please wait until ||<@&792258252062064670>|| or your representative from {c_role.mention} adds you ")
+                            #await channel.send(f"*** You came from {c_role.mention} " + message.author.mention + "***" + " *please wait until <@&792258252062064670> adds you*")
 
                         #await channel.send(f"@here " + message.author.mention + f" from {c_role.mention} *has joined the InterMSA Discord!*")
                 else: # pro wait channel
@@ -316,7 +333,7 @@ async def on_message(message,*args):
     else: # Delete every other message in #verify in 5 min.
         if message.channel.id == VERIFY_ID:
             if re.search(r"[a-zA-Z]{2,}\d{0,4}", message.content):
-                await message.channel.send("**Invalid command! Read instructions above and use /verify please!**", delete_after=25)
+                await message.channel.send("**Invalid command! Read instructions above please!**", delete_after=25)
             await message.delete(delay=300)
     await bot.process_commands(message)
 
@@ -325,6 +342,7 @@ async def on_message(message,*args):
 if __name__ == "__main__":
     token = BOT
     bot.run(token)
+    
 ##bot.logout()
 ##bot.close()
 ##print("We have logged out of bot bot")

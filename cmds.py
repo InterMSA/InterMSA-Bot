@@ -1,3 +1,5 @@
+#import discord
+
 from discord.ext import commands
 from discord.utils import get
 from discord import Intents
@@ -13,8 +15,10 @@ import random
 
 intents = Intents.default()
 intents.members = True # Subscribe to the privileged members intent.
+
 bot = commands.Bot(command_prefix=COMMAND_PREFIX, help_command=None, intents=intents)
 
+#client 
 
 # Extended InterMSA Bot Commands
 
