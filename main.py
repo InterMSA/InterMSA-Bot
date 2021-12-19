@@ -4,10 +4,11 @@ Author: David J. Morfe
 Application Name: InterMSA-Bot
 Functionality Purpose: An agile Discord Bot to fit InterMSA's needs
 '''
-RELEASE = "v0.5.3 - 9/23/21"
+RELEASE = "v0.5.6 - 12/19/21"
 
 
 import re, os, sys, time, json, datetime
+from discord.utils import get
 
 import discord
 
@@ -96,7 +97,7 @@ async def on_message(message,*args):
         await message.reply(random.choice(faceCoin))
 
     dice=["dice",'die','di','dic']
-    if userMessage.startswith(f"role a di"):
+    if userMessage.startswith(f"roll a di"):
         await message.reply("🎲"+str(random.randint(1,6)))
 
     if message.content.startswith('>fetch'): # Add user officially  in case the >add doesn't work, this is a backup
@@ -207,11 +208,14 @@ async def on_message(message,*args):
             await message.channel.send(str(lst[r_i]), delete_after=30)
     if "hey" in message.content.lower():
         if message.author.id == 562285596668723219:
-            lst = ["https://tenor.com/view/what-horse-grumpy-gif-10246564",
-                   "https://tenor.com/view/the-lemon-has-landed-land-lemon-fruit-gif-16305448",
-                   "https://tenor.com/view/crazy-adventuretime-lemon-wiggle-gif-5018832"]
-            r_i = randint(0,2)
-            await message.channel.send(str(lst[r_i]), delete_after=30)
+            await message.add_reaction("🍋")
+            #await message.add_reaction(message, emoji)
+            #await ctx.message.add_reaction("🍋")
+            # lst = ["https://tenor.com/view/what-horse-grumpy-gif-10246564",
+            #       "https://tenor.com/view/the-lemon-has-landed-land-lemon-fruit-gif-16305448",
+            #       "https://tenor.com/view/crazy-adventuretime-lemon-wiggle-gif-5018832"]
+            # r_i = randint(0,2)
+            # await message.channel.send(str(lst[r_i]), delete_after=30)
 
     # Professional Introductions Chat
     if message.channel.id == PROS.wait:

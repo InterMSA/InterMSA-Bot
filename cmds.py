@@ -1,4 +1,4 @@
-#import discord
+import discord
 
 from discord.ext import commands
 from discord.utils import get
@@ -11,6 +11,9 @@ import asyncio, git
 from config import *
 from tools import *
 import random
+#import discord
+#from discord import embeds
+#import discord
 
 
 intents = Intents.default()
@@ -72,6 +75,35 @@ async def botserver(ctx, *args): # (WARNING: Do NOT edit this bot command functi
     else:
         await ctx.send(f"```Error: Command does not exist!```")
 
+@bot.command()
+async def ping(ctx):
+  await ctx.reply("pong")
+
+@bot.command()
+@commands.has_permissions(manage_channels=True, manage_messages=True)
+async def poll(ctx: commands.Context, channel: discord.TextChannel, *, message=""):
+    """Send message to a specific channel. then adds emojis underneath it"""       
+    # print("hey")
+    # print ("msg is: ",message)
+    custom_emojis = re.findall(r'[^\w\s()\"#/[@;:<>{}`+=~|.!?,-]', message)      
+    # print (message)
+    x = await ctx.guild.get_channel(channel.id).send(message)
+    for index, mystr in enumerate(custom_emojis):
+       # x = await message.channel.send(mystr)
+       try:
+        await x.add_reaction(str(mystr))
+       except:
+        pass
+    await ctx.message.add_reaction ("✅")
+    # return await ctx.tick()
+
+    # if message.content.startswith("/poll"):
+      # print (message.content)
+      # messageContent=message.content.replace ("/poll","")
+
+      # custom_emojis = re.findall(r'[^\w\s()\"#/[@;:<>{}`+=~|.!?,-]', message.content)
+      # print (custom_emojis)
+
 # Show role universities 
 @bot.command()
 async def showunis(ctx, *args):
@@ -81,9 +113,13 @@ async def showunis(ctx, *args):
             await ctx.send("`University library reset!`")
         else:
             text = ''
+            e = discord.Embed(color=0xFFD700, title='Universities:')
             for uni,role in COLLEGES.items():
-                text += f"{uni} <@&{role}>\n"
-            await ctx.send(text)
+                # text += f"{uni} <@&{role}>\n"
+              
+                e.add_field(name= f'{uni}', value=f" <@&{role}>", inline=True)
+            await ctx.send(embed=e) 
+            # await ctx.send(text)
 
 # Show role emojis accessible through #role-selection chat
 @bot.command()
@@ -172,7 +208,6 @@ async def deleteuni(ctx, *args): # Remove role-selection role
     else:
         await ctx.send(f"`University does not exist!`", delete_after=25)
 
-
 # Delete emoji & role based on emoji
 @bot.command()
 async def deleterole(ctx, *args): # Remove role-selection role
@@ -195,6 +230,22 @@ async def deleterole(ctx, *args): # Remove role-selection role
           #"join
 # Add user officially to the Discord server
 #print(random.choice(greeting))
+quotes = ["Time waits for no one","Time is like a sword if you don't cut it it will cut you",
+"Take advantage of five before five, 1) your youth before your old age ...  ", 
+"“There are two blessings which many people lose: (They are) health and free time for doing good.” (Bukhari 8/421)", 
+"“Yesterday is history, tomorrow is a mystery, but today is a gift. That is why it is called the present.”",
+ "The key is in not spending time, but in investing it","plan for the worst hope for the best"
+ ,"https://youtu.be/JObb2BYmp2w?t=45","https://www.youtube.com/watch?v=0xe5twFK1SI"]
+
+@bot.command()
+async def quote(ctx):
+    print("hey")
+    embed = discord.Embed(  
+                  color=0xFFD700 )
+    embed.add_field(name="**Quote**", value=random.choice(quotes) , inline=False)
+      #await ctx.send(random.choice(quotes))
+    await ctx.send(embed=embed)
+
 
 @bot.command()
 async def add(ctx, *args):
