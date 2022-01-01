@@ -15,6 +15,7 @@ import random
 #from discord import embeds
 #import discord
 
+#this is a test to see if this change is automated 
 
 intents = Intents.default()
 intents.members = True # Subscribe to the privileged members intent.
