@@ -65,10 +65,12 @@ async def botserver(ctx, *args): # (WARNING: Do NOT edit this bot command functi
     cmd = args[0].lower()
     if cmd == "stop":
         await ctx.send(f"```{MSA} Bot stopped!```"); await asyncio.sleep(1)
-        os.popen("sudo systemctl stop botd"); exit()
+        # os.popen("sudo systemctl stop botd"); exit()
+        os.popen("tmux kill-session -t MSA"); exit()
     elif cmd == "restart":
         await ctx.send(f"```{MSA} Bot restarted!```"); await asyncio.sleep(1)
-        os.popen("sudo systemctl restart botd")
+        os.popen("cd /home/jake/MSA-Bot")
+        os.popen('tmux kill-session -t MSA \; new-session -d -s MSA \; send-keys "python3 main.py" Enter')
     elif cmd == "update":
         await ctx.send(f"```{MSA} Bot CI/CD system triggered!```"); await asyncio.sleep(1)
         out = os.popen("sudo ./update_bot.sh"); print("CLI OUTPUT:", out.read())
@@ -95,8 +97,8 @@ async def poll(ctx: commands.Context, channel: discord.TextChannel, *, message="
        except:
         pass
     await ctx.message.add_reaction ("✅")
-    # return await ctx.tick()
 
+    # return await ctx.tick()
     # if message.content.startswith("/poll"):
       # print (message.content)
       # messageContent=message.content.replace ("/poll","")

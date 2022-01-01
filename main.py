@@ -343,6 +343,8 @@ async def on_message(message,*args):
 
 
 # Bot Starting Point
+
+
 if __name__ == "__main__":
     token = BOT
     bot.run(token)
