@@ -73,6 +73,7 @@ async def botserver(ctx, *args): # (WARNING: Do NOT edit this bot command functi
         os.popen('tmux kill-session -t MSA \; new-session -d -s MSA \; send-keys "python3 main.py" Enter')
     elif cmd == "update":
         await ctx.send(f"```{MSA} Bot CI/CD system triggered!```"); await asyncio.sleep(1)
+        os.popen("cd /home/jake/MSA-Bot")
         out = os.popen("sudo ./update_bot.sh"); print("CLI OUTPUT:", out.read())
     else:
         await ctx.send(f"```Error: Command does not exist!```")
