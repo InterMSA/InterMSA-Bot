@@ -12,7 +12,7 @@
 
 **`/reminder delete <id>`** | deletes a specific reminder with given id
 
-**role a dice**
+**roll a dice**
 
 **flip a coin**
 
