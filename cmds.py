@@ -76,6 +76,10 @@ async def botserver(ctx, *args): # (WARNING: Do NOT edit this bot command functi
         await ctx.send(f"```{MSA} Bot CI/CD system triggered!```"); await asyncio.sleep(1)
         os.popen("cd /home/jake/MSA-Bot")
         out = os.popen("sudo ./update_bot.sh"); print("CLI OUTPUT:", out.read())
+    elif cmd == "traceback":
+    	x = os.popen("tmux capture-pane -pt MSA").read()
+    	await ctx.send(f"```sh\n#Traceback (most recent call last):\n#{x}```")
+
     else:
         await ctx.send(f"```Error: Command does not exist!```")
 
