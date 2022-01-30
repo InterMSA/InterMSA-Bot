@@ -152,11 +152,15 @@ async def on_message(message,*args):
 
 
     # Exclusive Experimental Commands
+    if message.content == "carmoosa":
+        if "carmoosa#5895" == str(message.author):
+            await message.channel.send("nu nu")
     if message.content == 'nu u':
         if "Cali#6919" == str(message.author):
             await message.channel.send("nu u!")
     if message.content.lower().startswith(f'{COMMAND_PREFIX[0]}version'):
-        if message.author.id in DEVS:
+        is_admin = check_admin(message) #anyone who's an admin can run /version
+        if is_admin:
             await message.channel.send(f"`{RELEASE} | {LAST_MODIFIED}`")
             
     if re.search("(nu nu|Nunu|nunu)", message.content): # Taha
