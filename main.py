@@ -136,10 +136,10 @@ async def on_message(message,*args):
                #"joined the interMSA Discord! Please check out <#773420851387301939> to get roles"]
 
              if str(sibling) == "Brother":
-                await channel.send("<@!" + user_id.group() + "> " + random.choice(greeting)+"Please check out <#792531850740498482> to get roles")
+                await channel.send("<@!" + user_id.group() + "> " + random.choice(greeting)+"Please check out <#934526938742145054> to get roles")
 
              if str(sibling) == "Sister":
-                await channel.send("<@!" + user_id.group() + "> " + random.choice(greeting)+"Please check out <#792531967832227841> to get roles")
+                await channel.send("<@!" + user_id.group() + "> " + random.choice(greeting)+"Please check out <#937494516829679636> to get roles")
                 #await channel.send("<@!" + user_id.group() + "> " + random.choice(greeting))
 
           else:
