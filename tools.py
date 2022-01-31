@@ -136,10 +136,10 @@ def check_admin(msg, add_on=''):
             return True
     return False
 
-greeting=["WELCOME WELCOME! ",f"*has* ***officially*** *joined the InterMSA Discord! Welcome!", "just hopped in! say Salam",
-          "REVEAL YOUR IDENTITY ... welcome :)", "5 dollars upon entry ... Welcome abord",
-           "welcome aboard", "You have reached your destination","ASALAM ALAYKUM! welcome", "did you knock the door? welcome to interMSA"
-           ,"Just joined, SALAAM!"]
+greeting=["WELCOME WELCOME! ",f"*has* ***officially*** *joined the InterMSA Discord! Welcome!", "just hopped in! say Salam ",
+          "REVEAL YOUR IDENTITY ... welcome :) ", "5 dollars upon entry ... Welcome aboard 🛬 ",
+           "welcome aboard ", "You have reached your destination ","ASALAM ALAYKUM! welcome ", "did you knock the door? welcome to interMSA "
+           ,"Just joined, SALAAM! "]
 
 # Retrieve role for those in waiting room
 def get_sibling_role(member):
