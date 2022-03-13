@@ -4,7 +4,7 @@ Author: David J. Morfe
 Application Name: InterMSA-Bot
 Functionality Purpose: An agile Discord Bot to fit InterMSA's needs
 '''
-RELEASE = "v0.5.8 - 1/31/21"
+RELEASE = "v0.5.8 - 3/13/21"
 
 
 import re, os, sys, time, json, datetime
@@ -310,8 +310,11 @@ async def on_message(message,*args):
                 except errors.Forbidden:
                     print("Success!\n", nName)
                 sibling = get_sibling(gender) # Get brother/sister/pro object
+                
                 if sibling.wait != PROS.wait: # bro/sis wait channel
-                    channel = bot.get_channel(sibling.wait) # Waiting room channel
+                    channel = bot.get_channel(814602442910072842) # Waiting room channel for testing
+                    
+                    # channel = bot.get_channel(sibling.wait) # Waiting room channel
                     if pro == True and "Pro" not in gender or c_role == "N/A":
                         channel = bot.get_channel(PROS.wait)
                         await channel.send(f"@here " + message.author.mention + " *has joined the InterMSA Discord!*", delete_after=60)
