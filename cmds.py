@@ -65,6 +65,7 @@ async def botserver(ctx, *args): # (WARNING: Do NOT edit this bot command functi
         return -1
     cmd = args[0].lower()
     if cmd == "stop":
+        print ("test")
         await ctx.send(f"```{MSA} Bot stopped!```"); await asyncio.sleep(1)
         # os.popen("sudo systemctl stop botd"); exit()
         os.popen("tmux kill-session -t MSA"); exit()
