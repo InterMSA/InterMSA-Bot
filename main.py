@@ -327,13 +327,15 @@ async def on_message(message,*args):
 
 
                             #await channel.send(f"*** You came from {c_role.mention} " + message.author.mention + "***" + " *please wait until <@&780660920363515914> adds you*")
+                            channel
                             await channel.send(f"Salam "+message.author.mention+f"! please wait until ||<@&780660920363515914>|| or your representative from {c_role.mention} adds you ")
 
                         
                         if str(channel) == "sis-wait":
                             await channel.send(f"Salam "+message.author.mention+f"! please wait until ||<@&792258252062064670>|| or your representative from {c_role.mention} adds you ")
                             #await channel.send(f"*** You came from {c_role.mention} " + message.author.mention + "***" + " *please wait until <@&792258252062064670> adds you*")
-
+                        else:
+                            await channel.send("yo")
                         #await channel.send(f"@here " + message.author.mention + f" from {c_role.mention} *has joined the InterMSA Discord!*")
                 else: # pro wait channel
                     channel = bot.get_channel(sibling.wait) # Waiting room channel
