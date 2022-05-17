@@ -27,6 +27,7 @@ bot = commands.Bot(command_prefix=COMMAND_PREFIX, help_command=None, intents=int
 # Extended InterMSA Bot Commands
 
 # Help command
+
 @bot.command()
 async def cmds(ctx):
    '''
@@ -65,6 +66,7 @@ async def botserver(ctx, *args): # (WARNING: Do NOT edit this bot command functi
         return -1
     cmd = args[0].lower()
     if cmd == "stop":
+        print ("test")
         await ctx.send(f"```{MSA} Bot stopped!```"); await asyncio.sleep(1)
         # os.popen("sudo systemctl stop botd"); exit()
         os.popen("tmux kill-session -t MSA"); exit()
@@ -245,6 +247,30 @@ quotes = ["Time waits for no one","Time is like a sword if you don't cut it it w
  "The key is in not spending time, but in investing it","plan for the worst hope for the best"
  ,"https://youtu.be/JObb2BYmp2w?t=45","https://www.youtube.com/watch?v=0xe5twFK1SI"]
 
+
+ball = [
+        ("As I see it, yes"),
+        ("It is certain"),
+        ("It is decidedly so"),
+        ("Most likely"),
+        ("Outlook good"),
+        ("Signs point to yes"),
+        ("Without a doubt"),
+        ("Yes"),
+        ("Yes – definitely"),
+        ("You may rely on it"),
+        ("Reply hazy, try again"),
+        ("Ask again later"),
+        ("Better not tell you now"),
+        ("Cannot predict now"),
+        ("Concentrate and ask again"),
+        ("Don't count on it"),
+        ("My reply is no"),
+        ("My sources say no"),
+        ("Outlook not so good"),
+        ("Very doubtful"),
+    ]
+
 @bot.command()
 async def quote(ctx):
     print("hey")
@@ -253,6 +279,16 @@ async def quote(ctx):
     embed.add_field(name="**Quote**", value=random.choice(quotes) , inline=False)
       #await ctx.send(random.choice(quotes))
     await ctx.send(embed=embed)
+
+@bot.command(name="8", aliases=["8ball"])
+async def _8(ctx, *, question: str):
+    """Ask 8 ball a question.
+    Question must end with a question mark.
+    """
+    if question.endswith("?") and question != "?":
+        await ctx.send("`" + random.choice(ball) + "`")
+    else:
+        await ctx.send(("That doesn't look like a question."))
 
 
 @bot.command()
