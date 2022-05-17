@@ -12,3 +12,9 @@
 
 **`ws`** | Walaikumu Salam
 
+**quote** | get some wisdom
+
+**8** ask the ball yes/no question
+
+**choose** pick between multiple options
+

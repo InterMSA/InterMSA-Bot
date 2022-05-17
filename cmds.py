@@ -7,6 +7,7 @@ from discord import File
 from discord import Embed
 from discord import Game
 from discord import errors
+from discord.utils import escape_markdown
 import asyncio, git
 from config import *
 from tools import *
@@ -257,6 +258,12 @@ ball = [
         ("Signs point to yes"),
         ("Without a doubt"),
         ("Yes"),
+        ("No"),
+        ("Say inshAllah"),
+        ("Allah knows"),
+        ("say astaghfirullah"),
+        ("لا"),
+        ("نعم"),
         ("Yes – definitely"),
         ("You may rely on it"),
         ("Reply hazy, try again"),
@@ -279,16 +286,57 @@ async def quote(ctx):
     embed.add_field(name="**Quote**", value=random.choice(quotes) , inline=False)
       #await ctx.send(random.choice(quotes))
     await ctx.send(embed=embed)
+# ------
 
 @bot.command(name="8", aliases=["8ball"])
 async def _8(ctx, *, question: str):
     """Ask 8 ball a question.
     Question must end with a question mark.
-    """
+    """ 
     if question.endswith("?") and question != "?":
         await ctx.send("`" + random.choice(ball) + "`")
     else:
         await ctx.send(("That doesn't look like a question."))
+
+def escape(text: str, *, mass_mentions: bool = False, formatting: bool = False) -> str:
+    """Get text with all mass mentions or markdown escaped.
+    Parameters
+    ----------
+    text : str
+        The text to be escaped.
+    mass_mentions : `bool`, optional
+        Set to :code:`True` to escape mass mentions in the text.
+    formatting : `bool`, optional
+        Set to :code:`True` to escape any markdown formatting in the text.
+    Returns
+    -------
+    str
+        The escaped text.
+    """
+
+    if mass_mentions:
+        text = text.replace("@everyone", "@\u200beveryone")
+        text = text.replace("@here", "@\u200bhere")
+    if formatting:
+        text = discord.utils.escape_markdown(text)
+    return text
+
+@bot.command(usage="<first> <second> [others...]")
+async def choose(ctx, *choices):
+    """Choose between multiple options.
+    There must be at least 2 options to pick from.
+    Options are separated by spaces.
+    To denote options which include whitespace, you should enclose the options in double quotes.
+    """
+    choices = [escape(c, mass_mentions=True) for c in choices if c]
+    
+    if len(choices) < 2:
+        await ctx.send(("Not enough options to pick from."))
+    else:
+        # print ("2")
+        # print (choices)
+        await ctx.send(random.choice(choices))
+
 
 
 @bot.command()
