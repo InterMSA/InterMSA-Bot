@@ -312,9 +312,9 @@ async def on_message(message,*args):
                 sibling = get_sibling(gender) # Get brother/sister/pro object
                 
                 if sibling.wait != PROS.wait: # bro/sis wait channel
-                    channel = bot.get_channel(814602442910072842) # Waiting room channel for testing
+                    # channel = bot.get_channel(814602442910072842) # Waiting room channel for testing
                     
-                    # channel = bot.get_channel(sibling.wait) # Waiting room channel
+                    channel = bot.get_channel(sibling.wait) # Waiting room channel
                     if pro == True and "Pro" not in gender or c_role == "N/A":
                         channel = bot.get_channel(PROS.wait)
                         await channel.send(f"@here " + message.author.mention + " *has joined the InterMSA Discord!*", delete_after=60)
