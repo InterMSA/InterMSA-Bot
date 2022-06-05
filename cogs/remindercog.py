@@ -6,9 +6,9 @@ import asyncio
 import re,os
 import random #for fun, when it sends a reminder, it has a different call
 import sys
-sys.path.append('..') #goes back one direcrtory to import key
+# sys.path.append('..') #goes back one direcrtory to import key
 #import asyncpg #post gres database
-from config import COMMAND_PREFIX
+# from config import COMMAND_PREFIX
 import pytz
 from pytz import timezone #change the timezone to eastern, 
 #make sure if you are using putty to change the time on console to America/New_York
@@ -21,7 +21,7 @@ import sqlite3 #storing data on lightwight db
 from dateutil import parser #converts strings to to datetime.datetime datatype
 
 #import time
-
+COMMAND_PREFIX = ">"
 eastern = timezone('US/Eastern')
 
 class ParsedTime:

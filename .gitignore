@@ -15,3 +15,6 @@ secret/sp.txt
 role_selection.txt
 uni_library.txt
 secret.zip
+*.sqlite
+time.sqlite
+*.sqlite
