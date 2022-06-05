@@ -40,6 +40,66 @@ bot.load_extension("cogs.remindercog") #loading the time reminder cogs for inter
 # Executes when bot begins running
 @bot.event
 async def on_ready():
+    # await bot.change_presence(activity = Game(name = f"{COMMAND_PREFIX[0]}cmds (For all cmds)"))
+    # guild = bot.get_guild(SERVER_ID)
+    # count = 248
+
+    # text_channel_list = [] #itiration to go through all channels and put them in a list
+    # for channel in guild.text_channels:
+    #     text_channel_list.append(channel.id)
+    
+    # # print (text_channel_list) #this is a list with all channels
+    # # print("\n")
+
+
+
+    # # count = 233
+    # for member in guild.members: #itirates to all users
+    #     count = count + 1
+    #     x=guild.members[count]
+    #     # testing = bot.get_channel(978712539137454180)
+        
+    #     # await testing.send (f"{count}: <@{userID.id}>")
+
+    #     # x = (guild.members[1])
+
+    #     userMessages = []
+    #     userID = x.id # Change this to the ID of the user you are looking messages for
+
+    #     # channelID = 791468944786980904 # Change this to the channel ID of the messages you want to check for
+    #     # channel = bot.get_channel(channelID)
+    #     user = discord.utils.find(lambda m: m.id== userID, channel.guild.members)
+
+    #     numberOfMsg = 0 
+    #     messages = await channel.history(limit=400).flatten()
+        
+    #     i=0 #counter for which channel we are on
+    #     found = 0
+    #     x= len(text_channel_list)
+    #     for i in range (x):
+    #         channel = bot.get_channel(text_channel_list[i])
+    #         async for message in channel.history(limit=500):
+    #             if message.author == user: #if messege found then it skips the user
+
+    #                 # found =1
+    #                 numberOfMsg += 1 
+    #                 if numberOfMsg >=3:
+    #                     break
+    #                 print (text_channel_list[i])
+    #                 print (numberOfMsg)
+
+    #         if numberOfMsg >=3:
+    #             break
+    #         # break
+
+    #     testing = bot.get_channel(978712539137454180)
+    #     if numberOfMsg >2:
+    #         await testing.send (f"{count}: <@{userID}> sent 3+ messeges ")
+    #     else:
+    #         await testing.send (f"**:x: {count}: <@{userID}> :x: {numberOfMsg}**")
+
+
+    # print((numberOfMsg)) # Outputs total user messages    
     await bot.change_presence(activity = Game(name = f"{COMMAND_PREFIX[0]}cmds (For all cmds)"))
     print("We have logged in as {0.user} in {1}".format(bot, ENV))
 

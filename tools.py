@@ -8,8 +8,8 @@ from Crypto.Cipher import PKCS1_OAEP
 from config import *
 from key import *
 
-from flask import Flask, render_template
-
+# print (os.getcwd())
+# print (os.listdir())
 
 try:
     import GeoLiberator as GeoLib
@@ -24,11 +24,7 @@ except ModuleNotFoundError:
 DB_CONN = sql.connect(DB_PATH)
 KEY = RSA.import_key(DB_SECRET.encode("ascii"), SP) # Just you try and get it :D
 
-# print (os.getcwd())
-# print (os.listdir())
-
 # Remove a line from a file based on value
-
 def edit_file(file, value, exact=True):
     with open(file, 'r+', encoding="utf-8") as f:
         lines = f.readlines()
@@ -50,68 +46,46 @@ def edit_file(file, value, exact=True):
         f.truncate()
         return found
 
-# class words:
-    # person = 
-
-def tagMe(message):
-    x = str (message.author.mention)
-    return x;
-
-# tagMe(761123575021174784)
-
 # Return 4-digit verification code string after sending email with verification link
-def send_email(addr: str, gender='', test=False) -> str: #takes email, the gender
-    # print(addr)
-    # print (gender)
-    sCode = f"{randint(0,9)}{randint(0,9)}{randint(0,9)}{randint(0,9)}" #randome number of 4 digits, so it can make a unique link 
-    verify_link = f"{VERIFY_SITE}/verified/{sCode}/{gender}" #here will generate a code that expires after particular time
-    #example: https://VerificationSystem.intermsa.repl.co/verified/1460/Brother
-
+def send_email(addr: str, gender='', test=False) -> str:
+    sCode = f"{randint(0,9)}{randint(0,9)}{randint(0,9)}{randint(0,9)}"
+    verify_link = f"{VERIFY_SITE}/verified/{sCode}/{gender}"
     verify_btn = f'<a class="button" type="button" href="{verify_link}" target="_blank">VERIFY!</a>'
-
-    code = verify_link
-    
-    person = addr
-
-    # app = Flask(__name__, template_folder='template')
-
-#------------------------
-#start of testing out the the html code locally    
-    # app = Flask(__name__)
-    # @app.route('/') #I added this in hopes to test case the template and render it on python instead of sending emails everytime, it did not work with me yet
-    # def home(): 
-    #    # return 'Hello World'
-    #    return render_template('file.html',code=code,person=person)
-    # if __name__ == '__main__':
-    #    app.run()
-    # else:
-    #     print(verify_link)
-    # return sCode
-#end of testing
-#--------------------------------
-
-    os.chdir("./templates") 
-    HTML_File=open('file.html','r')
-    html = HTML_File.read().format(code,person)
+    style_btn = """<head><style>
+                    .button {
+                        font-size: 14px;
+                        text-decoration: none;
+                        background-color:#0BA2D3;
+                        color: #FFFFFF;
+                        border-radius: 2px;
+                        border: 1px solid #0A83A8;
+                        font-family: Helvetica, Arial, sans-serif;
+                        font-weight: bold;
+                        padding: 8px 12px;
+                    }
+                    .button:hover {
+                        background-color:#0FC7FF
+                    }
+                  </style></head>"""
+    html = f"""<html>{style_btn}<body>
+            <b>Your verification link to join the chat is below:<b><br><br>
+            <a class="button" type="button" href="{verify_link}" target="_blank">VERIFY!</a><br>
+            <h4>{verify_link}</h4><br>
+            Please click this link to join the InterMSA Discord. This link will expire in 15 minutes.
+            </body></html>"""
     if not test:
         msg = EmailMessage()
-        # msg.set_content(html, subtype="html")
-        msg.set_content(html,subtype="html")
-
+        msg.set_content(html, subtype="html")
         msg["Subject"] = "Verification Link for InterMSA Discord"
-        msg["From"] = "no-reply@intermsa.com"
+        msg["From"] = "intermuslimstudentassociation@gmail.com"
         msg["To"] = addr
         with smtplib.SMTP_SSL("smtp.gmail.com", 465) as s:
-                s.login("intermsa.discord@gmail.com",
+                s.login("intermuslimstudentassociation@gmail.com",
                         APP_PASS)
                 s.send_message(msg)
-    
-    # os.chdir("..") 
-    # print (os.getcwd())
-
-
-# send_email('nassarb1@montclair.edu','Brother') #this is for test cases, change Baraa's email to your emails plz when testing
-
+    else:
+        print(verify_link)
+    return sCode
 
 # SQL Query Function
 def sqlite_query(query, args=(), one=False):
@@ -237,7 +211,7 @@ def listen_role_reaction(emoji, channel):
 
 # Parse and return email & join type based on /verify request
 def listen_verify(msg):
-    if msg.channel.id == VERIFY_ID:
+    if msg.channel.id == VERIFY_ID or msg.channel.id == 814602442910072842:
         if msg.content.startswith(f'{COMMAND_PREFIX[0]}verify') or "@" in msg.content:
             request = re.sub(fr"{COMMAND_PREFIX[0]}verify ", '', msg.content.lower())
             join_type = re.search(r"(bro(ther)?s?|sis(tas?|ters?)|work(force)?)", request) or ''
