@@ -100,6 +100,7 @@ async def on_ready():
 
 
     # print((numberOfMsg)) # Outputs total user messages    
+    await bot.change_presence(activity = Game(name = f"{COMMAND_PREFIX[0]}cmds (For all cmds)"))
     print("We have logged in as {0.user} in {1}".format(bot, ENV))
 
 # Executes when member joins
