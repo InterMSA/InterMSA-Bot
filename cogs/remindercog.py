@@ -105,7 +105,7 @@ class MyCog(commands.Cog):
         
     async def run(self, *args, **kwargs):
       #numnum = os.getenv("BOT_SECRET", yaya_sql())
-      self.db = sqlite3.connect('time.sqlite')
+      self.db = sqlite3.connect('time2.sqlite')
       #self.db = await asyncpg.connect(host="localhost",database="reminders",user="postgres",password=numnum)      
       self.yourtask.start()
 
@@ -121,7 +121,7 @@ class MyCog(commands.Cog):
       # if you don't care about keeping records of old tasks, remove this WHERE and change the UPDATE to DELETE
       #con = connection or self.bot.pool
       #db = sqlite3.connect(mainl)
-      db = sqlite3.connect('time.sqlite')
+      db = sqlite3.connect('time2.sqlite')
       cursor = db.cursor()
 
       #next_task = await self.bot.db.fetchrow('SELECT * FROM zam_time WHERE NOT completed ORDER BY expired LIMIT 1')
@@ -245,7 +245,7 @@ class MyCog(commands.Cog):
       now = now.replace(tzinfo=None)
       #when.dt = when.dt.replace(tzinfo=None)
       #print(when.dt)
-      db = sqlite3.connect('time.sqlite')
+      db = sqlite3.connect('time2.sqlite')
       cursor = db.cursor()
       my_data = (user_ID,guild_id,now,when.dt,sentence,URL,channel_id)
       my_query=('''
@@ -284,7 +284,7 @@ class MyCog(commands.Cog):
                  #raise TooManyArguments('Too many arguments passed to ' + self.qualified_name)
         
 
-        db = sqlite3.connect('time.sqlite')
+        db = sqlite3.connect('time2.sqlite')
         cursor = db.cursor()
         query=cursor.execute(f'SELECT * FROM zam_time Where user_id = {str(ctx.author.id)} ORDER BY expired limit 10 ')
         records = cursor.fetchall()
@@ -322,7 +322,7 @@ class MyCog(commands.Cog):
         To get a reminder ID, use the reminder list command.
         You must own the reminder to delete it, obviously.
         """
-        db = sqlite3.connect('time.sqlite')
+        db = sqlite3.connect('time2.sqlite')
         cursor = db.cursor()
 
         #my_data = ((id,str(ctx.author.id)))
