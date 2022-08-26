@@ -19,3 +19,5 @@ secret.zip
 time.sqlite
 *.sqlite
 time.sqlite
+introductions.txt
+*.txt

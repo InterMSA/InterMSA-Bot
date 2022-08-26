@@ -54,12 +54,13 @@ async def on_ready():
 
 
     # # count = 233
-    # for member in guild.members: #itirates to all users
-    #     count = count + 1
-    #     x=guild.members[count]
-    #     # testing = bot.get_channel(978712539137454180)
+    count = 0
+    for member in guild.members: #itirates to all users
+        # count = count + 1
+        # x=guild.members[count]
+        # testing = bot.get_channel(978712539137454180)
         
-    #     # await testing.send (f"{count}: <@{userID.id}>")
+        # await testing.send (f"{count}: <@{userID.id}>")
 
     #     # x = (guild.members[1])
 
@@ -238,31 +239,17 @@ async def on_message(message,*args):
     if "/taha" in message.content.lower(): # Taha
         if message.author.id == 496079190475538461:
             await message.channel.send("Yes we can")
-    if "/anas" in message.content.lower(): # Anas
-        if message.author.id == 406821958563528737:
-            await message.channel.send("knowimsayin dawg", delete_after=10)
-    if "Solo Leveling" in message.content:          
-        if message.author.id == 185842527520292874: # Omar E.
-            await message.channel.send("Yo that junk is fire :fire:", delete_after=10)
+
     if "ws" == message.content:
         await message.channel.send("Walaikumu Salam")
-    if "texas" in message.content.lower(): # Siraj
-        if message.author.id == 416430987241586698:
-            await message.channel.send("https://media.tenor.co/videos/c8bad30e8d9834c6543b7575c3d7bd89/mp4")
-    if "cap" in message.content.lower(): # Usmaan
-        if message.author.id == 397082457179947029:
-            await message.channel.send("yo that's cap'n cap'n")
-    if "egg" in message.content.lower(): # Egg
-        if message.author.id == 714641624571052076:
-            await message.channel.send("Because I'm Eggcellent", delete_after=10)
-            await asyncio.sleep(5)
-            await message.channel.send("https://gyazo.com/8160eef16f1ae4c1c30add7044545542", delete_after=10)
+    
     if message.content.lower().startswith("/baraa"): # Baraa
         if message.author.id == 670325339263860758:
           await message.channel.send("very well inshAllah")
-    if re.search("(tired|sleep|night)", message.content.lower()):
-        if message.author.id == 508654889002467329:
-            await message.channel.send("***Never wake the sleeping Hafeth!***")
+
+    # if re.search("(tired|sleep|night)", message.content.lower()):
+    #     if message.author.id == 508654889002467329:
+    #         await message.channel.send("***Never wake the sleeping Hafeth!***")
     if "choco" in message.content.lower():
         if message.author.id == 732373611775524926:
             lst = ["https://tenor.com/view/chocolate-spongebob-fish-rage-love-chocolate-gif-4938413",
@@ -270,16 +257,6 @@ async def on_message(message,*args):
                    "https://tenor.com/view/kermit-the-frog-chocolate-gif-18833858"]
             r_i = randint(0,2)
             await message.channel.send(str(lst[r_i]), delete_after=30)
-    if "hey" in message.content.lower():
-        if message.author.id == 562285596668723219:
-            await message.add_reaction("🍋")
-            #await message.add_reaction(message, emoji)
-            #await ctx.message.add_reaction("🍋")
-            # lst = ["https://tenor.com/view/what-horse-grumpy-gif-10246564",
-            #       "https://tenor.com/view/the-lemon-has-landed-land-lemon-fruit-gif-16305448",
-            #       "https://tenor.com/view/crazy-adventuretime-lemon-wiggle-gif-5018832"]
-            # r_i = randint(0,2)
-            # await message.channel.send(str(lst[r_i]), delete_after=30)
 
     # Professional Introductions Chat
     if message.channel.id == PROS.wait:
