@@ -67,7 +67,6 @@ a discord bot that verifies members across the proffesional-prep server for coll
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
 
 It was an obstacle to creating a safe community where people could network safely in a professional environment knowing the person’s name and some background. This discord aims to organize people on different channels, so far it manages students in 11+ different universities with over 300 students who have used it. 
 
@@ -79,7 +78,7 @@ Why?
 
 If you are looking for a discord bot customized for your MSA (Muslim Student Association Club) then feel free to look into this code and take inspiration from it
 
-If you want to use the scrapping version of this bot to get the emails and names of students from your university and ensure the person is 100% in your college you may look into the [older version of the bot] (https://github.com/InterMSA/InterMSA-Bot/tree/084d42f9f6b75951e344566fd468688367c50cce) and run put.py
+If you want to use the scrapping version of this bot to get the emails and names of students from your university and ensure the person is 100% in your college you may look into the [older version of the bot](https://github.com/InterMSA/InterMSA-Bot/tree/084d42f9f6b75951e344566fd468688367c50cce) and run put.py
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
