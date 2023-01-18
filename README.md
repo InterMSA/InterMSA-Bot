@@ -119,6 +119,7 @@ If you want to use the scrapping version of this bot to get the emails and names
 <div align="center">
   <img src="https://media.discordapp.net/attachments/1038123706830049335/1065172440193433642/image.png?width=1254&height=632">
   <img src="https://media.discordapp.net/attachments/1038123706830049335/1065173042298368020/image.png">
+   <img src="https://cdn.discordapp.com/attachments/1038123706830049335/1065183898448965692/image.png">
 </div>
 
 
