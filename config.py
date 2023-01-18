@@ -22,19 +22,6 @@ def update_uni_library():
             COLLEGES[uni] = int(role)
 
 # Update the role-selection listener
-def update_role_select():
-   with open("role_selection.txt", encoding="utf-8") as f:
-      lines = f.readlines()
-      for line in lines:
-         extra, emote, role = line.split(' ')
-         if extra == '0' and emote not in ROLE_EMOJIS:
-            ROLE_EMOJIS[emote] = int(role)
-         elif extra != '0' and \
-              emote not in SPLIT_ROLES_EMOJIS[BROTHERS.role_select] or \
-              emote not in SPLIT_ROLES_EMOJIS[SISTERS.role_select]:
-            SPLIT_ROLES_EMOJIS[BROTHERS.role_select][emote] = int(role)
-            SPLIT_ROLES_EMOJIS[SISTERS.role_select][emote] = int(extra)
-
 
 # Attributes to add on to ServerPartition object(s)
 __bro_add_ons = {"role_select": 792531850740498482,
@@ -45,6 +32,7 @@ __pro_add_ons = {"role_select": 793371378736431144}
 
 # Set all global variables
 # PROS, BROTHERS & SISTERS represent the server partitions
+#(browait,general,bro announce)
 BROTHERS = ServerPartition("Brother", 791466388031668265,
                   791468944786980904, 791468851724419142,
                   **__bro_add_ons)
@@ -60,9 +48,9 @@ PROS = ServerPartition("Pro", 792530124560924677,
 BOT = os.getenv("BOT_SECRET", bot_pass())
 VERIFY_SITE = "https://VerificationSystem.intermsa.repl.co"
 SP = os.getenv("SECRET_PASS", secret_pass())
-DB_SECRET = re.sub(r"\\n", '\n', os.getenv("DB_SECRET", db_pass()))
+# DB_SECRET = re.sub(r"\\n", '\n', os.getenv("DB_SECRET", db_pass()))
 #ENCRYPT_KEY = re.sub(r"\\n", '\n', os.getenv("PUBLIC_KEY", pub_pass()))
-APP_PASS = os.getenv("EMAIL_SECRET", email_pass())
+# APP_PASS = os.getenv("EMAIL_SECRET", email_pass())
 DB_PATH = "database/database.db"
 
 # Needed ID's
@@ -105,12 +93,12 @@ DEVS = [233691753922691072, 714641624571052076, 670325339263860758,
         508654889002467329, 714618776020320396, 459493208905220138,
         732373611775524926, 562285596668723219, 761123575021174784,693284211083182111]
 #COMMAND_PREFIX = '/'
+
 COMMAND_PREFIX =["/",">"]
 #bot = commands.Bot(command_prefix=["hi ","Hi "])
 TEST_MODE = False; MSA = "InterMSA"; ENV = ENV
 os.chdir(CWD) # Return to original directory
 update_uni_library() # Update the COLLEGE library upon startup
-update_role_select() # Update the role-selection listener upon startup
 
 '''
 Notes:
